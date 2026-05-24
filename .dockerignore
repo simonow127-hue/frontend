@@ -1,0 +1,8 @@
+.env
+.env.*
+.next/
+node_modules/
+.git/
+docs/
+README.md
+*.md

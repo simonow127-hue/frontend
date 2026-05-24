@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-noto-kufi: "Noto Kufi Arabic", sans-serif;
+  --font-tajawal: "Tajawal", sans-serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+}
+
+html {
+  direction: rtl;
+  lang: ar-MA;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FFF9F2;
+  color: #2D201A;
+  font-family: var(--font-tajawal), var(--font-noto-kufi), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-noto-kufi), var(--font-tajawal), sans-serif;
+  line-height: 1.4;
+}
+
+/* LTR spans for brand name */
+.ltr-text {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Offer card selected state */
+.offer-card-selected {
+  border-color: #9A4E36;
+  box-shadow: 0 0 0 2px rgba(154, 78, 54, 0.2);
+}
+
+/* Smooth drawer transition */
+.drawer-overlay {
+  backdrop-filter: blur(2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7EFE6;
+}
+::-webkit-scrollbar-thumb {
+  background: #E7D8CC;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9A4E36;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  outline: 2px solid #9A4E36;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Star rating */
+.stars {
+  color: #C9A45C;
+}
+
+/* Countdown bar */
+@keyframes shrink-width {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+.countdown-bar {
+  animation: shrink-width linear forwards;
+}
