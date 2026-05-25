@@ -1,41 +1,28 @@
-# Cloudflare + Easypanel + riads.shop
+# Cloudflare + riads.shop
 
-## خطأ 502 Bad Gateway
+## الوضع الحالي
 
-Cloudflare خدام، لكن **السيرفر (Host)** ما كيردش صح.
+- `https://api.riads.shop/health` → خدام ✅
+- `https://riads.shop` → 502 = **frontend** ما كيردش من Easypanel (منفذ / دومين / deploy)
 
-### 1. Easypanel — Domains
-
-`frontend` → **Domains** → لازم يكون مضاف:
-
-- `riads.shop`
-- Port: **80**
-- HTTPS: مفعّل (Let's Encrypt)
-
-من بعد: **Deploy**
-
-### 2. Cloudflare — DNS
+## DNS
 
 | Type | Name | Content | Proxy |
 |------|------|---------|-------|
-| A | @ | IP السيرفر ديال Easypanel | Proxied (برتقالي) |
+| A | @ | IP السيرفر (Easypanel) | Proxied |
 | A | www | نفس IP | Proxied |
+| A | api | نفس IP (إذا ما كانش CNAME) | Proxied |
 
-### 3. Cloudflare — SSL
+`api` و `@` يقدرو يكونو على نفس IP — التوجيه بالـ **Host** فـ Easypanel.
 
-**SSL/TLS** → **Overview**:
+## SSL/TLS
 
-- جرّب **Flexible** (أسهل): Cloudflare HTTPS → السيرفر HTTP
-- أو **Full** إذا Easypanel عطا HTTPS لـ `riads.shop`
+1. جرّب **Flexible** (Cloudflare HTTPS → origin HTTP)
+2. إذا Easypanel عطا شهادة لـ `riads.shop` → **Full**
 
-### 4. اختبار
+## ترتيب الإصلاح
 
-1. أولاً: رابط Easypanel `https://riads-frontend-....`
-2. من بعد: `https://riads.shop`
-
-### 5. Environment (Easypanel)
-
-```env
-PORT=80
-HOSTNAME=0.0.0.0
-```
+1. Easypanel **frontend** → **Deploy** (آخر commit من GitHub)
+2. **Domains** → `riads.shop` على **frontend** (ماشي backend) → port **80**
+3. جرّب `riads-frontend-....easypanel.host` قبل `riads.shop`
+4. Cloudflare SSL Flexible إذا بقا 502
