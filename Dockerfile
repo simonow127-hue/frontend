@@ -13,10 +13,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Required for final COPY in runner (Next.js does not create this if missing from repo)
 RUN mkdir -p public
 
-# Easypanel / CI pass these as --build-arg; embed at build time
 ARG NEXT_PUBLIC_SITE_URL=https://riads.shop
 ARG NEXT_PUBLIC_API_URL=https://api.riads.shop
 ARG NEXT_PUBLIC_META_PIXEL_ID=
@@ -40,21 +38,18 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-# Runner
+# Runner — Easypanel Domains default target is :80 (http://service:80/)
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
+ENV PORT=80
 ENV HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-
-USER nextjs
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "server.js"]
