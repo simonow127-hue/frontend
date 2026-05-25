@@ -1,31 +1,52 @@
-# Easypanel — frontend
+# Easypanel — frontend (رياض)
 
-## بعد كل push: Deploy
+## ليش خضر ولكن الموقع ما كيفتحش؟
 
-زر **Deploy** الأخضر فـ `riads` → `frontend`.
+**أخضر** = Docker build نجح.  
+**الموقع ما كيفتحش** = غالباً **Domains** (المنفذ أو الدومين).
 
-## Domains
+---
 
-1. **Domains** → الدومين الافتراضي `riads-frontend-...`  
-   - الهدف: `http://riads_frontend:80/` (أو Port **80**)
-2. **Add Domain** → `riads.shop` + `www.riads.shop`  
-   - نفس المنفذ **80**  
-   - HTTPS مفعّل
-3. كليكي ⭐ على الدومين اللي بغيتي يكون رئيسي
+## ① جرّب الرابط ديال Easypanel (ماشي riads.shop أولاً)
 
-## Environment (اختياري)
+1. `frontend` → **Domains**
+2. انسخ الرابط الكامل: `https://riads-frontend-xxxxx...`
+3. حطو فالمتصفح
 
+### صحّح المنفذ (مهم)
+
+فـ Domains، السطر ديال الرابط لازم يكون الهدف:
+
+```text
+http://riads_frontend:3000/
 ```
-PORT=80
+
+**ماشي `:80`** — التطبيق كيخدم على **3000**.
+
+**Environment** (تبويب Environment):
+
+```env
+PORT=3000
 HOSTNAME=0.0.0.0
-NEXT_PUBLIC_API_URL=https://api.riads.shop
-NEXT_PUBLIC_SITE_URL=https://riads.shop
 ```
 
-## DNS لـ riads.shop
+من بعد: **Save** → **Deploy**
 
-سجل **A** → `@` → IP السيرفر ديال Easypanel.
+---
 
-## اختبار
+## ② riads.shop
 
-افتح الرابط `https://riads-frontend-....` من Domains — خاصك يبان متجر رياض.
+`riads.shop` **ما كيخدمش بوحدو** حتى:
+
+1. **Domains** → **Add Domain** → `riads.shop` → Port **3000** → HTTPS
+2. DNS عند مسجّل الدومين: **A** `@` → IP السيرفر ديال Easypanel
+3. انتظار 5–30 دقيقة
+
+بدون هاد الخطوتين، `riads.shop` غادي يبان 404 ديال Easypanel (ماشي موقع رياض).
+
+---
+
+## ③ اختبار سريع
+
+- الرابط `riads-frontend-...` → متجر عربي رياض ✅
+- `riads.shop` → بعد DNS + Add Domain ✅

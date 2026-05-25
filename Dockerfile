@@ -1,18 +1,15 @@
 FROM node:22-alpine AS base
 
-# Dependencies
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Builder
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
 RUN mkdir -p public
 
 ARG NEXT_PUBLIC_SITE_URL=https://riads.shop
@@ -38,18 +35,19 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-# Runner — Easypanel Domains default target is :80 (http://service:80/)
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=80
 ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["node", "server.js"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
