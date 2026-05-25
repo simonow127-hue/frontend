@@ -42,7 +42,7 @@ export default function AboutPage() {
               "تأكيد الطلب بالهاتف قبل الإرسال",
               "إرشادات استعمال واضحة لكل منتج",
               "لا ادعاءات طبية مبالغ فيها",
-              "توصيل موثوق لجميع مناطق المملكة",
+              "توصيل موثوق لجميع مناطق المغرب",
             ].map((item) => (
               <li key={item} className="flex items-center gap-3">
                 <span className="w-5 h-5 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center text-xs shrink-0">✓</span>

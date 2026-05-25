@@ -1,4 +1,35 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const REQUEST_TIMEOUT_MS = 20_000;
+
+async function apiFetch(path: string, options: RequestInit = {}): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(`${API_URL}${path}`, {
+      ...options,
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      throw {
+        status: 0,
+        detail: {
+          message_ar:
+            "الخادم ما جاوبش في الوقت المحدد. تأكد أن الـ API خدام (منفذ 8000) وقاعدة البيانات PostgreSQL مشغّلة.",
+        },
+      };
+    }
+    throw {
+      status: 0,
+      detail: {
+        message_ar:
+          "تعذر الاتصال بالخادم. شغّل الـ backend: cd backend ثم fastapi run app/main.py --port 8000",
+      },
+    };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 type OrderPayload = {
   customer: {
@@ -60,7 +91,7 @@ type UpsellResponse = {
 };
 
 export async function createOrder(payload: OrderPayload): Promise<OrderResponse> {
-  const res = await fetch(`${API_URL}/orders`, {
+  const res = await apiFetch("/orders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -77,7 +108,7 @@ export async function applyUpsell(
   orderId: string,
   payload: UpsellPayload
 ): Promise<UpsellResponse> {
-  const res = await fetch(`${API_URL}/orders/${orderId}/upsell`, {
+  const res = await apiFetch(`/orders/${orderId}/upsell`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -97,7 +128,7 @@ export async function trackEvent(payload: {
   payload?: Record<string, unknown>;
 }): Promise<void> {
   try {
-    await fetch(`${API_URL}/analytics/events`, {
+    await apiFetch("/analytics/events", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

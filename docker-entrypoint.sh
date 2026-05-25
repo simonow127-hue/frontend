@@ -2,10 +2,7 @@
 set -e
 
 export HOSTNAME="${HOSTNAME:-0.0.0.0}"
-export PORT="${PORT:-3000}"
+export PORT="${PORT:-80}"
 
-echo "Starting Next.js on 127.0.0.1:${PORT}"
-node server.js &
-
-echo "Starting nginx on :80 -> :${PORT}"
-exec nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+echo "Starting Riads Next.js on ${HOSTNAME}:${PORT}"
+exec node server.js

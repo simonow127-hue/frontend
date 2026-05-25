@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Tajawal, Noto_Kufi_Arabic, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import AnnouncementTicker from "@/components/layout/AnnouncementTicker";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import CheckoutPopup from "@/components/checkout/CheckoutPopup";
@@ -60,7 +59,6 @@ export default function RootLayout({
         <SessionInit />
         <PixelManager />
         <Header />
-        <AnnouncementTicker />
         <main>{children}</main>
         <Footer />
         <CartDrawer />

@@ -10,7 +10,7 @@ export default function ShippingPage() {
         <div className="flex flex-col gap-6 text-brand-espresso/80">
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">مناطق التوصيل</h2>
-            <p>نوصل لجميع مدن وقرى المملكة.</p>
+            <p>نوصل لجميع مدن وقرى المغرب.</p>
           </section>
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">مدة التوصيل</h2>

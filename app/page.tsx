@@ -5,6 +5,7 @@ import ProductCard from "@/components/product/ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import Button from "@/components/ui/Button";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import BrandingSlider from "@/components/home/BrandingSlider";
 import { ChevronDown, ShieldCheck, Sparkles, Droplets, Wind, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div>
+      <BrandingSlider />
+
       {/* Hero */}
       <section className="bg-brand-cream min-h-[85vh] flex items-center py-16 md:py-20">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -81,24 +84,6 @@ export default function HomePage() {
       <section className="border-y border-brand-border py-8 bg-brand-ivory">
         <div className="max-w-content mx-auto px-4">
           <TrustBadges />
-        </div>
-      </section>
-
-      {/* Authority strip */}
-      <section className="bg-brand-espresso py-6">
-        <div className="max-w-content mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-center">
-            {[
-              "اختيار مغربي موثوق",
-              "الدفع عند الاستلام فقط",
-              "توصيل لجميع مدن المغرب",
-              "تأكيد الطلب بالهاتف",
-            ].map((item) => (
-              <span key={item} className="text-brand-cream text-sm font-bold">
-                {item}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 

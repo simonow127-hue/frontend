@@ -21,6 +21,7 @@ export type FAQ = {
 export type Product = {
   id: string;
   slug: string;
+  sku: string;
   arabicName: string;
   shortHeading: string;
   subheading: string;
@@ -66,6 +67,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "jadr",
     slug: "jadr-hair-serum",
+    sku: "RIADS-JDR-8841",
     arabicName: "جدر — زيت تطويل الشعر الفاخر لنمو أكثف وأقوى",
     shortHeading: "جدر: منبت الثقة للشعر الخفيف",
     subheading: "زيت فاخر بمكونات طبيعية من المغرب — يغذي الفروة ويحفز نمو شعر أطول وأكثف.",
@@ -118,6 +120,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "nour",
     slug: "nour-skin-serum",
+    sku: "RIADS-NOR-3392",
     arabicName: "نور — كريم الرتينول لتجديد البشرة وتقليل التجاعيد",
     shortHeading: "نور: إشراقة متجددة لوجهك",
     subheading: "كريم رتينول متقدم يجدد البشرة ويقلل التجاعيد والبقع الداكنة — مصنوع في المغرب.",
@@ -170,6 +173,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "naqaa",
     slug: "naqaa-roll-on",
+    sku: "RIADS-NAQ-7105",
     arabicName: "نقاء — كريم مزيل العرق الطبيعي للحماية اليومية من الروائح",
     shortHeading: "نقاء: انتعاش وثقة طوال النهار",
     subheading: "كريم مزيل عرق طبيعي يوفر حماية طويلة الأمد في الأجواء الحارة دون تهيج البشرة.",

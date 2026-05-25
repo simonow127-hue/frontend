@@ -16,18 +16,6 @@ export default function PrivacyPage() {
             <h2 className="font-bold text-base text-brand-espresso mb-2">استخدام المعلومات</h2>
             <p>معلوماتك تُستخدم حصراً لـ: تأكيد الطلب بالهاتف، التوصيل، وتحسين تجربتك معنا.</p>
           </section>
-          <section>
-            <h2 className="font-bold text-base text-brand-espresso mb-2">التتبع الإعلاني</h2>
-            <p>نستخدم بكسلات إعلانية (Meta، TikTok، Snapchat) لقياس أداء الإعلانات وتحسينها. البيانات المرسلة لهذه المنصات مُشفرة. يمكنك إلغاء تتبع الإعلانات من إعدادات متصفحك.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-base text-brand-espresso mb-2">الأمان</h2>
-            <p>نلتزم بحماية بياناتك وعدم مشاركتها مع أطراف ثالثة خارج نطاق التوصيل والإعلانات المشروحة أعلاه.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-base text-brand-espresso mb-2">التواصل</h2>
-            <p>للاستفسار عن بياناتك أو طلب حذفها، تواصل/ي معنا عبر hello@riads.shop</p>
-          </section>
         </div>
       </div>
     </div>

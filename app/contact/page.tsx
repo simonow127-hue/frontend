@@ -41,8 +41,8 @@ export default function ContactPage() {
               <MapPin size={18} className="text-brand-primary" />
             </div>
             <div>
-              <p className="font-bold text-brand-espresso text-sm">المملكة</p>
-              <p className="text-brand-espresso/60 text-sm">توصيل سريع لجميع مناطق المملكة</p>
+              <p className="font-bold text-brand-espresso text-sm">المغرب</p>
+              <p className="text-brand-espresso/60 text-sm">توصيل سريع لجميع مناطق المغرب</p>
             </div>
           </div>
         </div>

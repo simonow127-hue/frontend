@@ -9,7 +9,7 @@ import { createOrder } from "@/lib/api";
 import { getCookies, getClickIds, getUTMs, getLandingUrl, getReferrer, generateFreshEventId } from "@/lib/events";
 import { trackPurchase } from "@/lib/tracking";
 import Button from "@/components/ui/Button";
-import { X, ShieldCheck, Clock, Star } from "lucide-react";
+import { X, ShieldCheck } from "lucide-react";
 import UpsellModal from "./UpsellModal";
 
 const schema = z.object({
@@ -98,7 +98,6 @@ export default function CheckoutPopup() {
         },
       });
 
-      // Fire browser purchase event
       trackPurchase(
         response.order_code,
         total,
@@ -122,8 +121,11 @@ export default function CheckoutPopup() {
       }
     } catch (err: unknown) {
       const detail = (err as { detail?: { message_ar?: string } })?.detail;
+      const status = (err as { status?: number })?.status;
       if (detail?.message_ar) {
         setError(detail.message_ar);
+      } else if (status === 403) {
+        setError("تعذر إتمام الطلب من هذا الاتصال. جرّب شبكة عادية بدون VPN.");
       } else {
         setError("حدث خطأ في الاتصال. المرجو المحاولة مجدداً.");
       }
@@ -162,7 +164,6 @@ export default function CheckoutPopup() {
         aria-modal="true"
         aria-label="إتمام الطلب"
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-brand-border">
           <button onClick={closeCheckout} aria-label="إغلاق" className="p-1 hover:bg-brand-cream rounded-full">
             <X size={18} />
@@ -171,7 +172,6 @@ export default function CheckoutPopup() {
         </div>
 
         <div className="px-5 py-4 flex flex-col gap-4">
-          {/* Order summary */}
           <div className="bg-brand-cream rounded-xl p-4">
             <h3 className="font-bold text-sm text-brand-espresso mb-3">ملخص الطلب</h3>
             {items.map((item) => (
@@ -189,7 +189,6 @@ export default function CheckoutPopup() {
             </div>
           </div>
 
-          {/* COD badge */}
           <div className="flex items-center gap-2 bg-status-success/10 border border-status-success/30 rounded-xl px-4 py-3">
             <ShieldCheck size={18} className="text-status-success shrink-0" />
             <p className="text-sm text-brand-espresso/80">
@@ -197,30 +196,6 @@ export default function CheckoutPopup() {
             </p>
           </div>
 
-          {/* Social proof mini */}
-          <div className="flex items-center gap-2">
-            <div className="flex -space-x-1 rtl:space-x-reverse">
-              {["م", "س", "ه", "ك"].map((l, i) => (
-                <div key={i} className="w-7 h-7 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center text-xs font-bold border-2 border-brand-ivory">
-                  {l}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-1 text-xs text-brand-espresso/60">
-              <Star size={12} className="text-brand-gold fill-brand-gold" />
-              <span>الكثير من عملائنا يعاودون الطلب هذا الأسبوع</span>
-            </div>
-          </div>
-
-          {/* Scarcity */}
-          <div className="flex items-center gap-2">
-            <Clock size={14} className="text-status-warning shrink-0" />
-            <span className="text-xs text-brand-espresso/60">
-              السعر الحالي صالح للطلبات المؤكدة اليوم فقط.
-            </span>
-          </div>
-
-          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1.5">
               <label className="font-bold text-sm text-brand-espresso" htmlFor="fullName">

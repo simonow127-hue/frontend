@@ -1,34 +1,22 @@
 # Easypanel — frontend
 
-## المنفذ (مهم)
+## المنفذ
 
-الحاوية كتخدم هكذا:
-
-- **80** ← Easypanel / الدومين (nginx)
-- **3000** ← Next.js (داخلي)
-
-فـ **Domains** خلي الهدف:
-
-```text
-http://riads_frontend:80/
-```
-
-ولا Port **80** فواجهة Easypanel.
-
-## بعد كل push
-
-**Deploy** → تسنى خضر → افتح الرابط من Domains.
-
-## riads.shop
-
-1. Domains → Add → `riads.shop` → port **80** → HTTPS
-2. DNS: A → `@` → IP السيرفر
-
-## Environment
+التطبيق كيخدم على **80** (يتوافق مع Domains: `http://riads_frontend:80/`).
 
 ```env
-PORT=3000
+PORT=80
 HOSTNAME=0.0.0.0
-NEXT_PUBLIC_API_URL=https://api.riads.shop
-NEXT_PUBLIC_SITE_URL=https://riads.shop
 ```
+
+## Domains
+
+1. `riads-frontend-...` (افتراضي) → port **80**
+2. **Add Domain** → `riads.shop` → port **80** → HTTPS
+3. ⭐ على الدومين الرئيسي
+
+## بعد push
+
+**Deploy** → خضر → جرّب الرابط من Domains.
+
+Cloudflare: راجع `CLOUDFLARE.md`.
