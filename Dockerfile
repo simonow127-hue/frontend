@@ -38,21 +38,20 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache nginx wget
+RUN apk add --no-cache wget
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV HOSTNAME=0.0.0.0
-ENV PORT=3000
+ENV PORT=80
 
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
 
-# Easypanel Domains target :80; Next.js listens on :3000 behind nginx
 EXPOSE 80
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+  CMD wget -q -O /dev/null http://127.0.0.1:80/ || exit 1
+
+CMD ["node", "server.js"]

@@ -1,36 +1,22 @@
-# Easypanel — frontend (riads.shop)
+# Easypanel — frontend
 
-## المنفذ (مهم)
+## المنفذ
 
 | المكان | القيمة |
 |--------|--------|
-| **Domains** (Easypanel) | **80** → `http://riads_frontend:80/` |
-| **Environment** `PORT` | **3000** (داخلي — ما تبدلوش لـ 80) |
-| **Environment** `HOSTNAME` | `0.0.0.0` |
+| **Domains** | port **80** → `http://riads_frontend:80/` |
+| **Environment** | `PORT=80`, `HOSTNAME=0.0.0.0` |
 
-الحاوية: **nginx على 80** → **Next.js على 3000**.
+## Domains (مهم)
 
-## Environment
+1. `riads-frontend-....easypanel.host` → port **80**
+2. **Add Domain** → **`riads.shop`** → port **80** → HTTPS
+3. ⭐ Primary domain
 
-```env
-HOSTNAME=0.0.0.0
-PORT=3000
-```
+بدون `riads.shop` فـ Domains → **502** فـ Cloudflare.
 
-ما تحطش `PORT=80` — غادي يخرب الربط.
+راجع `DEPLOY-FIX.md` للخطوات بالصور.
 
-## Domains
+## بعد push
 
-1. الرابط الافتراضي `riads-frontend-....easypanel.host` → port **80**
-2. **Add Domain** → `riads.shop` → port **80** → HTTPS + Let's Encrypt
-3. نفس الشيء لـ `www.riads.shop` (اختياري)
-
-## بعد كل push لـ GitHub
-
-1. **Deploy** (انتظر **خضر**)
-2. جرّب الرابط `riads-frontend-....` — خاصو يبان المتجر
-3. من بعد `https://riads.shop`
-
-## Cloudflare
-
-راجع `CLOUDFLARE.md` — SSL **Flexible** أولاً إذا بقا 502.
+**Deploy** → خضر → جرّب `riads-frontend-...` ثم `riads.shop`.
