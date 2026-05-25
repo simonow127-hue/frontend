@@ -2,7 +2,8 @@
 set -e
 
 export HOSTNAME="${HOSTNAME:-0.0.0.0}"
-export PORT="${PORT:-3000}"
+# Always 3000 inside the container; nginx exposes :80 for Easypanel
+export PORT=3000
 
 echo "Starting Next.js on ${HOSTNAME}:${PORT}"
 node server.js &
