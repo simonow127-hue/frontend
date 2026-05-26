@@ -11,8 +11,8 @@ export default function Footer() {
             <div className="inline-flex items-center rounded-xl bg-brand-ivory px-2 py-1">
               <Image
                 src="/brand/logo-lockup.svg"
-                alt="للجمال رياض"
-                width={150}
+                alt="رياض — riads.shop"
+                width={140}
                 height={38}
                 className="h-9 w-auto"
               />

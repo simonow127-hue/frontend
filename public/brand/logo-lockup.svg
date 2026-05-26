@@ -1,19 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none" role="img" aria-label="DD,E'D 1J'6 - riads">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 72" fill="none" role="img" aria-label="رياض — riads.shop">
   <defs>
-    <linearGradient id="archFill" x1="50" y1="6" x2="50" y2="74" gradientUnits="userSpaceOnUse">
+    <linearGradient id="archFill" x1="44" y1="2" x2="44" y2="66" gradientUnits="userSpaceOnUse">
       <stop stop-color="#A95C42"/>
       <stop offset="1" stop-color="#89452F"/>
     </linearGradient>
   </defs>
-  <g transform="translate(6,6)">
+  <!-- نص عربي + riads.shop (يسار) -->
+  <text x="118" y="34" text-anchor="end" fill="#2D201A" font-family="system-ui, 'Segoe UI', Tahoma, Arial, sans-serif" font-size="30" font-weight="800">رياض</text>
+  <text x="118" y="54" text-anchor="end" fill="#9A4E36" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-weight="500" letter-spacing="0.06em">riads.shop</text>
+  <!-- أيقونة اليمين -->
+  <g transform="translate(124, 4)">
     <path fill="url(#archFill)" d="M44 2C19.4 2 0 20.2 0 42.8V66c0 4.4 3.6 8 8 8h72c4.4 0 8-3.6 8-8V42.8C88 20.2 68.6 2 44 2z"/>
     <path d="M44 14c-16.2 0-29.2 11.6-29.2 25.8" stroke="#C9A45C" stroke-width="2.5" stroke-linecap="round"/>
     <path fill="#FFF9F2" d="M29 28h18.4c9.1 0 15.2 5.2 15.2 13 0 6.2-3.6 10.8-9.5 12.3l10 17.7h-8.8l-9.2-16.2h-8.5V71H29V28zm7.8 7.9v10h9.9c4.7 0 7.6-2.3 7.6-5.8 0-3.3-2.7-4.2-7.6-4.2h-9.9z"/>
-    <rect x="26" y="75" width="36" height="3.5" rx="1.75" fill="#C9A45C" opacity=".92"/>
+    <rect x="26" y="75" width="36" height="3.5" rx="1.75" fill="#C9A45C" opacity="0.92"/>
   </g>
-  <text x="312" y="31" text-anchor="end" fill="#2D201A" font-family="system-ui, Arial, sans-serif" font-size="32" font-weight="800">1J'6</text>
-  <text x="312" y="52" text-anchor="end" fill="#9A4E36" font-family="system-ui, Arial, sans-serif" font-size="11.5" font-weight="700" letter-spacing=".11em">DD,E'D 1J'6</text>
-  <line x1="108" y1="52" x2="312" y2="52" stroke="#E7D8CC" stroke-width="1.2"/>
-  <text x="108" y="42" fill="#2D201A" font-family="Georgia, serif" font-size="28" letter-spacing=".04em">riads</text>
-  <text x="108" y="58" fill="#9A4E36" font-family="Georgia, serif" font-size="10.5" letter-spacing=".08em">riads.shop</text>
 </svg>

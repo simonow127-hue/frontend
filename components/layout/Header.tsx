@@ -25,8 +25,8 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2 shrink-0">
           <Image
             src="/brand/logo-lockup.svg"
-            alt="للجمال رياض"
-            width={170}
+            alt="رياض — riads.shop"
+            width={150}
             height={42}
             className="h-10 w-auto"
             priority
