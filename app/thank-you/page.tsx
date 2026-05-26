@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CheckCircle2, Phone, Package, Clock } from "lucide-react";
+import { CheckCircle2, Phone, Clock } from "lucide-react";
 import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
@@ -45,16 +45,6 @@ export default function ThankYouPage() {
               <p className="font-bold text-brand-espresso text-sm">خلي الهاتف قريب منك</p>
               <p className="text-xs text-brand-espresso/60 mt-1">
                 المرجو إبقاء هاتفك قريباً لتأكيد الطلب بسرعة. الطلبات المؤكدة تحظى بأولوية الإرسال.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 bg-brand-cream rounded-xl p-4">
-            <Package size={20} className="text-brand-primary shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold text-brand-espresso text-sm">حضر/ي الثمن عند الاستلام</p>
-              <p className="text-xs text-brand-espresso/60 mt-1">
-                الدفع يكون عند الاستلام فقط — لست بحاجة للدفع الآن.
               </p>
             </div>
           </div>

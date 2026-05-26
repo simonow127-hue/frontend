@@ -6,6 +6,11 @@ import { z } from "zod";
 import { useCartStore } from "@/lib/cart";
 import { validateMoroccanPhone } from "@/lib/phone";
 import { createOrder } from "@/lib/api";
+import {
+  sendOrderToGoogleSheet,
+  type SheetCustomer,
+  type SheetLineItem,
+} from "@/lib/sheets";
 import { getCookies, getClickIds, getUTMs, getLandingUrl, getReferrer, generateFreshEventId } from "@/lib/events";
 import { trackPurchase } from "@/lib/tracking";
 import Button from "@/components/ui/Button";
@@ -22,6 +27,9 @@ type FormData = z.infer<typeof schema>;
 type OrderResult = {
   orderId: string;
   orderCode: string;
+  customer: SheetCustomer;
+  sheetItems: SheetLineItem[];
+  orderTotal: number;
   upsell?: {
     recommended_product_id: string;
     offer_pieces: number;
@@ -105,9 +113,24 @@ export default function CheckoutPopup() {
         eventId
       );
 
+      const sheetLines: SheetLineItem[] = orderItems.map((i) => ({
+        product_id: i.product_id,
+        name: i.name,
+        offer_pieces: i.offer_pieces,
+      }));
+      void sendOrderToGoogleSheet(
+        response.order_code,
+        { full_name: data.fullName, phone: data.phone },
+        sheetLines,
+        total
+      );
+
       setOrderResult({
         orderId: response.order_id,
         orderCode: response.order_code,
+        customer: { full_name: data.fullName, phone: data.phone },
+        sheetItems: sheetLines,
+        orderTotal: total,
         upsell: response.upsell,
         purchaseEventId: eventId,
       });
@@ -141,6 +164,9 @@ export default function CheckoutPopup() {
       <UpsellModal
         orderId={orderResult.orderId}
         orderCode={orderResult.orderCode}
+        customer={orderResult.customer}
+        baseItems={orderResult.sheetItems}
+        baseTotalMad={orderResult.orderTotal}
         upsell={orderResult.upsell!}
         onDone={() => {
           clearCart();
