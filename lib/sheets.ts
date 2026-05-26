@@ -68,6 +68,12 @@ export async function sendOrderToGoogleSheet(
   const url = sheetWebhookUrl();
   if (!url) return;
 
+  const dedupeKey = `riads-sheet:${orderCode}:${totalMad}:${items.length}`;
+  if (typeof sessionStorage !== "undefined") {
+    if (sessionStorage.getItem(dedupeKey)) return;
+    sessionStorage.setItem(dedupeKey, "1");
+  }
+
   const payload = buildSheetPayload(orderCode, customer, items, totalMad);
 
   try {
