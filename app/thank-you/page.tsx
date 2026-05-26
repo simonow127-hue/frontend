@@ -13,7 +13,6 @@ export default function ThankYouPage() {
   return (
     <div className="min-h-screen bg-brand-cream flex items-center justify-center px-4 py-16">
       <div className="max-w-md w-full bg-brand-ivory rounded-2xl border border-brand-border shadow-lg p-8 text-right">
-        {/* Success icon */}
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 rounded-full bg-status-success/10 border-2 border-status-success/30 flex items-center justify-center">
             <CheckCircle2 size={40} className="text-status-success" />
@@ -27,7 +26,6 @@ export default function ThankYouPage() {
           سيتواصل معك فريق رياض قريباً لتأكيد التفاصيل.
         </p>
 
-        {/* Steps */}
         <div className="flex flex-col gap-4 mb-8">
           <div className="flex items-start gap-3 bg-brand-cream rounded-xl p-4">
             <Phone size={20} className="text-brand-primary shrink-0 mt-0.5" />
@@ -50,7 +48,6 @@ export default function ThankYouPage() {
           </div>
         </div>
 
-        {/* COD reminder */}
         <div className="bg-status-success/10 border border-status-success/20 rounded-xl p-4 text-center mb-6">
           <p className="text-status-success font-bold text-sm">الدفع عند الاستلام</p>
           <p className="text-brand-espresso/70 text-xs mt-1">
@@ -58,7 +55,11 @@ export default function ThankYouPage() {
           </p>
         </div>
 
-        <Link href="/"><Button variant="secondary" fullWidth>العودة للرئيسية</Button></Link>
+        <Link href="/">
+          <Button variant="secondary" fullWidth>
+            العودة للرئيسية
+          </Button>
+        </Link>
       </div>
     </div>
   );
