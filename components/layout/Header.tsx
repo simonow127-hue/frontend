@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart";
+import BrandMark from "@/components/brand/BrandMark";
 
 const navLinks = [
   { href: "/collections", label: "المنتجات" },
@@ -22,9 +23,7 @@ export default function Header() {
       <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
         {/* Logo + name — يمين في RTL */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-10 h-10 rounded-full bg-brand-primary border-2 border-brand-gold flex items-center justify-center">
-            <span className="text-brand-ivory font-bold text-lg font-latin ltr-text">R</span>
-          </div>
+          <BrandMark size="md" />
           <div className="flex flex-col items-end leading-none">
             <span className="font-arabic font-bold text-brand-espresso text-sm">رياض</span>
             <span className="font-latin text-brand-primary text-xs ltr-text">riads.shop</span>

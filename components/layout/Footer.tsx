@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BrandMark from "@/components/brand/BrandMark";
 
 export default function Footer() {
   return (
@@ -8,9 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-brand-primary border border-brand-gold flex items-center justify-center">
-                <span className="text-brand-ivory font-bold text-sm font-latin ltr-text">N</span>
-              </div>
+              <BrandMark size="sm" />
               <div className="flex flex-col leading-none">
                 <span className="font-arabic font-bold text-brand-cream text-sm">رياض</span>
                 <span className="font-latin text-brand-gold text-xs ltr-text">riads.shop</span>
