@@ -39,25 +39,7 @@ export type Product = {
   faqs: FAQ[];
   imagePlaceholder: string;
   imageColor: string;
-  images: {
-    pain: string;
-    science: string;
-    ingredients: string;
-    usage: string;
-  };
 };
-
-export const HERO_TRIO_IMAGE = "/images/products/hero-trio.svg";
-
-function productImages(id: string) {
-  const base = `/images/products/${id}`;
-  return {
-    pain: `${base}-pain.svg`,
-    science: `${base}-science.svg`,
-    ingredients: `${base}-ingredients.svg`,
-    usage: `${base}-usage.svg`,
-  };
-}
 
 const OFFERS: Offer[] = [
   {
@@ -132,9 +114,8 @@ export const PRODUCTS: Product[] = [
         answer: "مع الاستعمال مرتين أسبوعياً، الباك 3 يكفي لأكثر من شهرين.",
       },
     ],
-    imagePlaceholder: "/images/products/jadr-hero.svg",
+    imagePlaceholder: "/images/placeholders/jadr-hero.png",
     imageColor: "#9A4E36",
-    images: productImages("jadr"),
   },
   {
     id: "nour",
@@ -186,9 +167,8 @@ export const PRODUCTS: Product[] = [
         answer: "استعمل/يه مساءً بعد الغسيل. يتكامل مع زيت جدر (للشعر) وكريم نقاء (للانتعاش) لروتين عناية متكامل.",
       },
     ],
-    imagePlaceholder: "/images/products/nour-hero.svg",
+    imagePlaceholder: "/images/placeholders/nour-hero.png",
     imageColor: "#C9A45C",
-    images: productImages("nour"),
   },
   {
     id: "naqaa",
@@ -240,9 +220,8 @@ export const PRODUCTS: Product[] = [
         answer: "مع الاستعمال اليومي، الباك 3 يكفي لأكثر من شهرين.",
       },
     ],
-    imagePlaceholder: "/images/products/naqaa-hero.svg",
+    imagePlaceholder: "/images/placeholders/naqaa-hero.png",
     imageColor: "#7A8061",
-    images: productImages("naqaa"),
   },
 ];
 

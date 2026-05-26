@@ -9,6 +9,7 @@ import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
+import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import ProductImage from "@/components/ui/ProductImage";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
 
@@ -139,11 +140,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
-            <ProductImage
-              src={product.images.pain}
-              alt={`${product.shortHeading.split(":")[0]} — المشكلة`}
+            <ImagePlaceholder
+              label="صورة تعبيرية — المشكلة"
+              hint="مثال: شعر خفيف / بشرة باهتة / تعرق"
               aspect="square"
-              sizes="(max-width: 768px) 100vw, 45vw"
             />
           </div>
           <div className="order-1 md:order-2 text-right">
@@ -185,11 +185,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
               </p>
             </div>
           </div>
-          <ProductImage
-            src={product.images.science}
-            alt={`${product.shortHeading.split(":")[0]} — الفعالية`}
+          <ImagePlaceholder
+            label="صورة علمية — كيف يعمل المنتج"
+            hint="رسم توضيحي أو قبل/بعد (بدون مبالغة)"
             aspect="square"
-            sizes="(max-width: 768px) 100vw, 45vw"
           />
         </div>
       </section>
@@ -198,11 +197,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
-            <ProductImage
-              src={product.images.ingredients}
-              alt={`${product.shortHeading.split(":")[0]} — المكونات`}
+            <ImagePlaceholder
+              label="صورة المكونات الطبيعية"
+              hint="أرغان، خروع، ألوفيرا..."
               aspect="square"
-              sizes="(max-width: 768px) 100vw, 45vw"
             />
           </div>
           <div className="order-1 md:order-2 text-right">
@@ -247,11 +245,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
               ))}
             </div>
           </div>
-          <ProductImage
-            src={product.images.usage}
-            alt={`${product.shortHeading.split(":")[0]} — الاستعمال`}
+          <ImagePlaceholder
+            label="صورة طريقة الاستعمال"
+            hint="خطوات بصرية واضحة للزبون"
             aspect="square"
-            sizes="(max-width: 768px) 100vw, 45vw"
           />
         </div>
       </section>
