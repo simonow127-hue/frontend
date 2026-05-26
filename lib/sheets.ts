@@ -68,10 +68,9 @@ export async function sendOrderToGoogleSheet(
   const url = sheetWebhookUrl();
   if (!url) return;
 
-  const dedupeKey = `riads-sheet:${orderCode}:${totalMad}:${items.length}`;
-  if (typeof sessionStorage !== "undefined") {
-    if (sessionStorage.getItem(dedupeKey)) return;
-    sessionStorage.setItem(dedupeKey, "1");
+  const dedupeKey = `riads-sheet:${orderCode}:${totalMad}:${items.map((i) => i.product_id).join(",")}`;
+  if (typeof sessionStorage !== "undefined" && sessionStorage.getItem(dedupeKey)) {
+    return;
   }
 
   const payload = buildSheetPayload(orderCode, customer, items, totalMad);
@@ -83,6 +82,9 @@ export async function sendOrderToGoogleSheet(
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
     });
+    if (typeof sessionStorage !== "undefined") {
+      sessionStorage.setItem(dedupeKey, "1");
+    }
   } catch {
     // Non-blocking — DB order already saved
   }
