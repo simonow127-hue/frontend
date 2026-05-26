@@ -77,6 +77,43 @@ h1, h2, h3, h4, h5, h6 {
   from { width: 100%; }
   to { width: 0%; }
 }
+/* Riads logo animations */
+@keyframes logoRingPulse {
+  0%, 100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.12); opacity: 0.15; }
+}
+
+@keyframes logoRingShimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes logoLetterFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+.logo-ring-pulse {
+  animation: logoRingPulse 3s ease-in-out infinite;
+}
+
+.logo-ring-shimmer {
+  animation: logoRingShimmer 8s linear infinite;
+  border-style: solid;
+}
+
+.logo-letter-float {
+  animation: logoLetterFloat 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-ring-pulse,
+  .logo-ring-shimmer,
+  .logo-letter-float {
+    animation: none;
+  }
+}
+
 .countdown-bar {
   animation: shrink-width linear forwards;
 }
