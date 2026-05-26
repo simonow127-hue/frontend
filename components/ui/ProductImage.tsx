@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { clsx } from "clsx";
-import RiadsLogo from "@/components/brand/RiadsLogo";
 
-type AspectRatio = "square" | "wide" | "portrait" | "banner";
+type AspectRatio = "square" | "wide" | "portrait";
 
 interface ProductImageProps {
   src: string;
@@ -18,7 +17,6 @@ const aspectClasses: Record<AspectRatio, string> = {
   square: "aspect-square",
   wide: "aspect-[4/3]",
   portrait: "aspect-[3/4]",
-  banner: "aspect-[16/9]",
 };
 
 export default function ProductImage({
@@ -46,9 +44,6 @@ export default function ProductImage({
         sizes={sizes}
         className={clsx("object-contain object-center p-2 md:p-4", imageClassName)}
       />
-      <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-brand-ivory/85 p-1 ring-1 ring-brand-border/70">
-        <RiadsLogo variant="mark" className="scale-75 origin-top-right" />
-      </div>
     </div>
   );
 }

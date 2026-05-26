@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
+import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import ProductImage from "@/components/ui/ProductImage";
-import { HERO_TRIO_IMAGE } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "جميع منتجات رياض — روتين عناية للجميع",
@@ -50,11 +50,10 @@ export default function CollectionsPage() {
             ثلاثة منتجات مختارة بعناية للرجل والمرأة — شعر، بشرة، وانتعاش يومي. كمل/ي الروتين اللي ناقصك.
           </p>
           <div className="max-w-2xl mx-auto">
-            <ProductImage
-              src={HERO_TRIO_IMAGE}
-              alt="روتين رياض — جدر، نور، نقاء"
+            <ImagePlaceholder
+              label="بانر المجموعة — رياض"
+              hint="صورة فاخرة للمنتجات الثلاثة"
               aspect="banner"
-              sizes="(max-width: 768px) 100vw, 720px"
             />
           </div>
         </div>

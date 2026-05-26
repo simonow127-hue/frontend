@@ -1,5 +1,4 @@
 import { ImageIcon } from "lucide-react";
-import RiadsLogo from "@/components/brand/RiadsLogo";
 
 type AspectRatio = "square" | "wide" | "banner" | "portrait";
 
@@ -30,9 +29,6 @@ export default function ImagePlaceholder({
       aria-label={label}
     >
       <div className="absolute inset-0 opacity-[0.04] bg-[repeating-linear-gradient(45deg,#9A4E36_0,#9A4E36_1px,transparent_0,transparent_50%)] bg-[length:12px_12px]" />
-      <div className="absolute right-2 top-2">
-        <RiadsLogo variant="mark" className="scale-75 origin-top-right opacity-85" />
-      </div>
       <div className="relative z-10 w-14 h-14 rounded-full bg-brand-primary/10 flex items-center justify-center">
         <ImageIcon size={28} className="text-brand-primary/60" />
       </div>
