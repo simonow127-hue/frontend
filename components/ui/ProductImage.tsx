@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { clsx } from "clsx";
-import type { ReactNode } from "react";
 
 type AspectRatio = "square" | "wide" | "portrait";
 
@@ -12,7 +11,6 @@ interface ProductImageProps {
   imageClassName?: string;
   priority?: boolean;
   sizes?: string;
-  overlay?: ReactNode;
 }
 
 const aspectClasses: Record<AspectRatio, string> = {
@@ -29,7 +27,6 @@ export default function ProductImage({
   imageClassName = "",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
-  overlay,
 }: ProductImageProps) {
   return (
     <div
@@ -47,11 +44,6 @@ export default function ProductImage({
         sizes={sizes}
         className={clsx("object-contain object-center p-2 md:p-4", imageClassName)}
       />
-      {overlay ? (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {overlay}
-        </div>
-      ) : null}
     </div>
   );
 }

@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
+import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import ProductImage from "@/components/ui/ProductImage";
-import HeroProductShowcase from "@/components/brand/HeroProductShowcase";
-import ProductBottleLabelOverlay from "@/components/brand/ProductBottleLabelOverlay";
 
 export const metadata: Metadata = {
   title: "جميع منتجات رياض — روتين عناية للجميع",
@@ -50,8 +49,12 @@ export default function CollectionsPage() {
           <p className="text-brand-espresso/70 text-lg max-w-xl mx-auto leading-relaxed mb-8">
             ثلاثة منتجات مختارة بعناية للرجل والمرأة — شعر، بشرة، وانتعاش يومي. كمل/ي الروتين اللي ناقصك.
           </p>
-          <div className="max-w-3xl mx-auto">
-            <HeroProductShowcase products={PRODUCTS} />
+          <div className="max-w-2xl mx-auto">
+            <ImagePlaceholder
+              label="بانر المجموعة — رياض"
+              hint="صورة فاخرة للمنتجات الثلاثة"
+              aspect="banner"
+            />
           </div>
         </div>
       </section>
@@ -120,7 +123,6 @@ export default function CollectionsPage() {
                 alt={product.arabicName}
                 aspect="square"
                 sizes="(max-width: 640px) 100vw, 25vw"
-                overlay={<ProductBottleLabelOverlay product={product} size="thumb" />}
               />
             </Link>
           ))}

@@ -9,10 +9,9 @@ import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
-import BrandedImageSlot from "@/components/brand/BrandedImageSlot";
-import BrandVisualPanel from "@/components/brand/BrandVisualPanel";
+import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
-import ProductBottleLabelOverlay from "@/components/brand/ProductBottleLabelOverlay";
 
 interface FAQItemProps {
   q: string;
@@ -77,12 +76,13 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Product image (left in RTL on desktop) */}
           <div className="order-1 md:order-2">
-            <BrandedImageSlot
+            <ProductImage
               src={product.imagePlaceholder}
               alt={product.arabicName}
-              accent={product.imageColor}
+              aspect="square"
+              className="shadow-lg ring-1 ring-brand-border/60"
               priority
-              overlay={<ProductBottleLabelOverlay product={product} size="hero" />}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
@@ -140,7 +140,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
-            <BrandVisualPanel product={product} variant="pain" />
+            <ImagePlaceholder
+              label="صورة تعبيرية — المشكلة"
+              hint="مثال: شعر خفيف / بشرة باهتة / تعرق"
+              aspect="square"
+            />
           </div>
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
@@ -181,7 +185,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
               </p>
             </div>
           </div>
-          <BrandVisualPanel product={product} variant="science" />
+          <ImagePlaceholder
+            label="صورة علمية — كيف يعمل المنتج"
+            hint="رسم توضيحي أو قبل/بعد (بدون مبالغة)"
+            aspect="square"
+          />
         </div>
       </section>
 
@@ -189,7 +197,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
-            <BrandVisualPanel product={product} variant="ingredients" />
+            <ImagePlaceholder
+              label="صورة المكونات الطبيعية"
+              hint="أرغان، خروع، ألوفيرا..."
+              aspect="square"
+            />
           </div>
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
@@ -233,7 +245,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
               ))}
             </div>
           </div>
-          <BrandVisualPanel product={product} variant="usage" />
+          <ImagePlaceholder
+            label="صورة طريقة الاستعمال"
+            hint="خطوات بصرية واضحة للزبون"
+            aspect="square"
+          />
         </div>
       </section>
 
