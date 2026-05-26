@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>معاينة صور رياض — محلي</title>
+  <style>
+    :root {
+      --cream: #f7efe6;
+      --ivory: #fff9f2;
+      --espresso: #2d201a;
+      --primary: #9a4e36;
+      --gold: #c9a45c;
+      --border: #e7d8cc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--espresso);
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, var(--ivory), var(--cream));
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 0.5rem; font-size: 1.75rem; }
+    header p { margin: 0; opacity: 0.75; max-width: 36rem; margin-inline: auto; }
+    .badge {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--ivory);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    section { margin-bottom: 3rem; }
+    section h2 {
+      font-size: 1.35rem;
+      margin: 0 0 0.25rem;
+      color: var(--primary);
+    }
+    section > p { margin: 0 0 1.25rem; font-size: 0.9rem; opacity: 0.7; }
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    .grid.wide { grid-template-columns: 1fr; }
+    figure {
+      margin: 0;
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(45, 32, 26, 0.06);
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #ececef;
+    }
+    figcaption {
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    figcaption strong { display: block; margin-bottom: 0.2rem; }
+    figcaption code {
+      font-size: 0.75rem;
+      color: var(--primary);
+      background: var(--cream);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+    .howto {
+      background: var(--ivory);
+      border: 1px dashed var(--primary);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .howto ol { margin: 0.5rem 0 0; padding-right: 1.25rem; }
+    .howto a { color: var(--primary); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>معاينة صور رياض</h1>
+    <p>هاد الصفحة للمعاينة فقط — الصور ما مربوطينش بـ riads.shop دابا. شوف التصميم هنا ومن بعد نربطوهم بالمتجر.</p>
+    <span class="badge">16 صورة · SVG</span>
+  </header>
+
+  <main>
+    <div class="howto">
+      <strong>كيفاش تشوفهم؟</strong>
+      <ol>
+        <li>من المجلد <code>frontend</code> شغّل: <code>npm run dev</code></li>
+        <li>افتح: <a href="/previews/index.html">http://localhost:3004/previews/index.html</a> (أو نفس المنفذ ديال <code>npm run dev</code>)</li>
+        <li>ولا افتح هاد الملف مباشرة فالمتصفح (double-click على <code>index.html</code>)</li>
+      </ol>
+    </div>
+
+    <section>
+      <h2>الصفحة الرئيسية — الهيرو</h2>
+      <p>المنتجات الثلاثة معاً (بانر عريض)</p>
+      <div class="grid wide">
+        <figure>
+          <img src="../images/products/hero-trio.svg" alt="روتين رياض — جدر نور نقاء" width="1200" height="675" />
+          <figcaption><strong>hero-trio</strong><code>public/images/products/hero-trio.svg</code></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>صور المنتجات الرئيسية</h2>
+      <p>كروت المنتجات + صفحة كل منتج (صورة كبيرة)</p>
+      <div class="grid">
+        <figure>
+          <img src="../images/products/jadr-hero.svg" alt="جدر" />
+          <figcaption><strong>جدر — زيت الشعر</strong><code>jadr-hero.svg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="../images/products/nour-hero.svg" alt="نور" />
+          <figcaption><strong>نور — كريم الرتينول</strong><code>nour-hero.svg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="../images/products/naqaa-hero.svg" alt="نقاء" />
+          <figcaption><strong>نقاء — مزيل العرق</strong><code>naqaa-hero.svg</code></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>جدر — أقسام الصفحة</h2>
+      <p>مشكلة · فعالية · مكونات · استعمال</p>
+      <div class="grid">
+        <figure><img src="../images/products/jadr-pain.svg" alt="جدر مشكلة" /><figcaption><strong>المشكلة</strong><code>jadr-pain.svg</code></figcaption></figure>
+        <figure><img src="../images/products/jadr-science.svg" alt="جدر فعالية" /><figcaption><strong>الفعالية</strong><code>jadr-science.svg</code></figcaption></figure>
+        <figure><img src="../images/products/jadr-ingredients.svg" alt="جدر مكونات" /><figcaption><strong>المكونات</strong><code>jadr-ingredients.svg</code></figcaption></figure>
+        <figure><img src="../images/products/jadr-usage.svg" alt="جدر استعمال" /><figcaption><strong>الاستعمال</strong><code>jadr-usage.svg</code></figcaption></figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>نور — أقسام الصفحة</h2>
+      <div class="grid">
+        <figure><img src="../images/products/nour-pain.svg" alt="نور مشكلة" /><figcaption><strong>المشكلة</strong><code>nour-pain.svg</code></figcaption></figure>
+        <figure><img src="../images/products/nour-science.svg" alt="نور فعالية" /><figcaption><strong>الفعالية</strong><code>nour-science.svg</code></figcaption></figure>
+        <figure><img src="../images/products/nour-ingredients.svg" alt="نور مكونات" /><figcaption><strong>المكونات</strong><code>nour-ingredients.svg</code></figcaption></figure>
+        <figure><img src="../images/products/nour-usage.svg" alt="نور استعمال" /><figcaption><strong>الاستعمال</strong><code>nour-usage.svg</code></figcaption></figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>نقاء — أقسام الصفحة</h2>
+      <div class="grid">
+        <figure><img src="../images/products/naqaa-pain.svg" alt="نقاء مشكلة" /><figcaption><strong>المشكلة</strong><code>naqaa-pain.svg</code></figcaption></figure>
+        <figure><img src="../images/products/naqaa-science.svg" alt="نقاء فعالية" /><figcaption><strong>الفعالية</strong><code>naqaa-science.svg</code></figcaption></figure>
+        <figure><img src="../images/products/naqaa-ingredients.svg" alt="نقاء مكونات" /><figcaption><strong>المكونات</strong><code>naqaa-ingredients.svg</code></figcaption></figure>
+        <figure><img src="../images/products/naqaa-usage.svg" alt="نقاء استعمال" /><figcaption><strong>الاستعمال</strong><code>naqaa-usage.svg</code></figcaption></figure>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

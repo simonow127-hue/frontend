@@ -4,7 +4,8 @@ import { PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import Button from "@/components/ui/Button";
-import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
+import { HERO_TRIO_IMAGE } from "@/lib/products";
 import BrandingSlider from "@/components/home/BrandingSlider";
 import { ChevronDown, ShieldCheck, Sparkles, Droplets, Wind, MessageSquare } from "lucide-react";
 
@@ -55,20 +56,23 @@ export default function HomePage() {
 
           {/* Hero visual */}
           <div className="relative flex flex-col gap-3">
-            <ImagePlaceholder
-              label="صورة رئيسية — روتين رياض"
-              hint="لقطة فاخرة للمنتجات الثلاثة معاً"
-              aspect="wide"
+            <ProductImage
+              src={HERO_TRIO_IMAGE}
+              alt="روتين رياض — جدر، نور، نقاء"
+              aspect="banner"
               className="shadow-xl"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="grid grid-cols-3 gap-3">
               {PRODUCTS.map((p) => (
-                <ImagePlaceholder
+                <ProductImage
                   key={p.id}
-                  label={p.shortHeading.split(":")[0]}
-                  hint="صورة المنتج"
+                  src={p.imagePlaceholder}
+                  alt={p.arabicName}
                   aspect="square"
                   className="!rounded-xl"
+                  sizes="(max-width: 768px) 30vw, 15vw"
                 />
               ))}
             </div>

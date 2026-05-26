@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+
+  <defs>
+    <pattern id="stripes-naqaa-ingredients" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="12" height="12" fill="#FFF9F2"/>
+      <line x1="0" y1="0" x2="0" y2="12" stroke="#7A8061" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="bg-naqaa-ingredients" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ECECEF"/>
+      <stop offset="55%" stop-color="#F7F7F9"/>
+      <stop offset="100%" stop-color="#E4E4E8"/>
+    </linearGradient>
+    <linearGradient id="shadow-naqaa-ingredients" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#bg-naqaa-ingredients)"/>
+  <rect width="800" height="800" fill="url(#stripes-naqaa-ingredients)"/>
+
+  
+  <rect x="36" y="36" width="128" height="32" rx="16" fill="#7A8061"/>
+  <text x="54" y="57" fill="#FFF9F2" font-size="14" font-weight="700" font-family="Tahoma, Arial, sans-serif">المكونات</text>
+  
+  
+  <g opacity="0.22" transform="translate(620,28)">
+    <rect width="72" height="72" rx="14" fill="#7A8061" fill-opacity="0.15"/>
+    <text x="36" y="28" text-anchor="middle" fill="#7A8061" font-size="9" font-family="Georgia, serif">riads</text>
+    <text x="36" y="52" text-anchor="middle" fill="#7A8061" font-size="22" font-weight="700" font-family="Georgia, serif">R</text>
+  </g>
+  <text x="720" y="130" text-anchor="end" fill="#2D201A" font-size="36" font-weight="800" font-family="Tahoma, Arial, sans-serif">نقاء</text>
+  <text x="720" y="162" text-anchor="end" fill="#6B5A52" font-size="16" font-family="Tahoma, Arial, sans-serif">مكونات طبيعية · جودة عالية</text>
+  
+  
+  <ellipse cx="280" cy="455" rx="75" ry="14" fill="url(#shadow-naqaa-ingredients)"/>
+  <rect x="222" y="345" width="116" height="95" rx="14" fill="#F8F8F8" stroke="#D8D8D8" stroke-width="1.5"/>
+  <ellipse cx="280" cy="345" rx="58" ry="12" fill="#EEEEEE"/>
+  <rect x="230" y="282" width="100" height="28" rx="6" fill="#C0C0C0"/>
+  <rect x="234" y="358" width="92" height="72" rx="10" fill="#FFFFFF"/>
+  
+  <rect x="170" y="430" width="220" height="118" rx="12" fill="#FFF9F2" fill-opacity="0.96" stroke="#7A8061" stroke-width="2.5"/>
+  <text x="280" y="458" text-anchor="middle" fill="#5C4A42" font-size="11" font-weight="700" font-family="Tahoma, Arial, sans-serif">للجمال رياض</text>
+  <text x="280" y="474" text-anchor="middle" fill="#7A8061" font-size="11" font-weight="700" font-family="Georgia, serif">riads</text>
+  <text x="280" y="502" text-anchor="middle" fill="#2D201A" font-size="28" font-weight="800" font-family="Tahoma, Arial, sans-serif">نقاء</text>
+  <text x="280" y="524" text-anchor="middle" fill="#5C4A42" font-size="13" font-weight="600" font-family="Tahoma, Arial, sans-serif">كريم مزيل العرق</text>
+  <text x="280" y="542" text-anchor="middle" fill="#8A7A72" font-size="11" font-family="Tahoma, Arial, sans-serif">50g</text>
+  
+        <rect x="380" y="442" width="400" height="44" rx="12" fill="#FFF9F2" fill-opacity="0.9" stroke="#E7D8CC"/>
+        <text x="410" y="470" fill="#7A8061" font-size="18" font-weight="700">✦</text>
+        <text x="440" y="472" fill="#2D201A" font-size="16" font-weight="700" font-family="Tahoma, Arial, sans-serif">الزنك الفعال</text>
+        <rect x="380" y="494" width="400" height="44" rx="12" fill="#FFF9F2" fill-opacity="0.9" stroke="#E7D8CC"/>
+        <text x="410" y="522" fill="#7A8061" font-size="18" font-weight="700">✦</text>
+        <text x="440" y="524" fill="#2D201A" font-size="16" font-weight="700" font-family="Tahoma, Arial, sans-serif">زيت جوز الهند</text>
+        <rect x="380" y="546" width="400" height="44" rx="12" fill="#FFF9F2" fill-opacity="0.9" stroke="#E7D8CC"/>
+        <text x="410" y="574" fill="#7A8061" font-size="18" font-weight="700">✦</text>
+        <text x="440" y="576" fill="#2D201A" font-size="16" font-weight="700" font-family="Tahoma, Arial, sans-serif">مستخلصات مهدئة</text>
+  <rect x="0" y="792" width="800" height="8" fill="#7A8061"/>
+</svg>
