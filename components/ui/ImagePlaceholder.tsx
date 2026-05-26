@@ -1,4 +1,5 @@
 import { ImageIcon } from "lucide-react";
+import Image from "next/image";
 
 type AspectRatio = "square" | "wide" | "banner" | "portrait";
 
@@ -29,6 +30,15 @@ export default function ImagePlaceholder({
       aria-label={label}
     >
       <div className="absolute inset-0 opacity-[0.04] bg-[repeating-linear-gradient(45deg,#9A4E36_0,#9A4E36_1px,transparent_0,transparent_50%)] bg-[length:12px_12px]" />
+      <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-brand-ivory/90 p-1.5 ring-1 ring-brand-border/70">
+        <Image
+          src="/brand/logo-stamp.svg"
+          alt="riads"
+          width={24}
+          height={24}
+          className="h-6 w-6 opacity-80"
+        />
+      </div>
       <div className="relative z-10 w-14 h-14 rounded-full bg-brand-primary/10 flex items-center justify-center">
         <ImageIcon size={28} className="text-brand-primary/60" />
       </div>

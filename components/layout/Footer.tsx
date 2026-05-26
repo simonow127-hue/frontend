@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -7,14 +8,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-brand-primary border border-brand-gold flex items-center justify-center">
-                <span className="text-brand-ivory font-bold text-sm font-latin ltr-text">N</span>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-arabic font-bold text-brand-cream text-sm">رياض</span>
-                <span className="font-latin text-brand-gold text-xs ltr-text">riads.shop</span>
-              </div>
+            <div className="inline-flex items-center rounded-xl bg-brand-ivory px-2 py-1">
+              <Image
+                src="/brand/logo-lockup.svg"
+                alt="للجمال رياض"
+                width={150}
+                height={38}
+                className="h-9 w-auto"
+              />
             </div>
             <p className="text-sm text-brand-cream/70 leading-relaxed">
               رياض — عناية مغربية مختارة للرجل والمرأة. منتجات موثوقة، توصيل لباب الدار، دفع عند الاستلام.
