@@ -66,50 +66,11 @@ type OrderResponse = {
   ok: boolean;
   order_id: string;
   order_code: string;
-  upsell?: {
-    recommended_product_id: string;
-    offer_pieces: number;
-    price_mad: number;
-  };
-};
-
-type UpsellPayload = {
-  item: {
-    product_id: string;
-    slug: string;
-    name: string;
-    offer_pieces: number;
-    price_mad: number;
-  };
-};
-
-type UpsellResponse = {
-  ok: boolean;
-  order_id: string;
-  order_code: string;
-  new_total_mad: number;
 };
 
 export async function createOrder(payload: OrderPayload): Promise<OrderResponse> {
   const res = await apiFetch("/orders", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw { status: res.status, detail: err.detail || err };
-  }
-  return res.json();
-}
-
-export async function applyUpsell(
-  orderId: string,
-  payload: UpsellPayload
-): Promise<UpsellResponse> {
-  const res = await apiFetch(`/orders/${orderId}/upsell`, {
-    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });

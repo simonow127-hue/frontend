@@ -10,7 +10,6 @@ import { getCookies, getClickIds, getUTMs, getLandingUrl, getReferrer, generateF
 import { trackPurchase } from "@/lib/tracking";
 import Button from "@/components/ui/Button";
 import { X, ShieldCheck } from "lucide-react";
-import UpsellModal from "./UpsellModal";
 
 const schema = z.object({
   fullName: z.string().min(3, "المرجو إدخال الاسم الكامل (3 أحرف على الأقل)"),
@@ -19,23 +18,10 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-type OrderResult = {
-  orderId: string;
-  orderCode: string;
-  upsell?: {
-    recommended_product_id: string;
-    offer_pieces: number;
-    price_mad: number;
-  };
-  purchaseEventId: string;
-};
-
 export default function CheckoutPopup() {
   const { items, isCheckoutOpen, closeCheckout, getTotalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [orderResult, setOrderResult] = useState<OrderResult | null>(null);
-  const [showUpsell, setShowUpsell] = useState(false);
 
   const total = getTotalPrice();
 
@@ -105,20 +91,9 @@ export default function CheckoutPopup() {
         eventId
       );
 
-      setOrderResult({
-        orderId: response.order_id,
-        orderCode: response.order_code,
-        upsell: response.upsell,
-        purchaseEventId: eventId,
-      });
-
-      if (response.upsell) {
-        setShowUpsell(true);
-      } else {
-        clearCart();
-        closeCheckout();
-        window.location.href = `/thank-you?order=${response.order_code}`;
-      }
+      clearCart();
+      closeCheckout();
+      window.location.href = `/thank-you?order=${response.order_code}`;
     } catch (err: unknown) {
       const detail = (err as { detail?: { message_ar?: string } })?.detail;
       const status = (err as { status?: number })?.status;
@@ -135,21 +110,6 @@ export default function CheckoutPopup() {
   };
 
   if (!isCheckoutOpen) return null;
-
-  if (showUpsell && orderResult) {
-    return (
-      <UpsellModal
-        orderId={orderResult.orderId}
-        orderCode={orderResult.orderCode}
-        upsell={orderResult.upsell!}
-        onDone={() => {
-          clearCart();
-          closeCheckout();
-          window.location.href = `/thank-you?order=${orderResult.orderCode}`;
-        }}
-      />
-    );
-  }
 
   return (
     <>
