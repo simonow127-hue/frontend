@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { clsx } from "clsx";
+import BrandMark from "@/components/brand/BrandMark";
 
 type Slide = {
   id: string;
@@ -105,9 +106,7 @@ export default function BrandingSlider() {
           <div className="flex items-center justify-between gap-6">
             {/* Logo mark */}
             <div className="hidden sm:flex shrink-0 flex-col items-center gap-1">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-brand-ivory border-2 border-brand-gold flex items-center justify-center shadow-lg">
-                <span className="font-latin text-brand-primary font-semibold text-2xl ltr-text">N</span>
-              </div>
+              <BrandMark size="lg" />
               <span className="font-latin text-brand-cream/80 text-xs ltr-text tracking-widest">riads</span>
             </div>
 
