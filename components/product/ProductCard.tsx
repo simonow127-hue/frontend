@@ -8,6 +8,7 @@ import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId } from "@/lib/events";
 import { trackAddToCart } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
+import ProductBottleLabelOverlay from "@/components/brand/ProductBottleLabelOverlay";
 
 interface ProductCardProps {
   product: Product;
@@ -35,6 +36,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           aspect="square"
           className="!rounded-none border-0 border-b-2 border-brand-border"
           sizes="(max-width: 768px) 100vw, 33vw"
+          overlay={<ProductBottleLabelOverlay product={product} size="thumb" />}
         />
         <div className="absolute bottom-3 right-3 z-10">
           <span className="bg-brand-primary text-brand-ivory text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">

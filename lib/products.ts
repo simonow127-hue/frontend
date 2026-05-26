@@ -39,6 +39,12 @@ export type Product = {
   faqs: FAQ[];
   imagePlaceholder: string;
   imageColor: string;
+  images?: {
+    pain: string;
+    mechanism: string;
+    ingredients: string;
+    usage: string;
+  };
 };
 
 const OFFERS: Offer[] = [
