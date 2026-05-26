@@ -3,6 +3,7 @@ import { PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
 
 export const metadata: Metadata = {
   title: "جميع منتجات رياض — روتين عناية للجميع",
@@ -111,13 +112,18 @@ export default function CollectionsPage() {
           كل منتج من رياض يعمل لحاله — لكن مع بعضياتهم، كيشكلو روتين عناية يومي متكامل لمظهر مرتاح وواثق.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-          {[
-            { label: "جدر", href: "/products/jadr-hair-serum" },
-            { label: "نور", href: "/products/nour-skin-serum" },
-            { label: "نقاء", href: "/products/naqaa-roll-on" },
-          ].map((p) => (
-            <Link key={p.label} href={p.href} className="block hover:opacity-95 transition-opacity">
-              <ImagePlaceholder label={`صورة ${p.label}`} hint="صورة المنتج" aspect="square" />
+          {PRODUCTS.map((product) => (
+            <Link
+              key={product.id}
+              href={`/products/${product.slug}`}
+              className="block hover:opacity-95 transition-opacity hover:shadow-md rounded-2xl"
+            >
+              <ProductImage
+                src={product.imagePlaceholder}
+                alt={product.arabicName}
+                aspect="square"
+                sizes="(max-width: 640px) 100vw, 25vw"
+              />
             </Link>
           ))}
         </div>

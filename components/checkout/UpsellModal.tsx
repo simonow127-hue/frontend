@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import { getProductById } from "@/lib/products";
 import { applyUpsell } from "@/lib/api";
-import { sendOrderToGoogleSheet, type SheetCustomer, type SheetLineItem } from "@/lib/sheets";
 import Button from "@/components/ui/Button";
 import { Clock, X } from "lucide-react";
 
@@ -17,9 +16,6 @@ const GRADIENTS: Record<string, string> = {
 interface UpsellModalProps {
   orderId: string;
   orderCode: string;
-  customer: SheetCustomer;
-  baseItems: SheetLineItem[];
-  baseTotalMad: number;
   upsell: {
     recommended_product_id: string;
     offer_pieces: number;
@@ -28,15 +24,7 @@ interface UpsellModalProps {
   onDone: () => void;
 }
 
-export default function UpsellModal({
-  orderId,
-  orderCode,
-  customer,
-  baseItems,
-  baseTotalMad,
-  upsell,
-  onDone,
-}: UpsellModalProps) {
+export default function UpsellModal({ orderId, orderCode, upsell, onDone }: UpsellModalProps) {
   const [timeLeft, setTimeLeft] = useState(UPSELL_DURATION);
   const [loading, setLoading] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -63,7 +51,7 @@ export default function UpsellModal({
     clearInterval(timerRef.current!);
     setLoading(true);
     try {
-      const res = await applyUpsell(orderId, {
+      await applyUpsell(orderId, {
         item: {
           product_id: product.id,
           slug: product.slug,
@@ -72,20 +60,6 @@ export default function UpsellModal({
           price_mad: upsell.price_mad,
         },
       });
-      const sheetItems: SheetLineItem[] = [
-        ...baseItems,
-        {
-          product_id: product.id,
-          name: product.arabicName,
-          offer_pieces: upsell.offer_pieces,
-        },
-      ];
-      void sendOrderToGoogleSheet(
-        orderCode,
-        customer,
-        sheetItems,
-        res.new_total_mad
-      );
     } catch {
       // Non-blocking — proceed to thank you regardless
     } finally {

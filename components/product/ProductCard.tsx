@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Product } from "@/lib/products";
 import Button from "@/components/ui/Button";
 import { ShieldCheck, Zap } from "lucide-react";
-import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId } from "@/lib/events";
 import { trackAddToCart } from "@/lib/tracking";
@@ -29,11 +29,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="bg-brand-ivory rounded-2xl border border-brand-border overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
       {/* Image area */}
       <Link href={`/products/${product.slug}`} className="block relative">
-        <ImagePlaceholder
-          label={product.shortHeading.split(":")[0]}
-          hint="صورة المنتج"
+        <ProductImage
+          src={product.imagePlaceholder}
+          alt={product.arabicName}
           aspect="square"
-          className="!rounded-none border-0 border-b-2"
+          className="!rounded-none border-0 border-b-2 border-brand-border"
+          sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="absolute bottom-3 right-3 z-10">
           <span className="bg-brand-primary text-brand-ivory text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">

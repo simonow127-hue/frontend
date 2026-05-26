@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
 
 interface FAQItemProps {
@@ -75,11 +76,13 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Product image (left in RTL on desktop) */}
           <div className="order-1 md:order-2">
-            <ImagePlaceholder
-              label={`صورة المنتج — ${product.shortHeading.split(":")[0]}`}
-              hint="أضف صورة احترافية للعبوة (خلفية نظيفة)"
+            <ProductImage
+              src={product.imagePlaceholder}
+              alt={product.arabicName}
               aspect="square"
-              className="shadow-lg"
+              className="shadow-lg ring-1 ring-brand-border/60"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
