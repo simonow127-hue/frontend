@@ -4,8 +4,9 @@ import { PRODUCTS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import Button from "@/components/ui/Button";
-import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
+import ProductImage from "@/components/ui/ProductImage";
 import BrandingSlider from "@/components/home/BrandingSlider";
+import { STORE_IMAGES } from "@/lib/store-images";
 import { ChevronDown, ShieldCheck, Sparkles, Droplets, Wind, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -55,20 +56,23 @@ export default function HomePage() {
 
           {/* Hero visual */}
           <div className="relative flex flex-col gap-3">
-            <ImagePlaceholder
-              label="صورة رئيسية — روتين رياض"
-              hint="لقطة فاخرة للمنتجات الثلاثة معاً"
+            <ProductImage
+              src={STORE_IMAGES.heroTrio}
+              alt="روتين رياض — جدر، نور، نقاء"
               aspect="wide"
               className="shadow-xl"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="grid grid-cols-3 gap-3">
               {PRODUCTS.map((p) => (
-                <ImagePlaceholder
+                <ProductImage
                   key={p.id}
-                  label={p.shortHeading.split(":")[0]}
-                  hint="صورة المنتج"
+                  src={p.imagePlaceholder}
+                  alt={p.arabicName}
                   aspect="square"
                   className="!rounded-xl"
+                  sizes="33vw"
                 />
               ))}
             </div>

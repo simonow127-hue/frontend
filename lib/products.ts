@@ -114,7 +114,7 @@ export const PRODUCTS: Product[] = [
         answer: "مع الاستعمال مرتين أسبوعياً، الباك 3 يكفي لأكثر من شهرين.",
       },
     ],
-    imagePlaceholder: "/images/placeholders/jadr-hero.png",
+    imagePlaceholder: "/images/products/jadr-hero.png",
     imageColor: "#9A4E36",
   },
   {
@@ -167,7 +167,7 @@ export const PRODUCTS: Product[] = [
         answer: "استعمل/يه مساءً بعد الغسيل. يتكامل مع زيت جدر (للشعر) وكريم نقاء (للانتعاش) لروتين عناية متكامل.",
       },
     ],
-    imagePlaceholder: "/images/placeholders/nour-hero.png",
+    imagePlaceholder: "/images/products/nour-hero.png",
     imageColor: "#C9A45C",
   },
   {
@@ -220,7 +220,7 @@ export const PRODUCTS: Product[] = [
         answer: "مع الاستعمال اليومي، الباك 3 يكفي لأكثر من شهرين.",
       },
     ],
-    imagePlaceholder: "/images/placeholders/naqaa-hero.png",
+    imagePlaceholder: "/images/products/naqaa-hero.png",
     imageColor: "#7A8061",
   },
 ];
