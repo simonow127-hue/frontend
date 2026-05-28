@@ -1,7 +1,8 @@
 export const STORE_IMAGES = {
-  heroTrio: "/images/products/hero-trio.png",
-  sectionScience: "/images/products/section-science.png",
-  sectionIngredients: "/images/products/section-ingredients.png",
+  heroTrio: "/images/products/brand-trio-story.png",
+  sectionScience: "/images/products/nour-actives.png",
+  sectionIngredients: "/images/products/naqaa-morocco.png",
+  sectionUsage: "/images/products/naqaa-spa.png",
 } as const;
 
 export const PRODUCT_HERO_IMAGES = {

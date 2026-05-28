@@ -249,8 +249,8 @@ export default function ProductPageClient({ product }: { product: Product }) {
             </div>
           </div>
           <ProductImage
-            src={product.imagePlaceholder}
-            alt={`${product.shortHeading.split(":")[0]} — طريقة الاستعمال`}
+            src={STORE_IMAGES.sectionUsage}
+            alt="طريقة الاستعمال"
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
