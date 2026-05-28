@@ -1,3 +1,5 @@
+import { STORE_IMAGES } from "./store-images";
+
 export type Offer = {
   pieces: 1 | 2 | 3;
   price: number;
@@ -38,6 +40,8 @@ export type Product = {
   reviews: Review[];
   faqs: FAQ[];
   imagePlaceholder: string;
+  ingredientsImage?: string;
+  usageImage?: string;
   imageColor: string;
 };
 
@@ -115,6 +119,8 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/jadr-hero.png",
+    ingredientsImage: "/images/products/jadr-ingredients.png",
+    usageImage: "/images/products/jadr-usage.png",
     imageColor: "#9A4E36",
   },
   {
@@ -221,9 +227,29 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/naqaa-hero.png",
+    ingredientsImage: "/images/products/naqaa-ingredients.png",
+    usageImage: "/images/products/naqaa-usage.png",
     imageColor: "#7A8061",
   },
 ];
+
+export function getProductSectionImage(
+  product: Product,
+  section: "ingredients" | "usage" | "science"
+): string {
+  if (section === "ingredients" && product.ingredientsImage) {
+    return product.ingredientsImage;
+  }
+  if (section === "usage" && product.usageImage) {
+    return product.usageImage;
+  }
+  if (product.id === "nour") {
+    if (section === "science") return STORE_IMAGES.sectionScience;
+    if (section === "ingredients") return STORE_IMAGES.sectionIngredients;
+    if (section === "usage") return STORE_IMAGES.sectionUsage;
+  }
+  return product.imagePlaceholder;
+}
 
 export function getProductBySlug(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);

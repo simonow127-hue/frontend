@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Product, getOfferByPieces, getCrossSells } from "@/lib/products";
+import { Product, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
@@ -10,7 +10,6 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
-import { STORE_IMAGES } from "@/lib/store-images";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
 
 interface FAQItemProps {
@@ -187,7 +186,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
             </div>
           </div>
           <ProductImage
-            src={STORE_IMAGES.sectionScience}
+            src={getProductSectionImage(product, "science")}
             alt="كيف يعمل المنتج"
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -200,7 +199,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
             <ProductImage
-              src={STORE_IMAGES.sectionIngredients}
+              src={getProductSectionImage(product, "ingredients")}
               alt="المكونات الطبيعية"
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -249,7 +248,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
             </div>
           </div>
           <ProductImage
-            src={STORE_IMAGES.sectionUsage}
+            src={getProductSectionImage(product, "usage")}
             alt="طريقة الاستعمال"
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
