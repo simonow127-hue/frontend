@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { clsx } from "clsx";
 
 type BrandMarkProps = {
@@ -6,9 +7,9 @@ type BrandMarkProps = {
 };
 
 const sizeClasses = {
-  sm: { box: "h-8 w-8", letter: "text-lg" },
-  md: { box: "h-10 w-10", letter: "text-xl" },
-  lg: { box: "h-14 w-14 md:h-16 md:w-16", letter: "text-2xl md:text-3xl" },
+  sm: { box: "h-8 w-8" },
+  md: { box: "h-10 w-10" },
+  lg: { box: "h-14 w-14 md:h-16 md:w-16" },
 };
 
 export default function BrandMark({ size = "md", className = "" }: BrandMarkProps) {
@@ -17,21 +18,19 @@ export default function BrandMark({ size = "md", className = "" }: BrandMarkProp
   return (
     <div
       className={clsx(
-        "flex shrink-0 items-center justify-center rounded-full border border-brand-gold bg-brand-ivory shadow-sm",
-        size === "lg" && "border-2 shadow-lg",
+        "relative shrink-0 overflow-hidden rounded-full",
         s.box,
         className
       )}
       aria-hidden
     >
-      <span
-        className={clsx(
-          "font-latin font-semibold leading-none text-brand-primary ltr-text",
-          s.letter
-        )}
-      >
-        R
-      </span>
+      <Image
+        src="/images/brand/logo-mark.png"
+        alt="Riads logo mark"
+        fill
+        sizes="64px"
+        className="object-contain"
+      />
     </div>
   );
 }
