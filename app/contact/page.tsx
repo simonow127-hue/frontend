@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "تواصل معنا — رياض",
@@ -22,7 +24,15 @@ export default function ContactPage() {
             </div>
             <div>
               <p className="font-bold text-brand-espresso text-sm">الهاتف / واتساب</p>
-              <p className="text-brand-espresso/60 text-sm" dir="ltr">+212 6XX XXX XXX</p>
+              <Link
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand-espresso/60 text-sm hover:text-brand-primary transition-colors"
+                dir="ltr"
+              >
+                {WHATSAPP_DISPLAY}
+              </Link>
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import { Product, getOfferByPieces, getCrossSells, getProductSectionImage } from
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
+import { whatsappUrl } from "@/lib/whatsapp";
 import { trackEvent } from "@/lib/api";
 import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
@@ -271,7 +272,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
             اطلب المنتج، جربه، وشارك رأيك الحقيقي عبر واتساب.
           </p>
           <a
-            href={`https://wa.me/212600000000?text=${encodeURIComponent(`السلام عليكم، بغيت نشارك رأيي في ${product.shortHeading.split(":")[0]} 🌿`)}`}
+            href={whatsappUrl(`السلام عليكم، بغيت نشارك رأيي في ${product.shortHeading.split(":")[0]} 🌿`)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-[#1ebe5d] transition-colors"

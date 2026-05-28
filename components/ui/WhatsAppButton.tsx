@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
-
-const WHATSAPP_NUMBER = "212600000000";
-const WHATSAPP_MSG = encodeURIComponent("السلام عليكم، بغيت نعرف أكثر على منتجات رياض 🌿");
+import { whatsappUrl } from "@/lib/whatsapp";
 
 export default function WhatsAppButton() {
   return (
     <Link
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
+      href={whatsappUrl()}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="تواصل معنا عبر واتساب"

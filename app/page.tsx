@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import ProductImage from "@/components/ui/ProductImage";
 import BrandingSlider from "@/components/home/BrandingSlider";
 import { STORE_IMAGES } from "@/lib/store-images";
+import { whatsappUrl } from "@/lib/whatsapp";
 import { ChevronDown, ShieldCheck, Sparkles, Droplets, Wind, MessageSquare } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -198,7 +199,7 @@ export default function HomePage() {
               اطلب المنتج، جربه بصدق، وشارك رأيك. تقييماتك الحقيقية هي أهم شيء لنا وللزبائن القادمين.
             </p>
             <a
-              href={`https://wa.me/212600000000?text=${encodeURIComponent("السلام عليكم، بغيت نشارك رأيي في منتجات رياض 🌿")}`}
+              href={whatsappUrl("السلام عليكم، بغيت نشارك رأيي في منتجات رياض 🌿")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-5 py-2.5 rounded-full hover:bg-[#1ebe5d] transition-colors"
