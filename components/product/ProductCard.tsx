@@ -15,6 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem, openDrawer } = useCartStore();
+  const offer1 = product.offers.find((o) => o.pieces === 1)!;
   const offer3 = product.offers.find((o) => o.pieces === 3)!;
 
   const handleAddToCart = () => {
@@ -59,8 +60,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-center justify-between bg-brand-cream rounded-xl px-3 py-2">
           <span className="text-xs text-brand-espresso/60">أفضل قيمة 3 قطع</span>
           <div className="text-right">
-            <span className="font-bold text-brand-primary">399 درهم</span>
-            <span className="text-xs text-brand-espresso/50 block">من 159 درهم</span>
+            <span className="font-bold text-brand-primary">{offer3.price} درهم</span>
+            <span className="text-xs text-brand-espresso/50 block">من {offer1.price} درهم</span>
           </div>
         </div>
 

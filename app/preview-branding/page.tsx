@@ -6,6 +6,8 @@ import {
   PREVIEW_PRODUCTS,
   PREVIEW_STORE_IMAGES,
   PREVIEW_HERO_IMAGES,
+  PREVIEW_JADR_SCIENCE,
+  PREVIEW_JADR_PAIN,
   PREVIEW_PRODUCT_SECTIONS,
   PREVIEW_IMAGE_SIZES,
 } from "@/lib/preview-branding";
@@ -134,14 +136,14 @@ export default function PreviewBrandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-sm font-bold text-brand-espresso mb-2 text-right">واش هاد الشي مألوف؟</p>
-              <BrandImage src={PREVIEW_HERO_IMAGES.nour} alt="صورة المنتج — المشكل" />
+              <BrandImage src={PREVIEW_JADR_PAIN} alt="جدر — المشكل / تساقط الشعر" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
-                صورة المنتج (بلا صور فيها نساء)
+                صورة المشكل — رجل · تساقط / خفة الشعر
               </p>
             </div>
             <div>
               <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم المنتج؟</p>
-              <BrandImage src={PREVIEW_STORE_IMAGES.sectionScience} alt="صورة علمية" />
+              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — قبل / بعد الاستعمال المنتظم" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
                 {PREVIEW_IMAGE_SIZES.sectionBlocks}
               </p>
@@ -163,10 +165,52 @@ export default function PreviewBrandingPage() {
           </div>
         </section>
 
+        {/* Jadr — pain / problem section */}
+        <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+          <PreviewLabel>جدر — واش هاد الشي مألوف عندك؟ (المشكل / الصلع)</PreviewLabel>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <BrandImage src={PREVIEW_JADR_PAIN} alt="جدر — مشكل تساقط الشعر" />
+            <div className="text-right text-brand-espresso/80 leading-relaxed flex flex-col gap-3">
+              <p className="font-bold text-brand-espresso text-lg">واش هاد الشي مألوف عندك؟</p>
+              <ul className="flex flex-col gap-2 text-sm">
+                <li>✕ الشعر خفيف وتساقطه مزعج</li>
+                <li>✕ الفروة جافة ومحتاجة تغذية من الجذور</li>
+                <li>✕ بغيت/ي شعراً أكثف وأصح</li>
+              </ul>
+              <p className="text-brand-primary font-bold">جدر هو الحل اللي صممناه خصيصاً لهاد المشاكل.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Jadr — before/after science montage */}
+        <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+          <PreviewLabel>جدر — قبل / بعد — مع الاستعمال المنتظم</PreviewLabel>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">هيرو</p>
+              <BrandImage src={PREVIEW_HERO_IMAGES.jadr} alt="جدر — هيرو" />
+            </div>
+            <div className="sm:col-span-2 lg:col-span-1">
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم؟ — قبل / بعد</p>
+              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — montage نمو الشعر" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
+                {PREVIEW_IMAGE_SIZES.sectionBlocks}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">المكونات</p>
+              <BrandImage src={PREVIEW_PRODUCT_SECTIONS.jadr.ingredients} alt="جدر — مكونات" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">الاستعمال</p>
+              <BrandImage src={PREVIEW_PRODUCT_SECTIONS.jadr.usage} alt="جدر — استعمال" />
+            </div>
+          </div>
+        </section>
+
         {/* Per-product section mockups */}
         {(
           [
-            { id: "jadr" as const, title: "جدر — زيت الشعر" },
             { id: "naqaa" as const, title: "نقاء — مزيل العرق" },
           ] as const
         ).map(({ id, title }) => (

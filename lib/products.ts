@@ -47,24 +47,24 @@ export type Product = {
   imageColor: string;
 };
 
-const OFFERS: Offer[] = [
+export const OFFERS: Offer[] = [
   {
     pieces: 1,
-    price: 159,
+    price: 179,
     label: "قطعة واحدة",
     sublabel: "للتجربة",
   },
   {
     pieces: 2,
-    price: 289,
+    price: 299,
     label: "قطعتان",
-    sublabel: "للاستمرارية",
+    sublabel: "للاستمرارية — وفر/ي 59 درهم",
   },
   {
     pieces: 3,
-    price: 399,
+    price: 379,
     label: "3 قطع",
-    sublabel: "أفضل قيمة",
+    sublabel: "أفضل قيمة — وفر/ي 158 درهم",
     badge: "الأكثر طلباً",
   },
 ];
@@ -97,7 +97,7 @@ export const PRODUCTS: Product[] = [
       "للحصول على أفضل النتائج، استعمليه مرتين أسبوعياً",
     ],
     offers: OFFERS,
-    defaultOffer: 1,
+    defaultOffer: 3,
     crossSellIds: ["nour", "naqaa"],
     reviewCount: 0,
     rating: 0,
@@ -154,7 +154,7 @@ export const PRODUCTS: Product[] = [
       "تأكدي من وضع واقي الشمس نهاراً لحماية البشرة المجددة",
     ],
     offers: OFFERS,
-    defaultOffer: 1,
+    defaultOffer: 3,
     crossSellIds: ["jadr", "naqaa"],
     reviewCount: 0,
     rating: 0,
@@ -207,7 +207,7 @@ export const PRODUCTS: Product[] = [
       "استعمليه يومياً لضمان الحماية والانتعاش",
     ],
     offers: OFFERS,
-    defaultOffer: 1,
+    defaultOffer: 3,
     crossSellIds: ["nour", "jadr"],
     reviewCount: 0,
     rating: 0,
@@ -231,6 +231,8 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/naqaa-hero.png",
+    painImage: "/images/products/naqaa-pain.png",
+    scienceImage: "/images/products/naqaa-science.png",
     ingredientsImage: "/images/products/naqaa-ingredients.png",
     usageImage: "/images/products/naqaa-usage.png",
     imageColor: "#7A8061",

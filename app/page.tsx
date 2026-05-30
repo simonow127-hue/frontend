@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, OFFERS } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import Button from "@/components/ui/Button";
@@ -152,27 +152,27 @@ export default function HomePage() {
               </span>
             </div>
             <div className="flex flex-col gap-3">
-              {[
-                { label: "قطعة واحدة", price: "159 درهم", note: "للتجربة" },
-                { label: "قطعتان", price: "289 درهم", note: "للاستمرارية" },
-                { label: "3 قطع", price: "399 درهم", note: "أفضل قيمة", featured: true },
-              ].map((o) => (
+              {OFFERS.map((o) => (
                 <div
-                  key={o.label}
+                  key={o.pieces}
                   className={`flex justify-between items-center p-3 rounded-xl border ${
-                    o.featured
+                    o.pieces === 3
                       ? "border-brand-primary bg-brand-primary/5 font-bold"
                       : "border-brand-border bg-brand-ivory"
                   }`}
                 >
                   <div className="text-right">
-                    <span className={`font-bold ${o.featured ? "text-brand-primary text-lg" : "text-brand-espresso"}`}>
-                      {o.price}
+                    <span
+                      className={`font-bold ${
+                        o.pieces === 3 ? "text-brand-primary text-lg" : "text-brand-espresso"
+                      }`}
+                    >
+                      {o.price} درهم
                     </span>
                   </div>
                   <div className="text-right">
                     <span className="text-brand-espresso text-sm">{o.label}</span>
-                    <span className="text-xs text-brand-espresso/50 block">{o.note}</span>
+                    <span className="text-xs text-brand-espresso/50 block">{o.sublabel}</span>
                   </div>
                 </div>
               ))}

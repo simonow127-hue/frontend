@@ -165,6 +165,7 @@ function CrossSellCard({
 }) {
   const p = product;
   const gradient = GRADIENTS[p.id] || "from-brand-cream to-brand-rose";
+  const fromPrice = p.offers.find((o) => o.pieces === 1)!.price;
 
   return (
     <div className="flex items-center gap-3 bg-brand-cream rounded-xl p-3 border border-brand-border">
@@ -173,7 +174,7 @@ function CrossSellCard({
       </div>
       <div className="flex-1 text-right">
         <p className="font-bold text-sm text-brand-espresso">{p.shortHeading}</p>
-        <p className="text-xs text-brand-espresso/60">من 159 درهم</p>
+        <p className="text-xs text-brand-espresso/60">من {fromPrice} درهم</p>
       </div>
       <button
         onClick={onAdd}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, getOfferByPieces } from "@/lib/products";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
 import ProductImage from "@/components/ui/ProductImage";
@@ -10,26 +10,28 @@ export const metadata: Metadata = {
   description: "اكتشف/ي روتين رياض: سيروم جدر للشعر، سيروم نور للبشرة، ورول اون نقاء للانتعاش اليومي. للرجل والمرأة. الدفع عند الاستلام.",
 };
 
+const bundle3Price = getOfferByPieces(3).price;
+
 const COMPARISON = [
   {
     need: "شعر خفيف وفروة تحتاج عناية",
     product: "سيروم جدر",
     bestFor: "كل من يبغي روتين شعر مركز",
-    recommended: "3 قطع — 399 درهم",
+    recommended: `3 قطع — ${bundle3Price} درهم`,
     slug: "jadr-hair-serum",
   },
   {
     need: "بشرة مرهقة وتفتقر الإشراقة",
     product: "سيروم نور",
     bestFor: "كل من يبغي إشراقة يومية خفيفة",
-    recommended: "3 قطع — 399 درهم",
+    recommended: `3 قطع — ${bundle3Price} درهم`,
     slug: "nour-skin-serum",
   },
   {
     need: "القلق من الرائحة والتعرق",
     product: "رول اون نقاء",
     bestFor: "الاستعمال اليومي في الأيام الطويلة",
-    recommended: "3 قطع — 399 درهم",
+    recommended: `3 قطع — ${bundle3Price} درهم`,
     slug: "naqaa-roll-on",
   },
 ];
