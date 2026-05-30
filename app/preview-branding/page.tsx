@@ -174,7 +174,7 @@ export default function PreviewBrandingPage() {
             key={id}
             className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm"
           >
-            <PreviewLabel>{title} — هيرو + مكونات + استعمال</PreviewLabel>
+            <PreviewLabel>{`${title} — هيرو + مكونات + استعمال`}</PreviewLabel>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <p className="text-sm font-bold text-brand-espresso mb-2 text-right">هيرو</p>
