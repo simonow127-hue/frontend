@@ -40,6 +40,8 @@ export type Product = {
   reviews: Review[];
   faqs: FAQ[];
   imagePlaceholder: string;
+  painImage?: string;
+  scienceImage?: string;
   ingredientsImage?: string;
   usageImage?: string;
   imageColor: string;
@@ -119,6 +121,8 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/jadr-hero.png",
+    painImage: "/images/products/jadr-pain.png",
+    scienceImage: "/images/products/jadr-science.png",
     ingredientsImage: "/images/products/jadr-ingredients.png",
     usageImage: "/images/products/jadr-usage.png",
     imageColor: "#9A4E36",
@@ -242,6 +246,9 @@ export function getProductSectionImage(
   }
   if (section === "usage" && product.usageImage) {
     return product.usageImage;
+  }
+  if (section === "science" && product.scienceImage) {
+    return product.scienceImage;
   }
   if (product.id === "nour") {
     if (section === "science") return STORE_IMAGES.sectionScience;
