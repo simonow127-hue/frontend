@@ -56,13 +56,13 @@ const OFFERS: Offer[] = [
     pieces: 2,
     price: 289,
     label: "قطعتان",
-    sublabel: "للاستمرارية — وفر/ي 29 درهم",
+    sublabel: "للاستمرارية",
   },
   {
     pieces: 3,
     price: 399,
     label: "3 قطع",
-    sublabel: "أفضل قيمة — وفر/ي 78 درهم",
+    sublabel: "أفضل قيمة",
     badge: "الأكثر طلباً",
   },
 ];

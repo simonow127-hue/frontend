@@ -129,12 +129,12 @@ export default function HomePage() {
               ليش الباقة 3 عبوات أفضل اختيار؟
             </h2>
             <p className="text-brand-espresso/70 leading-loose mb-6">
-              الاستمرارية هي اللي كتفرق. الباك 3 قطع كيضمن ليك روتين بلا انقطاع، وكيوفر عليك 248 درهم مقارنة بشراء منفصل.
+              الاستمرارية هي اللي كتفرق. الباك 3 قطع كيضمن ليك روتين بلا انقطاع — أحسن اختيار للاستعمال اليومي.
             </p>
             <ul className="flex flex-col gap-3">
               {[
                 "روتين مستمر بلا انقطاع",
-                "توفير حقيقي: 248 درهم على 3 قطع",
+                "روتين كامل بلا انقطاع",
                 "أكثر اختياراً هاد الأسبوع",
                 "الدفع عند الاستلام — بلا مخاطرة",
               ].map((item) => (
@@ -154,8 +154,8 @@ export default function HomePage() {
             <div className="flex flex-col gap-3">
               {[
                 { label: "قطعة واحدة", price: "159 درهم", note: "للتجربة" },
-                { label: "قطعتان", price: "289 درهم", note: "وفر/ي 29 درهم" },
-                { label: "3 قطع", price: "399 درهم", note: "وفر/ي 78 درهم", featured: true },
+                { label: "قطعتان", price: "289 درهم", note: "للاستمرارية" },
+                { label: "3 قطع", price: "399 درهم", note: "أفضل قيمة", featured: true },
               ].map((o) => (
                 <div
                   key={o.label}
