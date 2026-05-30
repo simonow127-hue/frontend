@@ -1,0 +1,11 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#A95C42"/><stop offset="100%" stop-color="#7A3828"/></linearGradient></defs>
+  <rect width="800" height="800" fill="url(#g)"/>
+  <circle cx="400" cy="220" r="90" fill="#FFF9F2" opacity=".1"/>
+  <rect x="362" y="250" width="76" height="190" rx="20" fill="#fff"/>
+  <rect x="386" y="215" width="28" height="38" rx="6" fill="#2D201A"/>
+  <rect x="290" y="455" width="220" height="140" rx="16" fill="#FFF9F2" stroke="#C9A45C" stroke-width="3"/>
+  <text x="400" y="515" text-anchor="middle" fill="#2D201A" font-size="44" font-family="Tahoma" font-weight="700">Ï¼Ï»Ï▒</text>
+  <text x="400" y="553" text-anchor="middle" fill="#5C4A42" font-size="18" font-family="Tahoma">Ï▓┘èÏ¬ Ï¬ÏÀ┘ê┘è┘ä Ïº┘äÏ┤Ï╣Ï▒</text>
+  <text x="400" y="705" text-anchor="middle" fill="#FFF9F2" opacity=".7" font-size="20" font-family="Georgia">riads.shop</text>
+</svg>

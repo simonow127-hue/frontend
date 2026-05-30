@@ -48,21 +48,21 @@ export type Product = {
 const OFFERS: Offer[] = [
   {
     pieces: 1,
-    price: 199,
+    price: 159,
     label: "قطعة واحدة",
     sublabel: "للتجربة",
   },
   {
     pieces: 2,
-    price: 279,
+    price: 289,
     label: "قطعتان",
-    sublabel: "للاستمرارية — وفر/ي 119 درهم",
+    sublabel: "للاستمرارية — وفر/ي 29 درهم",
   },
   {
     pieces: 3,
-    price: 349,
+    price: 399,
     label: "3 قطع",
-    sublabel: "أفضل قيمة — وفر/ي 248 درهم",
+    sublabel: "أفضل قيمة — وفر/ي 78 درهم",
     badge: "الأكثر طلباً",
   },
 ];

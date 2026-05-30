@@ -153,9 +153,9 @@ export default function HomePage() {
             </div>
             <div className="flex flex-col gap-3">
               {[
-                { label: "قطعة واحدة", price: "199 درهم", note: "للتجربة" },
-                { label: "قطعتان", price: "279 درهم", note: "وفر/ي 119 درهم" },
-                { label: "3 قطع", price: "349 درهم", note: "وفر/ي 248 درهم", featured: true },
+                { label: "قطعة واحدة", price: "159 درهم", note: "للتجربة" },
+                { label: "قطعتان", price: "289 درهم", note: "وفر/ي 29 درهم" },
+                { label: "3 قطع", price: "399 درهم", note: "وفر/ي 78 درهم", featured: true },
               ].map((o) => (
                 <div
                   key={o.label}

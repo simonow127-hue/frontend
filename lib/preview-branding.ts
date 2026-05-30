@@ -1,14 +1,31 @@
-/** @deprecated Preview page — images are now live in the store via lib/store-images.ts */
+/** Nano-banana preview assets — not live until you approve (say «حطّهم») */
+const BASE = "/images/preview-nano-banana";
+
 export const PREVIEW_HERO_IMAGES = {
-  jadr: "/images/products/jadr-hero.png",
-  nour: "/images/products/nour-hero.png",
-  naqaa: "/images/products/naqaa-hero.png",
+  jadr: `${BASE}/jadr-hero.png`,
+  nour: `${BASE}/nour-hero.png`,
+  naqaa: `${BASE}/naqaa-hero.png`,
+} as const;
+
+export const PREVIEW_PRODUCT_SECTIONS = {
+  jadr: {
+    ingredients: `${BASE}/jadr-ingredients.png`,
+    usage: `${BASE}/jadr-usage.png`,
+  },
+  naqaa: {
+    ingredients: `${BASE}/naqaa-ingredients.png`,
+    usage: `${BASE}/naqaa-usage.png`,
+  },
+  nour: {
+    ingredients: `${BASE}/nour-hero.png`,
+    usage: `${BASE}/nour-hero.png`,
+  },
 } as const;
 
 export const PREVIEW_STORE_IMAGES = {
-  heroTrio: "/images/products/hero-trio.png",
-  sectionScience: "/images/products/section-science.png",
-  sectionIngredients: "/images/products/section-ingredients.png",
+  heroTrio: `${BASE}/hero-trio.png`,
+  sectionScience: `${BASE}/hero-trio.png`,
+  sectionIngredients: `${BASE}/jadr-ingredients.png`,
 } as const;
 
 export const PREVIEW_IMAGE_SIZES = {

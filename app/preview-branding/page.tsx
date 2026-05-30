@@ -6,6 +6,7 @@ import {
   PREVIEW_PRODUCTS,
   PREVIEW_STORE_IMAGES,
   PREVIEW_HERO_IMAGES,
+  PREVIEW_PRODUCT_SECTIONS,
   PREVIEW_IMAGE_SIZES,
 } from "@/lib/preview-branding";
 
@@ -162,6 +163,38 @@ export default function PreviewBrandingPage() {
           </div>
         </section>
 
+        {/* Per-product section mockups */}
+        {(
+          [
+            { id: "jadr" as const, title: "جدر — زيت الشعر" },
+            { id: "naqaa" as const, title: "نقاء — مزيل العرق" },
+          ] as const
+        ).map(({ id, title }) => (
+          <section
+            key={id}
+            className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm"
+          >
+            <PreviewLabel>{title} — هيرو + مكونات + استعمال</PreviewLabel>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <p className="text-sm font-bold text-brand-espresso mb-2 text-right">هيرو</p>
+                <BrandImage src={PREVIEW_HERO_IMAGES[id]} alt={title} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-brand-espresso mb-2 text-right">المكونات</p>
+                <BrandImage
+                  src={PREVIEW_PRODUCT_SECTIONS[id].ingredients}
+                  alt={`${title} — مكونات`}
+                />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-brand-espresso mb-2 text-right">الاستعمال</p>
+                <BrandImage src={PREVIEW_PRODUCT_SECTIONS[id].usage} alt={`${title} — استعمال`} />
+              </div>
+            </div>
+          </section>
+        ))}
+
         {/* Full product example — nour */}
         <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
           <PreviewLabel>مثال كامل — صفحة نور (معاينة)</PreviewLabel>
@@ -186,7 +219,10 @@ export default function PreviewBrandingPage() {
         </section>
 
         <footer className="text-center text-sm text-brand-espresso/60 pb-6">
-          الصور فـ <code className="text-brand-primary">public/images/products/</code>
+          معاينة فقط — الصور فـ{" "}
+          <code className="text-brand-primary">public/images/preview-nano-banana/</code>
+          <br />
+          إلا عجبوك قولّي «حطّهم» باش نبدّلو المتجر الحي.
         </footer>
       </div>
     </div>
