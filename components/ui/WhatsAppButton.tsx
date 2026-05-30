@@ -9,7 +9,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="تواصل معنا عبر واتساب"
-      className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-[#25D366] text-white rounded-full shadow-lg px-4 py-3 hover:bg-[#1ebe5d] transition-all duration-300 hover:scale-105 group"
+      className="fixed bottom-20 right-4 left-auto z-40 flex items-center gap-2 bg-[#25D366] text-white rounded-full shadow-lg px-3 py-3 sm:px-4 sm:bottom-6 sm:right-6 hover:bg-[#1ebe5d] transition-all duration-300 hover:scale-105 group"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
