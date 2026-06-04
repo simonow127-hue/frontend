@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Product } from "@/lib/products";
+import { clsx } from "clsx";
 import Button from "@/components/ui/Button";
 import { ShieldCheck, Zap } from "lucide-react";
 import ProductImage from "@/components/ui/ProductImage";
@@ -34,7 +35,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={product.imagePlaceholder}
           alt={product.arabicName}
           aspect="square"
-          className="!rounded-none border-0 border-b-2 border-brand-border"
+          className={clsx(
+            "!rounded-none border-0 border-b-2 border-brand-border",
+            product.id === "jadr" && "bg-[#F5EDE4]"
+          )}
+          imageClassName={
+            product.id === "jadr" ? "!object-contain !p-6 md:!p-8" : undefined
+          }
           sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="absolute bottom-3 right-3 z-10">

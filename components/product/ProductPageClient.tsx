@@ -12,6 +12,7 @@ import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
+import { clsx } from "clsx";
 
 interface FAQItemProps {
   q: string;
@@ -80,7 +81,13 @@ export default function ProductPageClient({ product }: { product: Product }) {
               src={product.imagePlaceholder}
               alt={product.arabicName}
               aspect="square"
-              className="shadow-lg ring-1 ring-brand-border/60"
+              className={clsx(
+                "shadow-lg ring-1 ring-brand-border/60",
+                product.id === "jadr" && "bg-[#F5EDE4]"
+              )}
+              imageClassName={
+                product.id === "jadr" ? "!object-contain !p-8 md:!p-12" : undefined
+              }
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />
