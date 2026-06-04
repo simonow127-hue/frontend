@@ -142,7 +142,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
           <div className="order-2 md:order-1">
             <ProductImage
               src={product.painImage ?? product.imagePlaceholder}
-              alt={`${product.shortHeading.split(":")[0]} — المشكل`}
+              alt={`${product.shortHeading.split(":")[0]} — العلامة التجارية`}
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
@@ -188,7 +188,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
           </div>
           <ProductImage
             src={getProductSectionImage(product, "science")}
-            alt="كيف يعمل المنتج"
+            alt={`${product.shortHeading.split(":")[0]} — المنتج`}
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
           />

@@ -138,12 +138,12 @@ export default function PreviewBrandingPage() {
               <p className="text-sm font-bold text-brand-espresso mb-2 text-right">واش هاد الشي مألوف؟</p>
               <BrandImage src={PREVIEW_JADR_PAIN} alt="جدر — المشكل / تساقط الشعر" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
-                صورة المشكل — رجل · تساقط / خفة الشعر
+                صورة العلامة — جدر على الحجر · 50ml
               </p>
             </div>
             <div>
               <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم المنتج؟</p>
-              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — قبل / بعد الاستعمال المنتظم" />
+              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — flat lay زيت الأرغان" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
                 {PREVIEW_IMAGE_SIZES.sectionBlocks}
               </p>
@@ -184,15 +184,15 @@ export default function PreviewBrandingPage() {
 
         {/* Jadr — before/after science montage */}
         <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
-          <PreviewLabel>جدر — قبل / بعد — مع الاستعمال المنتظم</PreviewLabel>
+          <PreviewLabel>جدر — صور الأقسام (براندينغ المنتج)</PreviewLabel>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <p className="text-sm font-bold text-brand-espresso mb-2 text-right">هيرو</p>
               <BrandImage src={PREVIEW_HERO_IMAGES.jadr} alt="جدر — هيرو" />
             </div>
             <div className="sm:col-span-2 lg:col-span-1">
-              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم؟ — قبل / بعد</p>
-              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — montage نمو الشعر" />
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم؟ — صورة المنتج</p>
+              <BrandImage src={PREVIEW_JADR_SCIENCE} alt="جدر — flat lay المنتج" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-1">
                 {PREVIEW_IMAGE_SIZES.sectionBlocks}
               </p>

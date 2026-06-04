@@ -7,9 +7,10 @@ export const PREVIEW_HERO_IMAGES = {
   naqaa: `${BASE}/naqaa-hero.png`,
 } as const;
 
-export const PREVIEW_JADR_SCIENCE = `${BASE}/jadr-science.png`;
+/** Live store assets — same as product page */
+export const PREVIEW_JADR_SCIENCE = "/images/products/jadr-science.png";
 
-export const PREVIEW_JADR_PAIN = `${BASE}/jadr-pain.png`;
+export const PREVIEW_JADR_PAIN = "/images/products/jadr-pain.png";
 
 export const PREVIEW_PRODUCT_SECTIONS = {
   jadr: {
