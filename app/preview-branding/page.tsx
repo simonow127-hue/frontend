@@ -8,6 +8,7 @@ import {
   PREVIEW_HERO_IMAGES,
   PREVIEW_JADR_SCIENCE,
   PREVIEW_JADR_PAIN,
+  PREVIEW_JADR_INGREDIENTS_MONTAGE,
   PREVIEW_PRODUCT_SECTIONS,
   PREVIEW_IMAGE_SIZES,
 } from "@/lib/preview-branding";
@@ -178,6 +179,25 @@ export default function PreviewBrandingPage() {
                 <li>✕ بغيت/ي شعراً أكثف وأصح</li>
               </ul>
               <p className="text-brand-primary font-bold">جدر هو الحل اللي صممناه خصيصاً لهاد المشاكل.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Jadr — ingredients montage (realistic) */}
+        <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+          <PreviewLabel>جدر — مونتاج المكونات (حقيقي · زاوية أخرى)</PreviewLabel>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div>
+              <BrandImage src={PREVIEW_JADR_INGREDIENTS_MONTAGE} alt="جدر — مونتاج المكونات" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                جديد — بوتيل بزاوية 3/4، المكونات فالخلفية (أرغان، خروع، B7)
+              </p>
+            </div>
+            <div>
+              <BrandImage src="/images/products/jadr-ingredients.png" alt="جدر — مكونات (الحالي)" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                الحالي — إنفوغرافيك + نصوص
+              </p>
             </div>
           </div>
         </section>

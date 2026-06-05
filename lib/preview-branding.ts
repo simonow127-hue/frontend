@@ -12,10 +12,14 @@ export const PREVIEW_JADR_SCIENCE = "/images/products/jadr-science.png";
 
 export const PREVIEW_JADR_PAIN = "/images/products/jadr-pain.png";
 
+/** Realistic ingredients montage — Jadr 3/4 angle, ingredients in bokeh background */
+export const PREVIEW_JADR_INGREDIENTS_MONTAGE =
+  `${BASE}/jadr-ingredients-montage.png`;
+
 export const PREVIEW_PRODUCT_SECTIONS = {
   jadr: {
-    ingredients: `${BASE}/jadr-ingredients.png`,
-    usage: `${BASE}/jadr-usage.png`,
+    ingredients: "/images/products/jadr-ingredients.svg",
+    usage: "/images/products/jadr-usage.svg",
   },
   naqaa: {
     ingredients: `${BASE}/naqaa-ingredients.png`,
@@ -30,7 +34,7 @@ export const PREVIEW_PRODUCT_SECTIONS = {
 export const PREVIEW_STORE_IMAGES = {
   heroTrio: `${BASE}/hero-trio.png`,
   sectionScience: `${BASE}/hero-trio.png`,
-  sectionIngredients: `${BASE}/jadr-ingredients.png`,
+  sectionIngredients: "/images/products/jadr-ingredients.svg",
 } as const;
 
 export const PREVIEW_IMAGE_SIZES = {

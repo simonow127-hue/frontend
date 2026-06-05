@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" role="img" aria-label=",/1  'DECHF'*">
+  <defs>
+    <linearGradient id="bg-ing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8C8B6"/>
+      <stop offset="55%" stop-color="#F7EFE6"/>
+      <stop offset="100%" stop-color="#9A4E36" stop-opacity="0.18"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#2D201A" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg-ing)"/>
+
+  <!-- Small product thumb -->
+  <g filter="url(#soft)" transform="translate(620,48)">
+    <rect x="0" y="0" width="120" height="168" rx="18" fill="#FFFFFF" stroke="#2D201A" stroke-width="2"/>
+    <rect x="42" y="-18" width="36" height="28" rx="8" fill="#2D201A"/>
+    <circle cx="60" cy="52" r="22" fill="none" stroke="#2D201A" stroke-width="2"/>
+    <text x="60" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#2D201A">R</text>
+    <text x="60" y="98" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2D201A">riads</text>
+    <text x="60" y="132" text-anchor="middle" font-family="Tahoma, sans-serif" font-size="22" font-weight="700" fill="#2D201A">,/1</text>
+  </g>
+
+  <text x="400" y="88" text-anchor="middle" font-family="Tahoma, 'Noto Kufi Arabic', sans-serif" font-size="42" font-weight="700" fill="#2D201A">ECHF'* 7(J9J)</text>
+  <text x="400" y="128" text-anchor="middle" font-family="Tahoma, 'Noto Sans Arabic', sans-serif" font-size="22" fill="#5C4A42">*1CJ() E:1(J) A'.1) � 50 ED</text>
+
+  <!-- Ingredient 1 -->
+  <g transform="translate(56,168)">
+    <rect width="688" height="168" rx="22" fill="#FFF9F2" fill-opacity="0.95" stroke="#C9A45C" stroke-width="2"/>
+    <circle cx="72" cy="84" r="48" fill="#F7EFE6" stroke="#9A4E36" stroke-width="2"/>
+    <ellipse cx="72" cy="88" rx="22" ry="14" fill="#5A3828" opacity="0.35"/>
+    <circle cx="58" cy="76" r="6" fill="#2D201A" opacity="0.5"/>
+    <circle cx="86" cy="82" r="5" fill="#2D201A" opacity="0.45"/>
+    <text x="640" y="72" text-anchor="end" font-family="Tahoma, sans-serif" font-size="28" font-weight="700" fill="#2D201A">2J* 'D.1H9 'DFBJ</text>
+    <text x="640" y="112" text-anchor="end" font-family="Tahoma, sans-serif" font-size="20" fill="#5C4A42">J-A2 'D/H1) 'D/EHJ) HJBHJ 'D(5JD'* EF 'D,0H1</text>
+  </g>
+
+  <!-- Ingredient 2 -->
+  <g transform="translate(56,360)">
+    <rect width="688" height="168" rx="22" fill="#FFF9F2" fill-opacity="0.95" stroke="#E7D8CC" stroke-width="2"/>
+    <circle cx="72" cy="84" r="48" fill="#F7EFE6" stroke="#C9A45C" stroke-width="2"/>
+    <circle cx="72" cy="90" r="26" fill="#C9A45C" opacity="0.55"/>
+    <path d="M58 78 Q72 62 86 78" fill="none" stroke="#9A4E36" stroke-width="3"/>
+    <text x="640" y="72" text-anchor="end" font-family="Tahoma, sans-serif" font-size="28" font-weight="700" fill="#2D201A">2J* 'D#1:'F</text>
+    <text x="640" y="112" text-anchor="end" font-family="Tahoma, sans-serif" font-size="20" fill="#5C4A42">J17( (9EB HJ-EJ 'D491 EF 'D,A'A H'D*C31</text>
+  </g>
+
+  <!-- Ingredient 3 -->
+  <g transform="translate(56,552)">
+    <rect width="688" height="168" rx="22" fill="#FFF9F2" fill-opacity="0.95" stroke="#E7D8CC" stroke-width="2"/>
+    <circle cx="72" cy="84" r="48" fill="#F7EFE6" stroke="#7A8061" stroke-width="2"/>
+    <rect x="52" y="68" width="40" height="32" rx="10" fill="#7A8061" opacity="0.35"/>
+    <text x="72" y="92" text-anchor="middle" font-family="Tahoma, sans-serif" font-size="16" font-weight="700" fill="#2D201A">B7</text>
+    <text x="640" y="72" text-anchor="end" font-family="Tahoma, sans-serif" font-size="28" font-weight="700" fill="#2D201A">'D(JH*JF (AJ*'EJF B7)</text>
+    <text x="640" y="112" text-anchor="end" font-family="Tahoma, sans-serif" font-size="20" fill="#5C4A42">J922 'DCJ1'*JF D2J'/) C+'A) 'D491 HE1HF*G</text>
+  </g>
+
+  <text x="400" y="768" text-anchor="middle" font-family="Georgia, serif" font-size="20" letter-spacing="3" fill="#9A4E36">riads � 5F9 AJ 'DE:1(</text>
+</svg>

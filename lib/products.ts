@@ -123,8 +123,8 @@ export const PRODUCTS: Product[] = [
     imagePlaceholder: "/images/products/jadr-hero.png",
     painImage: "/images/products/jadr-pain.png",
     scienceImage: "/images/products/jadr-science.png",
-    ingredientsImage: "/images/products/jadr-ingredients.png",
-    usageImage: "/images/products/jadr-usage.png",
+    ingredientsImage: "/images/products/jadr-ingredients.svg",
+    usageImage: "/images/products/jadr-usage.svg",
     imageColor: "#9A4E36",
   },
   {
