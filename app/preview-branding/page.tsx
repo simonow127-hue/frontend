@@ -9,6 +9,7 @@ import {
   PREVIEW_JADR_SCIENCE,
   PREVIEW_JADR_PAIN,
   PREVIEW_JADR_INGREDIENTS_MONTAGE,
+  PREVIEW_NAQAA_MONTAGES,
   PREVIEW_PRODUCT_SECTIONS,
   PREVIEW_IMAGE_SIZES,
 } from "@/lib/preview-branding";
@@ -197,6 +198,48 @@ export default function PreviewBrandingPage() {
               <BrandImage src="/images/products/jadr-ingredients.png" alt="جدر — مكونات (الحالي)" />
               <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
                 الحالي — إنفوغرافيك + نصوص
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* نقاء — montage branding بزوايا وأفكار مختلفة */}
+        <section className="bg-brand-ivory rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+          <PreviewLabel>نقاء — مونتاجات براندينغ (زوايا وأفكار مختلفة)</PreviewLabel>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">مكونات — زاوية 3/4</p>
+              <BrandImage src={PREVIEW_NAQAA_MONTAGES.ingredients34} alt="نقاء — مونتاج مكونات 3/4" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                بوتيل بزاوية 3/4، زنك + جوز الهند + نباتات فالخلفية
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">مكونات — flat lay</p>
+              <BrandImage src={PREVIEW_NAQAA_MONTAGES.ingredientsFlatlay} alt="نقاء — flat lay المكونات" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                من فوق — ترتيب متماثل على رخام كريمي
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">هيرو — زاوية جانبية</p>
+              <BrandImage src={PREVIEW_NAQAA_MONTAGES.heroSide} alt="نقاء — هيرو جانبي" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                بروفايل + حمام مغربي + ضوء الصباح
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">كيف يخدم — استعمال</p>
+              <BrandImage src={PREVIEW_NAQAA_MONTAGES.usage} alt="نقاء — مونتاج الاستعمال" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                ليف ستايل — ثقة وانتعاش يومي
+              </p>
+            </div>
+            <div className="sm:col-span-2 lg:col-span-1">
+              <p className="text-sm font-bold text-brand-espresso mb-2 text-right">الآلية — science</p>
+              <BrandImage src={PREVIEW_NAQAA_MONTAGES.science} alt="نقاء — مونتاج الآلية" />
+              <p className="text-[11px] text-brand-espresso/60 text-right mt-2">
+                زنك ضد البكتيريا + مكونات طبيعية — بلا lab كلينيكال
               </p>
             </div>
           </div>

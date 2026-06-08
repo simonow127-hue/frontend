@@ -16,6 +16,15 @@ export const PREVIEW_JADR_PAIN = "/images/products/jadr-pain.png";
 export const PREVIEW_JADR_INGREDIENTS_MONTAGE =
   `${BASE}/jadr-ingredients-montage.png`;
 
+/** نقاء — مونتاجات براندينغ بزوايا وأفكار مختلفة */
+export const PREVIEW_NAQAA_MONTAGES = {
+  ingredients34: `${BASE}/naqaa-ingredients-montage-34.png`,
+  ingredientsFlatlay: `${BASE}/naqaa-ingredients-montage-flatlay.png`,
+  heroSide: `${BASE}/naqaa-hero-montage-side.png`,
+  usage: `${BASE}/naqaa-usage-montage.png`,
+  science: "/images/products/naqaa-science.png",
+} as const;
+
 export const PREVIEW_PRODUCT_SECTIONS = {
   jadr: {
     ingredients: "/images/products/jadr-ingredients.svg",
