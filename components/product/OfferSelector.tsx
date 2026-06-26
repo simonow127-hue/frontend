@@ -1,5 +1,6 @@
 "use client";
 import { Offer } from "@/lib/products";
+import { formatPrice } from "@/lib/currency";
 import { clsx } from "clsx";
 import { Check } from "lucide-react";
 
@@ -11,7 +12,7 @@ interface OfferSelectorProps {
 
 export default function OfferSelector({ offers, selected, onChange }: OfferSelectorProps) {
   return (
-    <div className="flex flex-col gap-3" role="group" aria-label="اختر/ي العرض">
+    <div className="flex flex-col gap-3" role="group" aria-label="اختر الكمية">
       {offers.map((offer) => {
         const isSelected = selected === offer.pieces;
         const is3Pieces = offer.pieces === 3;
@@ -48,7 +49,7 @@ export default function OfferSelector({ offers, selected, onChange }: OfferSelec
                 {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}
               </div>
               <div className="text-right">
-                <div className="font-bold text-brand-espresso text-base">{offer.price} درهم</div>
+                <div className="font-bold text-brand-espresso text-base">{formatPrice(offer.price)}</div>
                 <div className="text-xs text-brand-espresso/60">{offer.sublabel}</div>
               </div>
             </div>

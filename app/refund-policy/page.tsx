@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "سياسة الاسترجاع — رياض" };
+export const metadata: Metadata = { title: "سياسة الاسترجاع — رياض ستور" };
 
 export default function RefundPage() {
   return (
@@ -10,23 +10,27 @@ export default function RefundPage() {
         <div className="flex flex-col gap-6 text-brand-espresso/80">
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">الاسترجاع والاستبدال</h2>
-            <p>في حالة وصول منتج تالف أو مختلف عن الطلب، يرجى التواصل معنا خلال 48 ساعة من الاستلام مع صور للمنتج.</p>
+            <p>
+              إذا وصلك منتج تالف أو مختلف عن طلبك، تواصل معنا خلال 48 ساعة من الاستلام مع صور واضحة للمنتج.
+            </p>
           </section>
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">شروط الاسترجاع</h2>
             <ul className="list-disc list-inside flex flex-col gap-2">
-              <li>المنتج لم يُستخدم ولا يزال في تغليفه الأصلي</li>
+              <li>المنتج ما انستخدم ولسه بتغليفه الأصلي</li>
               <li>التواصل خلال 48 ساعة من الاستلام</li>
-              <li>تقديم صور للمنتج</li>
+              <li>إرسال صور للمنتج</li>
             </ul>
           </section>
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">الحالات المستثناة</h2>
-            <p>لا يُقبل الاسترجاع في حالة تغيير الرأي بعد فتح المنتج واستخدامه، أو رفض الاستلام بدون سبب مقبول.</p>
+            <p>
+              ما نقبل الاسترجاع إذا تغير رأيك بعد فتح المنتج واستخدامه، أو رفضت الاستلام بدون سبب مقنع.
+            </p>
           </section>
           <section>
             <h2 className="font-bold text-lg text-brand-espresso mb-2">للتواصل</h2>
-            <p>تواصل/ي معنا عبر الهاتف أو الواتساب مع ذكر رقم طلبك.</p>
+            <p>تواصل معنا عبر الجوال أو واتساب مع ذكر رقم طلبك.</p>
           </section>
         </div>
       </div>

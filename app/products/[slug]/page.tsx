@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const path = `/products/${slug}`;
   return {
     title: `${product.arabicName} | الدفع عند الاستلام`,
-    description: `${product.subheading} اطلب/ي الآن بالدفع عند الاستلام. ${product.offers[2].price} درهم لباك 3 قطع.`,
+    description: `${product.subheading} اطلب الحين بالدفع عند الاستلام. من ${product.offers[0].price} ر.س.`,
     alternates: { canonical: path },
     openGraph: {
       title: product.arabicName,
@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: Props) {
   const productUrl = `${siteUrl}/products/${product.slug}`;
   const defaultOffer = product.offers.find((o) => o.pieces === product.defaultOffer) ?? product.offers[0];
 
-  const productJsonLd = {
+  const productJsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.arabicName,
@@ -49,21 +49,24 @@ export default async function ProductPage({ params }: Props) {
     sku: product.sku,
     url: productUrl,
     image: `${siteUrl}${getProductHeroImage(product.id)}`,
-    brand: { "@type": "Brand", name: "رياض" },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: product.rating,
-      reviewCount: product.reviewCount,
-    },
+    brand: { "@type": "Brand", name: "رياض ستور" },
     offers: {
       "@type": "Offer",
       url: productUrl,
-      priceCurrency: "MAD",
+      priceCurrency: "SAR",
       price: defaultOffer.price,
       availability: "https://schema.org/InStock",
-      seller: { "@type": "Organization", name: "رياض" },
+      seller: { "@type": "Organization", name: "رياض ستور" },
     },
   };
+
+  if (product.reviewCount > 0 && product.rating > 0) {
+    productJsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      reviewCount: product.reviewCount,
+    };
+  }
 
   return (
     <>

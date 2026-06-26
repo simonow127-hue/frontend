@@ -5,7 +5,7 @@
 | المكان | القيمة |
 |--------|--------|
 | **Domains** | port **80** → `http://riads_frontend:80/` |
-| **Environment** | `PORT=80`, `HOSTNAME=0.0.0.0` |
+| **Environment** | `PORT=80`, `HOSTNAME=0.0.0.0`, `NEXT_PUBLIC_API_URL=https://api.riads.shop` |
 
 ## Domains (مهم)
 

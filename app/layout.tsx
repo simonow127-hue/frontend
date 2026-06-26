@@ -38,17 +38,17 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "رياض | riads — عناية مغربية للجميع",
-    template: "%s | رياض",
+    default: "رياض ستور | Riads Store — تسوق فاخر بالسعودية",
+    template: "%s | رياض ستور",
   },
   description:
-    "رياض — عناية مغربية موثوقة للرجل والمرأة. شعر، بشرة، وانتعاش يومي. الدفع عند الاستلام داخل المغرب.",
+    "رياض ستور — منتجات مختارة بجودة عالية. توصيل سريع لكل المملكة، دفع عند الاستلام، واسترجاع سهل.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    siteName: "للجمال رياض",
-    locale: "ar_MA",
+    siteName: "رياض ستور",
+    locale: "ar_SA",
     type: "website",
     url: siteUrl,
   },
@@ -72,25 +72,25 @@ export default function RootLayout({
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "رياض",
-    alternateName: "riads",
+    name: "رياض ستور",
+    alternateName: "Riads Store",
     url: siteUrl,
     logo: `${siteUrl}${STORE_IMAGES.heroTrio}`,
     description:
-      "عناية مغربية موثوقة للرجل والمرأة. شعر، بشرة، وانتعاش يومي. الدفع عند الاستلام داخل المغرب.",
-    areaServed: { "@type": "Country", name: "Morocco" },
+      "متجر سعودي يجمع منتجات مختارة بجودة عالية. توصيل سريع لكل المملكة والدفع عند الاستلام.",
+    areaServed: { "@type": "Country", name: "Saudi Arabia" },
   };
 
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "رياض",
+    name: "رياض ستور",
     url: siteUrl,
-    inLanguage: "ar-MA",
+    inLanguage: "ar-SA",
   };
 
   return (
-    <html lang="ar-MA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable} ${cormorant.variable}`}>
+    <html lang="ar-SA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable} ${cormorant.variable}`}>
       <body className="font-body bg-brand-ivory text-brand-espresso min-h-screen">
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <SessionInit />

@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useCartStore } from "@/lib/cart";
-import { validateMoroccanPhone } from "@/lib/phone";
+import { validateSaudiPhone } from "@/lib/phone";
+import { formatPrice } from "@/lib/currency";
 import { createOrder } from "@/lib/api";
 import { getCookies, getClickIds, getUTMs, getLandingUrl, getReferrer, generateFreshEventId } from "@/lib/events";
 import { trackPurchase } from "@/lib/tracking";
@@ -34,7 +35,7 @@ export default function CheckoutPopup() {
 
   const onSubmit = async (data: FormData) => {
     setError(null);
-    const phoneResult = validateMoroccanPhone(data.phone);
+    const phoneResult = validateSaudiPhone(data.phone);
     if (!phoneResult.valid) {
       setFieldError("phone", { message: phoneResult.error });
       return;
@@ -68,7 +69,7 @@ export default function CheckoutPopup() {
           subtotal: total,
           shipping: 0,
           total,
-          currency: "MAD",
+          currency: "SAR",
         },
         source: {
           landing_url: getLandingUrl(),
@@ -136,7 +137,7 @@ export default function CheckoutPopup() {
             <h3 className="font-bold text-sm text-brand-espresso mb-3">ملخص الطلب</h3>
             {items.map((item) => (
               <div key={item.productId} className="flex justify-between items-center mb-2">
-                <span className="font-bold text-brand-primary">{item.total} درهم</span>
+                <span className="font-bold text-brand-primary">{formatPrice(item.total)}</span>
                 <span className="text-sm text-brand-espresso/80">
                   {item.offerPieces} {item.offerPieces === 1 ? "عبوة" : "عبوات"} ×{" "}
                   {item.name.split(" ").slice(1, 3).join(" ")}
@@ -144,7 +145,7 @@ export default function CheckoutPopup() {
               </div>
             ))}
             <div className="border-t border-brand-border pt-2 flex justify-between items-center">
-              <span className="font-bold text-brand-primary text-lg">{total} درهم</span>
+              <span className="font-bold text-brand-primary text-lg">{formatPrice(total)}</span>
               <span className="font-bold text-brand-espresso">المجموع</span>
             </div>
           </div>
@@ -183,7 +184,7 @@ export default function CheckoutPopup() {
                 type="tel"
                 autoComplete="tel"
                 dir="ltr"
-                placeholder="0612345678"
+                placeholder="0512345678"
                 className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors text-left"
                 {...register("phone")}
               />
@@ -199,7 +200,7 @@ export default function CheckoutPopup() {
             )}
 
             <Button type="submit" fullWidth size="lg" loading={loading} className="mt-2">
-              تأكيد الطلب — {total} درهم
+              تأكيد الطلب — {formatPrice(total)}
             </Button>
           </form>
 

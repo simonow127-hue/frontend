@@ -62,12 +62,16 @@ export function getClickIds() {
   const fbclid = params.get("fbclid") || stored.fbclid || "";
   const ttclid = params.get("ttclid") || stored.ttclid || "";
   const sc_click_id = params.get("sc_click_id") || stored.sc_click_id || "";
+  const gclid = params.get("gclid") || stored.gclid || "";
 
-  if (fbclid || ttclid || sc_click_id) {
-    localStorage.setItem("riads_click_ids", JSON.stringify({ fbclid, ttclid, sc_click_id }));
+  if (fbclid || ttclid || sc_click_id || gclid) {
+    localStorage.setItem(
+      "riads_click_ids",
+      JSON.stringify({ fbclid, ttclid, sc_click_id, gclid })
+    );
   }
 
-  return { fbclid, ttclid, sc_click_id };
+  return { fbclid, ttclid, sc_click_id, gclid };
 }
 
 export function getUTMs() {

@@ -1,66 +1,34 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/whatsapp";
-
-export const metadata: Metadata = {
-  title: "تواصل معنا — رياض",
-  description: "تواصل/ي مع فريق رياض للاستفسار عن الطلبات والمنتجات.",
-};
 
 export default function ContactPage() {
   return (
-    <div className="max-w-content mx-auto px-4 py-16">
-      <div className="max-w-xl mx-auto text-right">
-        <h1 className="font-arabic font-bold text-4xl text-brand-espresso mb-4">تواصل معنا</h1>
-        <p className="text-brand-espresso/70 mb-10">
-          فريق رياض كيجاوب على جميع الاستفسارات المتعلقة بالطلبات والمنتجات والتوصيل.
+    <div className="max-w-content mx-auto px-4 py-12 md:py-16">
+      <div className="max-w-lg mx-auto text-right">
+        <h1 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">تواصل معنا</h1>
+        <p className="text-brand-espresso/70 mb-8 leading-relaxed">
+          فريقنا جاهز يساعدك — استفسارات، تتبع طلب، أو استرجاع. رد سريع على الواتساب.
         </p>
-
-        <div className="flex flex-col gap-4 mb-10">
-          <div className="flex items-center gap-4 bg-brand-cream rounded-xl p-4">
-            <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-              <Phone size={18} className="text-brand-primary" />
-            </div>
-            <div>
-              <p className="font-bold text-brand-espresso text-sm">الهاتف / واتساب</p>
-              <Link
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-brand-espresso/60 text-sm hover:text-brand-primary transition-colors"
-                dir="ltr"
-              >
-                {WHATSAPP_DISPLAY}
-              </Link>
-            </div>
+        <div className="bg-brand-cream rounded-2xl border border-brand-border p-6 flex flex-col gap-4">
+          <div>
+            <p className="text-xs text-brand-espresso/50 mb-1">واتساب</p>
+            <a
+              href={whatsappUrl()}
+              className="font-bold text-brand-primary text-lg hover:text-brand-gold transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {WHATSAPP_DISPLAY}
+            </a>
           </div>
-
-          <div className="flex items-center gap-4 bg-brand-cream rounded-xl p-4">
-            <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-              <Mail size={18} className="text-brand-primary" />
-            </div>
-            <div>
-              <p className="font-bold text-brand-espresso text-sm">البريد الإلكتروني</p>
-              <p className="text-brand-espresso/60 text-sm" dir="ltr">hello@riads.shop</p>
-            </div>
+          <div>
+            <p className="text-xs text-brand-espresso/50 mb-1">التوصيل</p>
+            <p className="font-bold text-brand-espresso">المملكة العربية السعودية</p>
+            <p className="text-brand-espresso/60 text-sm">نوصل لكل المناطق — الرياض، جدة، الدمام، وغيرها</p>
           </div>
-
-          <div className="flex items-center gap-4 bg-brand-cream rounded-xl p-4">
-            <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-              <MapPin size={18} className="text-brand-primary" />
-            </div>
-            <div>
-              <p className="font-bold text-brand-espresso text-sm">المغرب</p>
-              <p className="text-brand-espresso/60 text-sm">توصيل سريع لجميع مناطق المغرب</p>
-            </div>
+          <div>
+            <p className="text-xs text-brand-espresso/50 mb-1">أوقات الرد</p>
+            <p className="text-brand-espresso/80 text-sm">يومياً من ٩ صباحاً إلى ١١ مساءً</p>
           </div>
-        </div>
-
-        <div className="bg-brand-cream rounded-xl p-5 text-center">
-          <p className="text-sm text-brand-espresso/70">
-            للأسئلة المتعلقة بطلبك، المرجو ذكر رقم الطلب أو اسمك الكامل حتى نقدر نساعدك بسرعة.
-          </p>
         </div>
       </div>
     </div>

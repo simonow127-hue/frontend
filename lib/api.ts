@@ -1,5 +1,16 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:8000"
+    : "https://api.riads.shop");
+
 const REQUEST_TIMEOUT_MS = 20_000;
+
+const CONNECTION_ERROR_AR =
+  "تعذر إتمام الطلب حالياً. المرجو المحاولة بعد قليل أو التواصل معنا عبر واتساب.";
+
+const TIMEOUT_ERROR_AR =
+  "الخادم ما جاوبش في الوقت المحدد. المرجو المحاولة مجدداً بعد قليل.";
 
 async function apiFetch(path: string, options: RequestInit = {}): Promise<Response> {
   const controller = new AbortController();
@@ -11,21 +22,9 @@ async function apiFetch(path: string, options: RequestInit = {}): Promise<Respon
     });
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {
-      throw {
-        status: 0,
-        detail: {
-          message_ar:
-            "الخادم ما جاوبش في الوقت المحدد. تأكد أن الـ API خدام (منفذ 8000) وقاعدة البيانات PostgreSQL مشغّلة.",
-        },
-      };
+      throw { status: 0, detail: { message_ar: TIMEOUT_ERROR_AR } };
     }
-    throw {
-      status: 0,
-      detail: {
-        message_ar:
-          "تعذر الاتصال بالخادم. شغّل الـ backend: cd backend ثم fastapi run app/main.py --port 8000",
-      },
-    };
+    throw { status: 0, detail: { message_ar: CONNECTION_ERROR_AR } };
   } finally {
     clearTimeout(timeoutId);
   }

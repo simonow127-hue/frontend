@@ -10,73 +10,110 @@
 
 html {
   direction: rtl;
-  lang: ar-MA;
+  lang: ar-SA;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #FFF9F2;
-  color: #2D201A;
+  background-color: #FAFAF8;
+  color: #1A1A1A;
   font-family: var(--font-tajawal), var(--font-noto-kufi), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Arabic heading styles */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-noto-kufi), var(--font-tajawal), sans-serif;
   line-height: 1.4;
 }
 
-/* LTR spans for brand name */
 .ltr-text {
   direction: ltr;
   display: inline-block;
 }
 
-/* Offer card selected state */
 .offer-card-selected {
-  border-color: #9A4E36;
-  box-shadow: 0 0 0 2px rgba(154, 78, 54, 0.2);
+  border-color: #C9A45C;
+  box-shadow: 0 0 0 2px rgba(201, 164, 92, 0.25);
 }
 
-/* Smooth drawer transition */
 .drawer-overlay {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
+}
+
+/* Hide scrollbar for reviews carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #F7EFE6;
+  background: #F5F3EF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E7D8CC;
-  border-radius: 3px;
+  background: #E8DCC8;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9A4E36;
+  background: #C9A45C;
 }
 
-/* Focus visible styles */
 *:focus-visible {
-  outline: 2px solid #9A4E36;
+  outline: 2px solid #C9A45C;
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
-/* Star rating */
 .stars {
   color: #C9A45C;
 }
 
-/* Countdown bar */
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @keyframes shrink-width {
   from { width: 100%; }
-  to { width: 0%; }
+  to   { width: 0%; }
 }
-.countdown-bar {
-  animation: shrink-width linear forwards;
+
+.animate-fade-in       { animation: fade-in 0.2s ease-out both; }
+.animate-slide-in-left { animation: slide-in-right 0.3s ease-out both; }
+.animate-scale-in      { animation: scale-in 0.2s ease-out both; }
+.animate-marquee       { animation: marquee 30s linear infinite; }
+.countdown-bar         { animation: shrink-width linear forwards; }
+
+/* Gold shimmer on key CTA buttons */
+@keyframes gold-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-shimmer {
+  background-size: 200% auto;
+  animation: gold-shimmer 3s linear infinite;
 }

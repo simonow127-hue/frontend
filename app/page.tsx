@@ -1,284 +1,450 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PRODUCTS, OFFERS } from "@/lib/products";
+import Image from "next/image";
+import {
+  ArrowLeft, Shield, Truck, RotateCcw, CreditCard,
+  Star, Zap, Package, CheckCircle2, ChevronLeft,
+} from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
-import TrustBadges from "@/components/ui/TrustBadges";
 import Button from "@/components/ui/Button";
-import ProductImage from "@/components/ui/ProductImage";
-import BrandingSlider from "@/components/home/BrandingSlider";
-import { STORE_IMAGES } from "@/lib/store-images";
-import { whatsappUrl } from "@/lib/whatsapp";
-import { ChevronDown, ShieldCheck, Sparkles, Droplets, Wind, MessageSquare } from "lucide-react";
+import { getLatestProducts, PRODUCTS } from "@/lib/products";
+import { CATEGORIES } from "@/lib/categories";
+import { formatPrice } from "@/lib/currency";
 
 export const metadata: Metadata = {
-  title: "رياض | riads — عناية موثوقة للجميع",
+  title: "رياض ستور | Riads — تسوق فاخر بثقة وتوصيل سريع",
   description:
-    "رياض — منتجات عناية مختارة للرجل والمرأة. شعر، بشرة، وانتعاش يومي. الدفع عند الاستلام داخل المغرب.",
+    "رياض ستور — منتجات مختارة بجودة عالية للسوق السعودي. دفع عند الاستلام، توصيل سريع لكل المملكة، واسترجاع مضمون.",
 };
 
+const whyUs = [
+  {
+    icon: CreditCard,
+    title: "دفع عند الاستلام",
+    text: "ادفع لما يوصلك الطلب — بدون بطاقة ولا تحويل مسبق.",
+    color: "from-amber-500/10 to-yellow-500/5",
+    iconBg: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    icon: Truck,
+    title: "توصيل لكل المملكة",
+    text: "نوصل الرياض، جدة، الدمام وكل مناطق السعودية في ٢–٤ أيام.",
+    color: "from-blue-500/10 to-sky-500/5",
+    iconBg: "bg-blue-500/10 text-blue-600",
+  },
+  {
+    icon: Shield,
+    title: "جودة مضمونة ١٠٠٪",
+    text: "نختار كل منتج بعناية — وإذا ما عجبك نرجعلك فلوسك.",
+    color: "from-green-500/10 to-emerald-500/5",
+    iconBg: "bg-green-500/10 text-green-600",
+  },
+  {
+    icon: RotateCcw,
+    title: "استرجاع خلال ٧ أيام",
+    text: "سياسة استرجاع واضحة وبدون تعقيد — راحتك أولاً.",
+    color: "from-purple-500/10 to-violet-500/5",
+    iconBg: "bg-purple-500/10 text-purple-600",
+  },
+];
+
+const stats = [
+  { num: "+٣٠٠٠", label: "طلب مكتمل" },
+  { num: "٤.٨★", label: "متوسط التقييم" },
+  { num: "٢–٤", label: "أيام توصيل" },
+  { num: "٩٧٪", label: "رضا العملاء" },
+];
+
+const faqs = [
+  {
+    q: "كيف أطلب؟",
+    a: "اختار المنتج، حدد الكمية، عبّي اسمك ورقم جوالك، ونوصلك مع الدفع عند الاستلام. ما تحتاج حساب ولا بطاقة.",
+  },
+  {
+    q: "كم وقت التوصيل؟",
+    a: "من ٢ إلى ٤ أيام عمل على أغلب مناطق المملكة. الرياض وجدة والدمام عادة أسرع.",
+  },
+  {
+    q: "هل الدفع عند الاستلام متاح؟",
+    a: "نعم ١٠٠٪ — ادفع للمندوب لما يوصلك الطلب بالباب، بدون أي تحويل مسبق.",
+  },
+  {
+    q: "كيف أرجع المنتج؟",
+    a: "تواصل معنا خلال ٧ أيام من الاستلام عبر الواتساب — نرتب لك الإرجاع بدون تعقيد.",
+  },
+  {
+    q: "هل المنتجات أصلية؟",
+    a: "نعم، كل المنتجات مختارة بعناية ونضمن جودتها. إذا ما عجبك المنتج نرجعلك فلوسك.",
+  },
+];
+
+const heroProducts = [
+  { id: "neck-fan", src: "/images/products/neck-fan.jpg", label: "مروحة الرقبة" },
+  { id: "perfume-intense", src: "/images/products/perfume-intense.jpg", label: "عطر قصة" },
+  { id: "desk-lamp", src: "/images/products/desk-lamp.jpg", label: "مصباح ذكي" },
+  { id: "car-phone-holder", src: "/images/products/car-phone-holder.jpg", label: "حامل الجوال" },
+];
+
+const minPrice = Math.min(...PRODUCTS.map((p) => p.offers[0].price));
+const spotlightProduct = PRODUCTS.find((p) => p.id === "perfume-intense")!;
 
 export default function HomePage() {
+  const latest = getLatestProducts(8);
+
   return (
-    <div>
-      <BrandingSlider />
+    <div className="flex flex-col">
 
-      {/* Hero */}
-      <section className="bg-brand-cream min-h-[85vh] flex items-center py-16 md:py-20">
-        <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          {/* Text */}
-          <div className="flex flex-col gap-6 text-right">
-            <div className="inline-flex items-center gap-2 self-end md:self-start">
-              <span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse" />
-              <span className="text-xs text-brand-primary font-bold">عناية مغربية موثوقة</span>
-            </div>
-            <h1 className="font-arabic font-bold text-brand-espresso text-4xl md:text-5xl leading-tight">
-              روتين عناية
-              <br />
-              <span className="text-brand-primary">مختار بعناية</span>
-              <br />
-              للجميع
-            </h1>
-            <p className="text-brand-espresso/70 text-lg leading-relaxed">
-              رياض كيجمع عناية مركزة، اختيار موثوق، وتجربة طلب سهلة حتى لباب الدار. شعر، بشرة، وانتعاش يومي — للرجل والمرأة، من المغرب.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/collections">
-                <Button size="lg">اكتشف/ي الروتين ديالك</Button>
-              </Link>
-              <Link href="/collections">
-                <Button variant="secondary" size="lg">شاهد/ي المنتجات</Button>
-              </Link>
-            </div>
-            <div className="flex items-center gap-3">
-              <ShieldCheck size={18} className="text-status-success shrink-0" />
-              <span className="text-sm text-brand-espresso/70">الدفع عند الاستلام — تدفع فقط عند الاستلام</span>
-            </div>
-          </div>
+      {/* ── HERO ── */}
+      <section className="relative bg-brand-primary text-brand-ivory overflow-hidden min-h-[85vh] flex items-center">
+        {/* Background texture */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#C9A45C18_0%,transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,#ffffff08_0%,transparent_50%)]" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
 
-          {/* Hero visual */}
-          <div className="relative flex flex-col gap-3">
-            <ProductImage
-              src={STORE_IMAGES.heroTrio}
-              alt="روتين رياض — جدر، نور، نقاء"
-              aspect="wide"
-              className="shadow-xl"
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="grid grid-cols-3 gap-3">
-              {PRODUCTS.map((p) => (
-                <ProductImage
-                  key={p.id}
-                  src={p.imagePlaceholder}
-                  alt={p.arabicName}
-                  aspect="square"
-                  className="!rounded-xl"
-                  sizes="33vw"
-                />
+        <div className="relative max-w-content mx-auto px-4 py-16 md:py-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Text side */}
+          <div className="flex flex-col gap-7 text-right order-2 md:order-1">
+            <span className="inline-flex items-center gap-2 self-end bg-brand-gold/15 border border-brand-gold/25 text-brand-champagne text-xs font-bold px-4 py-2 rounded-full">
+              <Zap size={11} className="text-brand-gold" />
+              منتجات مختارة لحياة أفضل
+            </span>
+
+            <div className="flex flex-col gap-3">
+              <h1 className="font-arabic font-bold text-4xl md:text-6xl leading-[1.25] tracking-tight">
+                تسوّق بثقة
+                <br />
+                <span className="text-brand-gold">جودة تليق فيك</span>
+              </h1>
+              <p className="text-brand-champagne/80 text-lg md:text-xl leading-relaxed max-w-xl">
+                رياض ستور يجمع لك منتجات مختارة بعناية — من السيارة للبيت والأناقة.
+                توصيل سريع لكل المملكة والدفع عند الاستلام.
+              </p>
+            </div>
+
+            {/* Mini trust row */}
+            <div className="flex flex-wrap gap-4 justify-end text-sm text-brand-champagne/70">
+              {["دفع عند الاستلام", "توصيل سريع", "استرجاع مضمون"].map((t) => (
+                <span key={t} className="flex items-center gap-1.5">
+                  <CheckCircle2 size={14} className="text-brand-gold" />
+                  {t}
+                </span>
               ))}
             </div>
-            <div className="absolute -bottom-4 right-4 bg-brand-ivory rounded-xl border border-brand-border shadow-lg p-3 flex items-center gap-2">
-              <ShieldCheck size={18} className="text-status-success shrink-0" />
-              <span className="text-xs font-bold text-brand-espresso">دفع عند الاستلام — بلا مخاطرة</span>
+
+            <div className="flex flex-wrap gap-3 justify-end">
+              <Link href="/collections">
+                <Button size="lg" className="bg-brand-gold text-brand-primary hover:bg-brand-champagne font-bold px-8">
+                  تسوق الحين
+                </Button>
+              </Link>
+              <Link href="/about">
+                <Button variant="secondary" size="lg" className="border-brand-champagne/30 bg-transparent text-brand-ivory hover:bg-white/10">
+                  تعرف علينا
+                </Button>
+              </Link>
             </div>
+
+            <p className="text-xs text-brand-champagne/40">أسعار تبدأ من {formatPrice(minPrice)}</p>
           </div>
-        </div>
-      </section>
 
-      {/* Trust strip */}
-      <section className="border-y border-brand-border py-8 bg-brand-ivory">
-        <div className="max-w-content mx-auto px-4">
-          <TrustBadges />
-        </div>
-      </section>
-
-      {/* Problem/solution */}
-      <section className="max-w-content mx-auto px-4 py-16">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-4">
-            روتين العناية مش كلها متساوية
-          </h2>
-          <p className="text-brand-espresso/70 text-base leading-loose">
-            كثير من المنتجات متواجدة بالسوق — لكن رياض كيختار بعناية ما يناسب الروتين المغربي والمناخ المحلي. مش منتج عشوائي، راهو روتين متكامل.
-          </p>
-        </div>
-      </section>
-
-      {/* Three-product system */}
-      <section className="bg-brand-cream py-16">
-        <div className="max-w-content mx-auto px-4">
-          <h2 className="font-arabic font-bold text-3xl text-brand-espresso text-center mb-3">
-            ثلاثة منتجات، روتين واحد متكامل
-          </h2>
-          <p className="text-center text-brand-espresso/60 mb-10">
-            شعر · بشرة · انتعاش يومي — كمل/ي الروتين ديالك
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PRODUCTS.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          {/* Product mosaic */}
+          <div className="order-1 md:order-2 grid grid-cols-2 gap-3">
+            {heroProducts.map((p, i) => (
+              <Link
+                key={p.id}
+                href={`/products/${p.id}`}
+                className={`group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-all duration-300 ${i === 0 ? "row-span-1" : ""}`}
+              >
+                <div className="relative aspect-square">
+                  <Image
+                    src={p.src}
+                    alt={p.label}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    priority={i < 2}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute bottom-2 right-2 text-xs text-white font-bold bg-black/40 px-2 py-1 rounded-lg backdrop-blur-sm">
+                    {p.label}
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bundle education */}
-      <section className="max-w-content mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+      {/* ── STATS STRIP ── */}
+      <section className="bg-brand-gold text-brand-primary py-5">
+        <div className="max-w-content mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col items-center text-center">
+                <span className="font-arabic font-black text-xl md:text-2xl">{s.num}</span>
+                <span className="text-xs font-medium opacity-80 mt-0.5">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── LATEST PRODUCTS ── */}
+      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+        <div className="flex items-center justify-between mb-10">
+          <Link
+            href="/collections"
+            className="text-sm text-brand-gold hover:text-brand-primary flex items-center gap-1 transition-colors font-medium"
+          >
+            عرض الكل
+            <ChevronLeft size={16} />
+          </Link>
           <div className="text-right">
-            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-4">
-              ليش الباقة 3 عبوات أفضل اختيار؟
+            <div className="flex items-center gap-2 justify-end mb-1">
+              <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+              <span className="text-xs font-bold text-brand-gold uppercase tracking-widest">New Arrivals</span>
+            </div>
+            <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso">
+              أحدث المنتجات
             </h2>
-            <p className="text-brand-espresso/70 leading-loose mb-6">
-              الاستمرارية هي اللي كتفرق. الباك 3 قطع كيضمن ليك روتين بلا انقطاع — أحسن اختيار للاستعمال اليومي.
+            <p className="text-brand-espresso/60 text-sm mt-1">وصل حديثاً — كميات محدودة</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {latest.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* ── SPOTLIGHT / FEATURED PRODUCT ── */}
+      <section className="bg-brand-primary text-brand-ivory overflow-hidden">
+        <div className="max-w-content mx-auto px-4 py-14 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="relative order-2 md:order-1">
+            <div className="relative aspect-square max-w-sm mx-auto rounded-3xl overflow-hidden border border-white/10">
+              <Image
+                src={spotlightProduct.imagePlaceholder}
+                alt={spotlightProduct.arabicName}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 40vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+            </div>
+            <span className="absolute top-4 right-4 bg-brand-gold text-brand-primary text-xs font-black px-3 py-1.5 rounded-full">
+              الأكثر طلباً ⭐
+            </span>
+          </div>
+          <div className="text-right flex flex-col gap-5 order-1 md:order-2">
+            <span className="text-brand-gold text-xs font-bold tracking-widest uppercase">منتج مميز</span>
+            <h2 className="font-arabic font-bold text-3xl md:text-4xl leading-snug">
+              {spotlightProduct.shortHeading}
+            </h2>
+            <p className="text-brand-champagne/80 text-base leading-relaxed">
+              {spotlightProduct.subheading}
             </p>
-            <ul className="flex flex-col gap-3">
-              {[
-                "روتين مستمر بلا انقطاع",
-                "روتين كامل بلا انقطاع",
-                "أكثر اختياراً هاد الأسبوع",
-                "الدفع عند الاستلام — بلا مخاطرة",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <span className="w-5 h-5 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center text-xs shrink-0">✓</span>
-                  <span className="text-sm text-brand-espresso/80">{item}</span>
+            <ul className="flex flex-col gap-2">
+              {spotlightProduct.painBullets.map((b) => (
+                <li key={b} className="flex items-start gap-2 justify-end text-sm text-brand-champagne/70">
+                  <span>{b}</span>
+                  <CheckCircle2 size={15} className="text-brand-gold mt-0.5 shrink-0" />
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="bg-brand-cream rounded-2xl p-6 text-right border border-brand-border">
-            <div className="text-center mb-4">
-              <span className="inline-block bg-brand-primary text-brand-ivory text-xs font-bold px-3 py-1 rounded-full">
-                الأكثر طلباً
+            <div className="flex items-center gap-4 justify-end pt-2">
+              <span className="font-bold text-2xl text-brand-gold">
+                {formatPrice(spotlightProduct.offers[0].price)}
               </span>
-            </div>
-            <div className="flex flex-col gap-3">
-              {OFFERS.map((o) => (
-                <div
-                  key={o.pieces}
-                  className={`flex justify-between items-center p-3 rounded-xl border ${
-                    o.pieces === 3
-                      ? "border-brand-primary bg-brand-primary/5 font-bold"
-                      : "border-brand-border bg-brand-ivory"
-                  }`}
-                >
-                  <div className="text-right">
-                    <span
-                      className={`font-bold ${
-                        o.pieces === 3 ? "text-brand-primary text-lg" : "text-brand-espresso"
-                      }`}
-                    >
-                      {o.price} درهم
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-brand-espresso text-sm">{o.label}</span>
-                    <span className="text-xs text-brand-espresso/50 block">{o.sublabel}</span>
-                  </div>
-                </div>
-              ))}
+              <Link href={`/products/${spotlightProduct.slug}`}>
+                <Button size="lg" className="bg-brand-gold text-brand-primary hover:bg-brand-champagne font-bold">
+                  اطلب الحين
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Social proof — honest, no fake reviews */}
-      <section className="bg-brand-cream py-16">
+      {/* ── SHOP BY CATEGORY ── */}
+      <section className="bg-brand-cream py-16 md:py-20">
         <div className="max-w-content mx-auto px-4">
-          <h2 className="font-arabic font-bold text-3xl text-brand-espresso text-center mb-4">
-            آراء الزبائن
-          </h2>
-          <p className="text-center text-brand-espresso/50 text-sm mb-10">
-            لا نعرض تقييمات مختلقة — كل رأي حقيقي من زبون حقيقي
-          </p>
-          <div className="max-w-xl mx-auto bg-brand-ivory rounded-2xl border border-brand-border p-10 text-center flex flex-col items-center gap-4">
-            <MessageSquare size={40} className="text-brand-primary/30" />
-            <h3 className="font-arabic font-bold text-xl text-brand-espresso">
-              شارك معنا تجربتك
-            </h3>
-            <p className="text-brand-espresso/60 text-sm leading-relaxed max-w-sm">
-              اطلب المنتج، جربه بصدق، وشارك رأيك. تقييماتك الحقيقية هي أهم شيء لنا وللزبائن القادمين.
-            </p>
-            <a
-              href={whatsappUrl("السلام عليكم، بغيت نشارك رأيي في منتجات رياض 🌿")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-5 py-2.5 rounded-full hover:bg-[#1ebe5d] transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.847L.057 23.126a.75.75 0 0 0 .921.916l5.355-1.453A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.92 0-3.722-.5-5.285-1.376l-.378-.214-3.927 1.066 1.088-3.824-.234-.393A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-              </svg>
-              شارك رأيك عبر واتساب
-            </a>
+          <div className="text-center mb-10">
+            <div className="flex items-center gap-2 justify-center mb-1">
+              <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+              <span className="text-xs font-bold text-brand-gold uppercase tracking-widest">Collections</span>
+              <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+            </div>
+            <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso mt-1">
+              تسوق حسب التصنيف
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {CATEGORIES.map((cat, i) => (
+              <Link
+                key={cat.id}
+                href={`/collections?category=${cat.slug}`}
+                className="group relative bg-brand-ivory rounded-2xl border border-brand-border overflow-hidden hover:shadow-xl hover:border-brand-gold/50 transition-all duration-300"
+              >
+                <div className="relative aspect-[4/3] bg-brand-cream overflow-hidden">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                </div>
+                <div className="p-4 text-center">
+                  <h3 className="font-arabic font-bold text-brand-espresso text-base">{cat.name}</h3>
+                  <p className="text-xs text-brand-espresso/60 mt-1 line-clamp-2">{cat.description}</p>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* How COD works */}
-      <section className="max-w-content mx-auto px-4 py-16">
-        <h2 className="font-arabic font-bold text-3xl text-brand-espresso text-center mb-10">
-          كيف تطلب وتدفع عند الاستلام؟
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[
-            { step: "1", icon: Sparkles, text: "اختر/ي العرض اللي يناسبك" },
-            { step: "2", icon: ShieldCheck, text: "أدخل/ي اسمك ورقم هاتفك فقط" },
-            { step: "3", icon: Wind, text: "نتصل بك لتأكيد الطلب" },
-            { step: "4", icon: Droplets, text: "تدفع فقط عند استلام الطلب" },
-          ].map((s) => (
-            <div key={s.step} className="flex flex-col items-center gap-3 text-center">
-              <div className="w-14 h-14 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-xl">
-                {s.step}
+      {/* ── WHY CHOOSE US ── */}
+      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+        <div className="text-center mb-12">
+          <div className="flex items-center gap-2 justify-center mb-1">
+            <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+            <span className="text-xs font-bold text-brand-gold uppercase tracking-widest">Our Promise</span>
+            <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+          </div>
+          <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso mt-1">
+            ليش تختار رياض ستور؟
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {whyUs.map((item) => (
+            <div
+              key={item.title}
+              className={`bg-gradient-to-br ${item.color} rounded-2xl border border-brand-border p-6 text-right flex flex-col gap-4 hover:shadow-md transition-shadow`}
+            >
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${item.iconBg}`}>
+                <item.icon size={22} />
               </div>
-              <s.icon size={24} className="text-brand-primary/60" />
-              <p className="text-sm text-brand-espresso/80">{s.text}</p>
+              <div>
+                <h3 className="font-arabic font-bold text-brand-espresso text-base mb-1">{item.title}</h3>
+                <p className="text-sm text-brand-espresso/70 leading-relaxed">{item.text}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="bg-brand-cream py-16">
-        <div className="max-w-content mx-auto px-4">
-          <h2 className="font-arabic font-bold text-3xl text-brand-espresso text-center mb-10">
-            الأسئلة الشائعة
-          </h2>
-          <div className="max-w-2xl mx-auto bg-brand-ivory rounded-2xl border border-brand-border divide-y divide-brand-border">
-            {[
-              { q: "واش بصح كتوصلو؟", a: "نعم، كنوصلو لجميع مدن المغرب. الطلب كيتتبع ويتأكد بالهاتف قبل الإرسال." },
-              { q: "واش نقدر نخلص حتى توصلني؟", a: "بالطبع! الدفع عند الاستلام — خلص/ي فقط ملي توصلك الطلبية بابك." },
-              { q: "كم من الوقت للتوصيل؟", a: "عادة 2-5 أيام عمل حسب المنطقة." },
-              { q: "واش عندكم رقم/واتساب؟", a: "نعم، فريق رياض متاح لتأكيد الطلبات. غادي يتاصلو بك بعد الطلب." },
-              { q: "واش مناسب لكل أنواع البشرة والشعر؟", a: "منتجاتنا مصممة للاستعمال اليومي. ننصح بقراءة إرشادات الاستعمال لكل منتج." },
-            ].map((faq) => (
-              <div key={faq.q} className="px-6 py-4">
-                <details>
-                  <summary className="font-bold text-brand-espresso cursor-pointer flex justify-between items-center list-none">
-                    <ChevronDown size={18} className="text-brand-primary" />
-                    <span>{faq.q}</span>
-                  </summary>
-                  <p className="text-sm text-brand-espresso/70 mt-3 leading-relaxed text-right">{faq.a}</p>
-                </details>
+      {/* ── REVIEWS MARQUEE ── */}
+      <section className="bg-brand-cream py-12 overflow-hidden">
+        <div className="text-center mb-8">
+          <div className="flex items-center gap-1 justify-center mb-2">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={16} className="text-brand-gold fill-brand-gold" />
+            ))}
+          </div>
+          <p className="font-arabic font-bold text-brand-espresso text-lg">ما يقوله عملاؤنا</p>
+          <p className="text-sm text-brand-espresso/60 mt-1">+٣٠٠٠ طلب مكتمل في المملكة</p>
+        </div>
+        <div className="flex gap-4 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide max-w-content mx-auto">
+          {PRODUCTS.flatMap((p) => p.reviews).slice(0, 9).map((rev, i) => (
+            <div
+              key={i}
+              className="snap-start shrink-0 w-72 bg-brand-ivory rounded-2xl border border-brand-border p-5 flex flex-col gap-3 text-right"
+            >
+              <div className="flex gap-0.5">
+                {[...Array(rev.rating)].map((_, s) => (
+                  <Star key={s} size={13} className="text-brand-gold fill-brand-gold" />
+                ))}
               </div>
+              <p className="text-sm text-brand-espresso/80 leading-relaxed line-clamp-3">"{rev.text}"</p>
+              <div className="flex items-center gap-2 justify-end border-t border-brand-border pt-3">
+                <div className="text-right">
+                  <p className="text-xs font-bold text-brand-espresso">{rev.name}</p>
+                  <p className="text-[10px] text-brand-espresso/50">{rev.city}</p>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-bold text-xs">
+                  {rev.name[0]}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="py-16 md:py-20">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <div className="flex items-center gap-2 justify-center mb-1">
+              <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+              <span className="text-xs font-bold text-brand-gold uppercase tracking-widest">FAQ</span>
+              <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
+            </div>
+            <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso mt-1">
+              الأسئلة الشائعة
+            </h2>
+          </div>
+          <div className="flex flex-col gap-3">
+            {faqs.map((f, i) => (
+              <details
+                key={f.q}
+                className="bg-brand-ivory rounded-2xl border border-brand-border group overflow-hidden"
+                open={i === 0}
+              >
+                <summary className="font-bold text-brand-espresso cursor-pointer list-none flex justify-between items-center p-5 gap-4">
+                  <span className="text-brand-gold text-xl leading-none group-open:rotate-45 transition-transform duration-200 shrink-0">+</span>
+                  <span className="text-right text-sm md:text-base">{f.q}</span>
+                </summary>
+                <div className="px-5 pb-5 text-right">
+                  <p className="text-brand-espresso/70 text-sm leading-relaxed border-t border-brand-border pt-4">
+                    {f.a}
+                  </p>
+                </div>
+              </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="bg-brand-primary py-16">
-        <div className="max-w-content mx-auto px-4 text-center">
-          <h2 className="font-arabic font-bold text-3xl text-brand-ivory mb-4">
-            اختر/ي الروتين اللي مناسبك اليوم
+      {/* ── FINAL CTA ── */}
+      <section className="bg-brand-primary text-brand-ivory relative overflow-hidden py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#C9A45C20_0%,transparent_60%)]" />
+        <div className="relative max-w-content mx-auto px-4 text-center flex flex-col items-center gap-6">
+          <div className="flex items-center gap-2 justify-center">
+            <span className="w-8 h-0.5 bg-brand-gold/50 rounded-full" />
+            <span className="text-xs font-bold text-brand-gold uppercase tracking-widest">ابدأ التسوق</span>
+            <span className="w-8 h-0.5 bg-brand-gold/50 rounded-full" />
+          </div>
+          <h2 className="font-arabic font-black text-3xl md:text-4xl">
+            جاهز تطلب؟
           </h2>
-          <p className="text-brand-ivory/80 mb-8">
-            شعر، بشرة، وانتعاش يومي — للرجل والمرأة. الدفع عند الاستلام، بلا مخاطرة.
+          <p className="text-brand-champagne/75 max-w-md text-lg leading-relaxed">
+            اختار منتجك، عبّي اسمك ورقمك، ونوصلك لباب بيتك —
+            <br />
+            <strong className="text-brand-champagne">الدفع عند الاستلام.</strong>
           </p>
-          <Link href="/collections">
-            <Button variant="secondary" size="lg" className="border-brand-ivory text-brand-primary hover:bg-brand-ivory">
-              اكتشف/ي المنتجات
-            </Button>
-          </Link>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/collections">
+              <Button size="lg" className="bg-brand-gold text-brand-primary hover:bg-brand-champagne font-bold px-10 text-base">
+                تسوق الحين
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="secondary" size="lg" className="border-brand-champagne/30 bg-transparent text-brand-ivory hover:bg-white/10">
+                تواصل معنا
+              </Button>
+            </Link>
+          </div>
+          {/* Payment methods */}
+          <div className="flex items-center gap-3 mt-4 opacity-60">
+            {["الدفع نقداً", "Visa", "Mada", "STC Pay"].map((m) => (
+              <span key={m} className="text-[11px] border border-brand-cream/20 rounded-lg px-3 py-1.5 text-brand-cream/80">
+                {m}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
     </div>

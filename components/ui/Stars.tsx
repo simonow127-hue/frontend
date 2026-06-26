@@ -24,7 +24,7 @@ export default function Stars({ rating, count, size = "md" }: StarsProps) {
       </span>
       {count !== undefined && (
         <span className={`text-brand-espresso/60 ${size === "sm" ? "text-xs" : "text-sm"}`}>
-          ({count.toLocaleString("ar-MA")} تقييم)
+          ({count.toLocaleString("ar-SA")} تقييم)
         </span>
       )}
     </div>

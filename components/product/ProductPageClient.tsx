@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Product, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
+import { formatPrice } from "@/lib/currency";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
@@ -12,7 +13,6 @@ import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
-import { clsx } from "clsx";
 
 interface FAQItemProps {
   q: string;
@@ -60,7 +60,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
   }, []);
 
   const handleAddToCart = () => {
-    const offer = getOfferByPieces(selectedPieces);
+    const offer = getOfferByPieces(product, selectedPieces);
     addItem(product, offer);
     const eventId = generateFreshEventId("addToCart");
     trackAddToCart({ id: product.id, name: product.arabicName, price: offer.price }, eventId);
@@ -68,7 +68,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
     openDrawer();
   };
 
-  const selectedOffer = getOfferByPieces(selectedPieces);
+  const selectedOffer = getOfferByPieces(product, selectedPieces);
 
   return (
     <div className="min-h-screen">
@@ -81,13 +81,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
               src={product.imagePlaceholder}
               alt={product.arabicName}
               aspect="square"
-              className={clsx(
-                "shadow-lg ring-1 ring-brand-border/60",
-                product.id === "jadr" && "bg-[#F5EDE4]"
-              )}
-              imageClassName={
-                product.id === "jadr" ? "!object-contain !p-8 md:!p-12" : undefined
-              }
+              className="shadow-lg ring-1 ring-brand-border/60"
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
             />
@@ -114,7 +108,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
             {/* Offer selector */}
             <div ref={offerRef}>
-              <h2 className="font-bold text-brand-espresso mb-3">اختر/ي العرض</h2>
+              <h2 className="font-bold text-brand-espresso mb-3">اختر العرض</h2>
               <OfferSelector
                 offers={product.offers}
                 selected={selectedPieces}
@@ -124,13 +118,13 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
             {/* CTA */}
             <Button onClick={handleAddToCart} fullWidth size="lg" className="text-lg">
-              أضف/ي للسلة — {selectedOffer.price} درهم
+              أضف للسلة — {formatPrice(selectedOffer.price)}
             </Button>
 
             {/* Trust */}
             <div className="flex items-center gap-2 justify-center">
               <ShieldCheck size={16} className="text-status-success" />
-              <span className="text-sm text-brand-espresso/70">الدفع عند الاستلام · توصيل داخل المغرب</span>
+              <span className="text-sm text-brand-espresso/70">الدفع عند الاستلام · توصيل لكل المملكة</span>
             </div>
           </div>
         </div>
@@ -148,15 +142,15 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
             <ProductImage
-              src={product.painImage ?? product.imagePlaceholder}
-              alt={`${product.shortHeading.split(":")[0]} — العلامة التجارية`}
+              src={product.imagePlaceholder}
+              alt={`${product.shortHeading.split(":")[0]} — المنتج`}
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              واش هاد الشي مألوف عندك؟
+              تعاني من نفس المشكلة؟
             </h2>
             <ul className="flex flex-col gap-4 mb-6">
               {product.painBullets.map((bullet, idx) => (
@@ -167,7 +161,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
               ))}
             </ul>
             <p className="text-brand-primary font-bold text-xl leading-relaxed">
-              {product.shortHeading} هو الحل اللي صممناه خصيصاً لهاد المشاكل.
+              {product.shortHeading} هو الحل اللي صممناه خصيصاً لهالمشاكل.
             </p>
           </div>
         </div>
@@ -178,10 +172,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
             <span className="inline-block bg-brand-primary/10 text-brand-primary text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-              مثبت علمياً
+              جودة مضمونة
             </span>
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              كيف يخدم {product.shortHeading.split(":")[0]}؟ (السر العلمي)
+              كيف يشتغل {product.shortHeading.split(":")[0]}؟
             </h2>
             <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
               {product.mechanism}
@@ -215,10 +209,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
           </div>
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              مكونات طبيعية بقوة علمية
+              المميزات اللي تفرق
             </h2>
             <p className="text-brand-espresso/70 mb-8 text-lg">
-              لا نساوم على الجودة. اخترنا أفضل المكونات لضمان الفعالية والأمان.
+              اخترنا لك أفضل المواصفات عشان تجربة استخدام مريحة ونتيجة تليق فيك.
             </p>
             <div className="flex flex-col gap-4">
               {product.ingredients.map((ing) => (
@@ -279,7 +273,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
             اطلب المنتج، جربه، وشارك رأيك الحقيقي عبر واتساب.
           </p>
           <a
-            href={whatsappUrl(`السلام عليكم، بغيت نشارك رأيي في ${product.shortHeading.split(":")[0]} 🌿`)}
+            href={whatsappUrl(`السلام عليكم، أبغى أشارك رأيي في ${product.shortHeading.split(":")[0]}`)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-[#1ebe5d] transition-colors"
@@ -297,7 +291,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-6">
-            اختر/ي عرضك الآن
+            اختر عرضك الحين
           </h2>
           <div className="max-w-md mx-auto flex flex-col gap-4">
             <OfferSelector
@@ -306,10 +300,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
               onChange={setSelectedPieces}
             />
             <Button onClick={handleAddToCart} fullWidth size="lg">
-              أضف/ي للسلة — {selectedOffer.price} درهم
+              أضف للسلة — {formatPrice(selectedOffer.price)}
             </Button>
             <p className="text-center text-xs text-brand-espresso/50">
-              الدفع عند الاستلام · تأكيد الطلب بالهاتف · توصيل داخل المغرب
+              الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
             </p>
           </div>
         </div>
@@ -319,10 +313,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {crossSells.length > 0 && (
         <section className="max-w-content mx-auto px-4 py-12">
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-2">
-            كمل/ي الروتين ديالك
+            قد يعجبك كمان
           </h2>
           <p className="text-center text-brand-espresso/60 mb-8">
-            شعر، بشرة، وانتعاش يومي — كل شي من رياض
+            منتجات مختارة تكمل طلبك — من رياض ستور
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {crossSells.map((p) => (
@@ -352,10 +346,10 @@ export default function ProductPageClient({ product }: { product: Product }) {
           <div className="max-w-content mx-auto flex items-center justify-between gap-4">
             <div className="text-right">
               <p className="font-bold text-brand-espresso text-sm">{product.shortHeading.split(":")[0]}</p>
-              <p className="text-xs text-brand-espresso/60">{selectedOffer.price} درهم · {selectedPieces} {selectedPieces === 1 ? "قطعة" : "قطع"}</p>
+              <p className="text-xs text-brand-espresso/60">{formatPrice(selectedOffer.price)} · {selectedPieces} {selectedPieces === 1 ? "قطعة" : "قطع"}</p>
             </div>
             <Button onClick={handleAddToCart} size="md">
-              أضف/ي للسلة — {selectedOffer.price} درهم
+              أضف للسلة — {formatPrice(selectedOffer.price)}
             </Button>
           </div>
         </div>

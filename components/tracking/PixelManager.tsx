@@ -4,10 +4,15 @@ import Script from "next/script";
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
 const SNAP_PIXEL_ID = process.env.NEXT_PUBLIC_SNAP_PIXEL_ID;
+const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
+const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
 const ENABLE_META = process.env.NEXT_PUBLIC_ENABLE_META_PIXEL === "true" && Boolean(META_PIXEL_ID);
 const ENABLE_TIKTOK = process.env.NEXT_PUBLIC_ENABLE_TIKTOK_PIXEL === "true" && Boolean(TIKTOK_PIXEL_ID);
 const ENABLE_SNAP = process.env.NEXT_PUBLIC_ENABLE_SNAP_PIXEL === "true" && Boolean(SNAP_PIXEL_ID);
+const ENABLE_GOOGLE =
+  process.env.NEXT_PUBLIC_ENABLE_GOOGLE_ADS === "true" && Boolean(GA4_MEASUREMENT_ID || GOOGLE_ADS_ID);
+const GTAG_PRIMARY_ID = GA4_MEASUREMENT_ID || GOOGLE_ADS_ID;
 
 export default function PixelManager() {
   return (
@@ -69,6 +74,30 @@ export default function PixelManager() {
             `,
           }}
         />
+      )}
+
+      {/* Google Ads + GA4 */}
+      {ENABLE_GOOGLE && GTAG_PRIMARY_ID && (
+        <>
+          <Script
+            id="google-gtag-src"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_PRIMARY_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script
+            id="google-gtag"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                ${GA4_MEASUREMENT_ID ? `gtag('config', '${GA4_MEASUREMENT_ID}');` : ""}
+                ${GOOGLE_ADS_ID ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}
+              `,
+            }}
+          />
+        </>
       )}
     </>
   );

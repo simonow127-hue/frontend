@@ -10,14 +10,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          primary: "#9A4E36",
-          cream: "#F7EFE6",
-          ivory: "#FFF9F2",
-          olive: "#7A8061",
-          espresso: "#2D201A",
+          primary: "#1A1A1A",
+          cream: "#F5F3EF",
+          ivory: "#FAFAF8",
           gold: "#C9A45C",
-          rose: "#E8C8B6",
-          border: "#E7D8CC",
+          champagne: "#E8DCC8",
+          espresso: "#1A1A1A",
+          slate: "#4A4A4A",
+          border: "#E5E0D8",
+          accent: "#8B6914",
         },
         status: {
           success: "#2F7D4F",
@@ -34,13 +35,12 @@ const config: Config = {
         content: "1280px",
       },
       borderRadius: {
-        offer: "24px",
+        offer: "20px",
       },
       animation: {
         "slide-in-left": "slideInLeft 0.3s ease-out",
         "fade-in": "fadeIn 0.2s ease-out",
         "scale-in": "scaleIn 0.2s ease-out",
-        "countdown": "countdown linear forwards",
         marquee: "marquee 28s linear infinite",
       },
       keyframes: {

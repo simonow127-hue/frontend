@@ -1,93 +1,124 @@
 import Link from "next/link";
 import BrandMark from "@/components/brand/BrandMark";
+import { CATEGORIES } from "@/lib/categories";
+import { PRODUCTS } from "@/lib/products";
+import { MapPin, Phone, ShieldCheck } from "lucide-react";
+
+const paymentMethods = [
+  { label: "الدفع نقداً", abbr: "COD" },
+  { label: "فيزا", abbr: "VISA" },
+  { label: "مدى", abbr: "mada" },
+  { label: "STC Pay", abbr: "STC" },
+  { label: "Apple Pay", abbr: "⎆" },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-espresso text-brand-cream mt-16">
+    <footer className="bg-brand-primary text-brand-cream">
+      {/* Trust bar */}
+      <div className="border-b border-brand-cream/10">
+        <div className="max-w-content mx-auto px-4 py-6 flex flex-wrap justify-center gap-6 md:gap-12">
+          {[
+            { icon: ShieldCheck, text: "دفع آمن عند الاستلام" },
+            { icon: Phone, text: "دعم عبر الواتساب" },
+            { icon: MapPin, text: "توصيل لكل المملكة" },
+          ].map((item) => (
+            <div key={item.text} className="flex items-center gap-2 text-sm text-brand-cream/70">
+              <item.icon size={16} className="text-brand-gold" />
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main footer grid */}
       <div className="max-w-content mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Brand */}
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+          {/* Brand column */}
+          <div className="flex flex-col gap-4 md:col-span-1">
+            <Link href="/" className="flex items-center gap-2 w-fit">
               <BrandMark size="sm" />
               <div className="flex flex-col leading-none">
-                <span className="font-arabic font-bold text-brand-cream text-sm">رياض</span>
-                <span className="font-latin text-brand-gold text-xs ltr-text">riads.shop</span>
+                <span className="font-arabic font-black text-brand-cream text-sm">رياض ستور</span>
+                <span className="font-latin text-brand-gold text-[10px] ltr-text tracking-[0.2em]">RIADS</span>
               </div>
-            </div>
-            <p className="text-sm text-brand-cream/70 leading-relaxed">
-              رياض — عناية مغربية مختارة للرجل والمرأة. منتجات موثوقة، توصيل لباب الدار، دفع عند الاستلام.
+            </Link>
+            <p className="text-sm text-brand-cream/65 leading-relaxed">
+              متجر سعودي يجمع منتجات مختارة بجودة عالية.
+              توصيل سريع، دفع عند الاستلام، وخدمة عملاء تهمّك.
             </p>
-            <p className="text-xs text-brand-cream/50">الدفع عند الاستلام — بلا مخاطرة</p>
+            {/* Payment badges */}
+            <div className="flex flex-wrap gap-2 mt-1">
+              {paymentMethods.map((m) => (
+                <span
+                  key={m.abbr}
+                  className="text-[10px] font-bold border border-brand-cream/15 rounded-lg px-2.5 py-1.5 text-brand-cream/60 hover:border-brand-gold/40 hover:text-brand-gold transition-colors"
+                >
+                  {m.abbr}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* Products */}
+          {/* Categories */}
           <div>
-            <h4 className="font-bold text-brand-cream mb-3">منتجاتنا</h4>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <Link href="/products/jadr-hair-serum" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  سيروم جدر للشعر
-                </Link>
-              </li>
-              <li>
-                <Link href="/products/nour-skin-serum" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  سيروم نور للبشرة
-                </Link>
-              </li>
-              <li>
-                <Link href="/products/naqaa-roll-on" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  رول اون نقاء
-                </Link>
-              </li>
-              <li>
-                <Link href="/collections" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  جميع المنتجات
-                </Link>
-              </li>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">التصنيفات</h4>
+            <ul className="flex flex-col gap-2.5">
+              {CATEGORIES.map((c) => (
+                <li key={c.id}>
+                  <Link
+                    href={`/collections?category=${c.slug}`}
+                    className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors"
+                  >
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Policies */}
+          {/* Featured products */}
           <div>
-            <h4 className="font-bold text-brand-cream mb-3">المساعدة والسياسات</h4>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <Link href="/shipping" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  سياسة التوصيل
-                </Link>
-              </li>
-              <li>
-                <Link href="/refund-policy" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  سياسة الاسترجاع
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  سياسة الخصوصية
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  شروط الاستخدام
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-sm text-brand-cream/70 hover:text-brand-gold transition-colors">
-                  تواصل معنا
-                </Link>
-              </li>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">منتجات مميزة</h4>
+            <ul className="flex flex-col gap-2.5">
+              {PRODUCTS.slice(0, 5).map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={`/products/${p.slug}`}
+                    className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors line-clamp-1"
+                  >
+                    {p.shortHeading.split(":")[0].trim()}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Help links */}
+          <div>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">المساعدة</h4>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { href: "/shipping", label: "سياسة التوصيل" },
+                { href: "/refund-policy", label: "الاسترجاع والاستبدال" },
+                { href: "/privacy", label: "سياسة الخصوصية" },
+                { href: "/terms", label: "الشروط والأحكام" },
+                { href: "/contact", label: "تواصل معنا" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-brand-cream/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-brand-cream/40">
-            © {new Date().getFullYear()} رياض. جميع الحقوق محفوظة.
-          </p>
-          <p className="text-xs text-brand-cream/40">
-            معلوماتك تُستخدم فقط لتأكيد الطلب والتوصيل.
-          </p>
+        {/* Bottom bar */}
+        <div className="border-t border-brand-cream/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-brand-cream/35">
+          <p>المملكة العربية السعودية · الدفع عند الاستلام متاح في كل المناطق</p>
+          <p>© {new Date().getFullYear()} رياض ستور. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>
