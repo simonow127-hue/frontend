@@ -116,7 +116,7 @@ export default function HomePage() {
                 <span className="text-brand-gold">جودة تليق فيك</span>
               </h1>
               <p className="text-brand-champagne/80 text-lg md:text-xl leading-relaxed max-w-xl">
-                رياض ستور يجمع لك منتجات مختارة بعناية — من السيارة للبيت والأناقة.
+                <span className="text-brand-gold font-bold">رياض</span> يجمع لك منتجات مختارة بعناية — من السيارة للبيت والأناقة.
                 توصيل سريع لكل المملكة والدفع عند الاستلام.
               </p>
             </div>
