@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BrandMark from "@/components/brand/BrandMark";
+import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 import { PRODUCTS } from "@/lib/products";
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
@@ -36,14 +36,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand column */}
           <div className="flex flex-col gap-4 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 w-fit">
-              <BrandMark size="sm" />
-              <div className="flex flex-col leading-none">
-                <span className="font-arabic font-black text-lg bg-gradient-to-l from-brand-gold via-[#E8C97A] to-brand-gold bg-clip-text text-transparent">
-                  رياض
-                </span>
-              </div>
-            </Link>
+            <BrandWordmark asLink size="sm" />
             <p className="text-sm text-brand-cream/65 leading-relaxed">
               متجر سعودي يجمع منتجات مختارة بجودة عالية.
               توصيل سريع، دفع عند الاستلام، وخدمة عملاء تهمّك.

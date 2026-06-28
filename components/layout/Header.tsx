@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ShoppingBag, Menu, X, ChevronDown, Truck } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart";
-import BrandMark from "@/components/brand/BrandMark";
+import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 
 const navLinks = [
@@ -33,14 +33,7 @@ export default function Header() {
       <header className="bg-brand-ivory/97 backdrop-blur-md border-b border-brand-border shadow-sm">
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <BrandMark size="md" />
-            <div className="flex flex-col items-end leading-none">
-              <span className="font-arabic font-black text-lg tracking-tight bg-gradient-to-l from-brand-gold via-[#E8C97A] to-brand-gold bg-clip-text text-transparent">
-                رياض
-              </span>
-            </div>
-          </Link>
+          <BrandWordmark asLink size="md" />
 
           {/* Desktop nav */}
           <nav className="hidden md:flex flex-1 items-center justify-center gap-7">
