@@ -120,7 +120,7 @@ export default function CheckoutPopup() {
         aria-hidden="true"
       />
       <div
-        className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-md mx-auto bg-brand-ivory rounded-2xl shadow-2xl animate-scale-in overflow-y-auto max-h-[90vh]"
+        className="fixed inset-x-4 top-4 bottom-4 z-50 max-w-md mx-auto bg-brand-ivory rounded-2xl shadow-2xl animate-scale-in flex flex-col overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-label="إتمام الطلب"
@@ -132,7 +132,7 @@ export default function CheckoutPopup() {
           <h2 className="font-arabic font-bold text-brand-espresso text-lg">تأكيد الطلب</h2>
         </div>
 
-        <div className="px-5 py-4 flex flex-col gap-4">
+        <div className="px-5 py-4 flex flex-col gap-4 overflow-y-auto flex-1">
           <div className="bg-brand-cream rounded-xl p-4">
             <h3 className="font-bold text-sm text-brand-espresso mb-3">ملخص الطلب</h3>
             {items.map((item) => (

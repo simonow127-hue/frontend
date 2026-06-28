@@ -275,15 +275,6 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
         {product.reviews.length > 0 ? (
           <>
-            {/* Overall rating */}
-            <div className="flex flex-col items-center gap-3 mb-10 bg-brand-cream rounded-2xl p-6 max-w-xs mx-auto border border-brand-border">
-              <span className="text-5xl font-bold text-brand-espresso leading-none">
-                {product.rating.toFixed(1)}
-              </span>
-              <Stars rating={product.rating} count={product.reviewCount} />
-              <p className="text-xs text-brand-espresso/50">بناءً على {product.reviewCount} تقييم موثّق</p>
-            </div>
-
             {/* Review cards grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {product.reviews.map((review, i) => (
