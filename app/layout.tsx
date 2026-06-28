@@ -38,16 +38,16 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "رياض ستور | Riads Store — تسوق فاخر بالسعودية",
-    template: "%s | رياض ستور",
+    default: "رياض | Riads — تسوق بالسعودية",
+    template: "%s | رياض",
   },
   description:
-    "رياض ستور — منتجات مختارة بجودة عالية. توصيل سريع لكل المملكة، دفع عند الاستلام، واسترجاع سهل.",
+    "رياض — منتجات مختارة. توصيل للمملكة، دفع عند الاستلام، وسياسة استرجاع واضحة.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    siteName: "رياض ستور",
+    siteName: "رياض",
     locale: "ar_SA",
     type: "website",
     url: siteUrl,
@@ -72,19 +72,19 @@ export default function RootLayout({
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "رياض ستور",
-    alternateName: "Riads Store",
+    name: "رياض",
+    alternateName: "Riads",
     url: siteUrl,
     logo: `${siteUrl}${STORE_IMAGES.heroTrio}`,
     description:
-      "متجر سعودي يجمع منتجات مختارة بجودة عالية. توصيل سريع لكل المملكة والدفع عند الاستلام.",
+      "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
     areaServed: { "@type": "Country", name: "Saudi Arabia" },
   };
 
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "رياض ستور",
+    name: "رياض",
     url: siteUrl,
     inLanguage: "ar-SA",
   };

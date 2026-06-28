@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowLeft, Shield, Truck, RotateCcw, CreditCard,
-  Star, Zap, Package, CheckCircle2, ChevronLeft,
+  Zap, Package, CheckCircle2, ChevronLeft,
 } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
@@ -12,9 +12,9 @@ import { CATEGORIES } from "@/lib/categories";
 import { formatPrice } from "@/lib/currency";
 
 export const metadata: Metadata = {
-  title: "رياض ستور | Riads — تسوق فاخر بثقة وتوصيل سريع",
+  title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
   description:
-    "رياض ستور — منتجات مختارة بجودة عالية للسوق السعودي. دفع عند الاستلام، توصيل سريع لكل المملكة، واسترجاع مضمون.",
+    "رياض — منتجات مختارة للسوق السعودي. دفع عند الاستلام، توصيل سريع، وسياسة استرجاع واضحة.",
 };
 
 const whyUs = [
@@ -34,8 +34,8 @@ const whyUs = [
   },
   {
     icon: Shield,
-    title: "جودة مضمونة ١٠٠٪",
-    text: "نختار كل منتج بعناية — وإذا ما عجبك نرجعلك فلوسك.",
+    title: "منتجات مختارة بعناية",
+    text: "نختار كل منتج بعناية — وإذا ما عجبك، تواصل معنا حسب سياسة الاسترجاع.",
     color: "from-green-500/10 to-emerald-500/5",
     iconBg: "bg-green-500/10 text-green-600",
   },
@@ -49,10 +49,10 @@ const whyUs = [
 ];
 
 const stats = [
-  { num: "+٣٠٠٠", label: "طلب مكتمل" },
-  { num: "٤.٨★", label: "متوسط التقييم" },
-  { num: "٢–٤", label: "أيام توصيل" },
-  { num: "٩٧٪", label: "رضا العملاء" },
+  { num: "COD", label: "دفع عند الاستلام" },
+  { num: "٢–٤", label: "أيام توصيل تقريبية" },
+  { num: "٧", label: "أيام سياسة الاسترجاع" },
+  { num: "واتساب", label: "دعم مباشر" },
 ];
 
 const faqs = [
@@ -66,7 +66,7 @@ const faqs = [
   },
   {
     q: "هل الدفع عند الاستلام متاح؟",
-    a: "نعم ١٠٠٪ — ادفع للمندوب لما يوصلك الطلب بالباب، بدون أي تحويل مسبق.",
+    a: "نعم — ادفع للمندوب لما يوصلك الطلب بالباب، بدون أي تحويل مسبق.",
   },
   {
     q: "كيف أرجع المنتج؟",
@@ -74,7 +74,7 @@ const faqs = [
   },
   {
     q: "هل المنتجات أصلية؟",
-    a: "نعم، كل المنتجات مختارة بعناية ونضمن جودتها. إذا ما عجبك المنتج نرجعلك فلوسك.",
+    a: "نختار موردين موثوقين ونوضح مواصفات كل منتج. إذا وصلك شيء مختلف عن الوصف، تواصل معنا.",
   },
 ];
 
@@ -123,7 +123,7 @@ export default function HomePage() {
 
             {/* Mini trust row */}
             <div className="flex flex-wrap gap-4 justify-end text-sm text-brand-champagne/70">
-              {["دفع عند الاستلام", "توصيل سريع", "استرجاع مضمون"].map((t) => (
+              {["دفع عند الاستلام", "توصيل سريع", "استرجاع خلال ٧ أيام"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5">
                   <CheckCircle2 size={14} className="text-brand-gold" />
                   {t}
@@ -232,7 +232,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
             <span className="absolute top-4 right-4 bg-brand-gold text-brand-primary text-xs font-black px-3 py-1.5 rounded-full">
-              الأكثر طلباً ⭐
+              منتج مميز
             </span>
           </div>
           <div className="text-right flex flex-col gap-5 order-1 md:order-2">
@@ -315,7 +315,7 @@ export default function HomePage() {
             <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
           </div>
           <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso mt-1">
-            ليش تختار رياض ستور؟
+            ليش تختار رياض؟
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -336,40 +336,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── REVIEWS MARQUEE ── */}
-      <section className="bg-brand-cream py-12 overflow-hidden">
-        <div className="text-center mb-8">
-          <div className="flex items-center gap-1 justify-center mb-2">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className="text-brand-gold fill-brand-gold" />
-            ))}
-          </div>
-          <p className="font-arabic font-bold text-brand-espresso text-lg">ما يقوله عملاؤنا</p>
-          <p className="text-sm text-brand-espresso/60 mt-1">+٣٠٠٠ طلب مكتمل في المملكة</p>
-        </div>
-        <div className="flex gap-4 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide max-w-content mx-auto">
-          {PRODUCTS.flatMap((p) => p.reviews).slice(0, 9).map((rev, i) => (
-            <div
-              key={i}
-              className="snap-start shrink-0 w-72 bg-brand-ivory rounded-2xl border border-brand-border p-5 flex flex-col gap-3 text-right"
-            >
-              <div className="flex gap-0.5">
-                {[...Array(rev.rating)].map((_, s) => (
-                  <Star key={s} size={13} className="text-brand-gold fill-brand-gold" />
-                ))}
-              </div>
-              <p className="text-sm text-brand-espresso/80 leading-relaxed line-clamp-3">"{rev.text}"</p>
-              <div className="flex items-center gap-2 justify-end border-t border-brand-border pt-3">
-                <div className="text-right">
-                  <p className="text-xs font-bold text-brand-espresso">{rev.name}</p>
-                  <p className="text-[10px] text-brand-espresso/50">{rev.city}</p>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-bold text-xs">
-                  {rev.name[0]}
-                </div>
-              </div>
-            </div>
-          ))}
+      {/* ── HONEST FEEDBACK ── */}
+      <section className="bg-brand-cream py-12">
+        <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-4">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso">آراء الزبائن</h2>
+          <p className="text-sm text-brand-espresso/60 leading-relaxed">
+            ما نعرض تقييمات ولا آراء مختلقة. إذا طلبت منا وجرّبت منتجاً، شاركنا رأيك الحقيقي عبر الواتساب.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 bg-brand-primary text-brand-ivory text-sm font-bold px-5 py-2.5 rounded-full hover:bg-brand-gold hover:text-brand-primary transition-colors"
+          >
+            تواصل معنا
+          </Link>
         </div>
       </section>
 

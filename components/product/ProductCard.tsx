@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/products";
 import Button from "@/components/ui/Button";
-import { Star, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId } from "@/lib/events";
 import { trackAddToCart } from "@/lib/tracking";
@@ -25,9 +25,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id } });
     openDrawer();
   };
-
-  const rating = product.rating ?? 4.8;
-  const reviewCount = product.reviewCount ?? 0;
 
   return (
     <div className="bg-brand-ivory rounded-2xl border border-brand-border overflow-hidden flex flex-col hover:shadow-xl hover:border-brand-gold/40 transition-all duration-300 group">
@@ -62,23 +59,6 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {/* Content */}
       <div className="p-4 flex flex-col gap-3 flex-1">
-        {/* Rating */}
-        {reviewCount > 0 && (
-          <div className="flex items-center gap-1.5 justify-end">
-            <span className="text-[11px] text-brand-espresso/50">({reviewCount})</span>
-            <span className="text-[11px] font-bold text-brand-espresso">{rating}</span>
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={10}
-                  className={i < Math.round(rating) ? "text-brand-gold fill-brand-gold" : "text-brand-border"}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Title & subtitle */}
         <div>
           <Link href={`/products/${product.slug}`}>

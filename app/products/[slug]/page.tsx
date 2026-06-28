@@ -49,14 +49,14 @@ export default async function ProductPage({ params }: Props) {
     sku: product.sku,
     url: productUrl,
     image: `${siteUrl}${getProductHeroImage(product.id)}`,
-    brand: { "@type": "Brand", name: "رياض ستور" },
+    brand: { "@type": "Brand", name: "رياض" },
     offers: {
       "@type": "Offer",
       url: productUrl,
       priceCurrency: "SAR",
       price: defaultOffer.price,
       availability: "https://schema.org/InStock",
-      seller: { "@type": "Organization", name: "رياض ستور" },
+      seller: { "@type": "Organization", name: "رياض" },
     },
   };
 

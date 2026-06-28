@@ -172,7 +172,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="text-right">
             <span className="inline-block bg-brand-primary/10 text-brand-primary text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-              جودة مضمونة
+              تفاصيل المنتج
             </span>
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
               كيف يشتغل {product.shortHeading.split(":")[0]}؟
@@ -264,7 +264,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
           آراء الزبائن
         </h2>
         <p className="text-center text-brand-espresso/50 text-xs mb-8">
-          لا نعرض تقييمات مختلقة — كل رأي حقيقي من زبون حقيقي
+          ما نعرض تقييمات مختلقة. شاركنا رأيك الحقيقي بعد ما تجرب المنتج.
         </p>
         <div className="max-w-md mx-auto bg-brand-cream rounded-2xl p-8 text-center flex flex-col items-center gap-3">
           <MessageSquare size={32} className="text-brand-primary/30" />
@@ -316,7 +316,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
             قد يعجبك كمان
           </h2>
           <p className="text-center text-brand-espresso/60 mb-8">
-            منتجات مختارة تكمل طلبك — من رياض ستور
+            منتجات مختارة تكمل طلبك — من رياض
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {crossSells.map((p) => (

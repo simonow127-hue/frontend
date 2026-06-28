@@ -74,7 +74,7 @@ export default function CartDrawer() {
               <div className="flex items-center gap-2">
                 <Clock size={14} className="text-status-warning shrink-0" />
                 <p className="text-xs text-brand-espresso/60">
-                  عرض 3 قطع هو الأكثر طلباً هالأسبوع.
+                  عرض ٣ قطع يوفرك أكثر — اختَر اللي يناسبك.
                 </p>
               </div>
 

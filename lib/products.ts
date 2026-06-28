@@ -69,7 +69,7 @@ function buildOffers(unitPrice: number): Offer[] {
       price: three,
       label: "٣ قطع",
       sublabel: "أفضل قيمة",
-      badge: "الأكثر طلباً",
+      badge: "أفضل قيمة",
     },
   ];
 }
@@ -105,13 +105,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(89),
     defaultOffer: 1,
     crossSellIds: ["car-phone-holder", "neck-fan"],
-    reviewCount: 214,
-    rating: 4.7,
-    reviews: [
-      { name: "فهد العتيبي", city: "الرياض", text: "والله اشتريته وما ندمت — جوالي وعملاتي ما طاحت من يوم ما ركبته.", rating: 5 },
-      { name: "سلطان الغامدي", city: "جدة", text: "جربت منتجات ثانية وما نفعت، هذا ثبت زين وما تحرك.", rating: 5 },
-      { name: "منصور الدوسري", city: "الدمام", text: "تركيبه سهل وشكله أنيق داخل السيارة — ممتاز.", rating: 4 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "يناسب كل السيارات؟",
@@ -160,13 +156,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(99),
     defaultOffer: 1,
     crossSellIds: ["car-gap-filler", "neck-fan"],
-    reviewCount: 389,
-    rating: 4.8,
-    reviews: [
-      { name: "خالد الزهراني", city: "جدة", text: "أفضل حامل جربته — المغناطيس قوي جداً والشكل فاخر.", rating: 5 },
-      { name: "عبدالله القحطاني", city: "الرياض", text: "ما تزحزح من مكانه حتى على الطرق السريعة، ممتاز.", rating: 5 },
-      { name: "يوسف الشهري", city: "مكة", text: "سهل التركيب وشكله كلاسيكي ما يعيق النظر.", rating: 4 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "يناسب أي جوال؟",
@@ -217,13 +209,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(149),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
-    reviewCount: 512,
-    rating: 4.9,
-    reviews: [
-      { name: "نورة السالم", city: "الرياض", text: "اشتريتها للمول والحمدلله ما تعبت من الحر — خففت عني كثير.", rating: 5 },
-      { name: "ريم العنزي", city: "القصيم", text: "هدية لأختي وانبسطت فيها — خفيفة وهادية ومريحة.", rating: 5 },
-      { name: "أحمد الرشيدي", city: "تبوك", text: "فكرة ذكية وتصميم عملي، استخدمتها في الجوالة وكانت رائعة.", rating: 5 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "كم ساعة تشتغل؟",
@@ -275,13 +263,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(199),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "neck-fan"],
-    reviewCount: 176,
-    rating: 4.8,
-    reviews: [
-      { name: "أم محمد", city: "المدينة", text: "حطيته في غرفة الجلوس والبيت صار فيه روحانية — ما شاء الله.", rating: 5 },
-      { name: "عبدالرحمن المطيري", city: "الطائف", text: "الصوت نقي وواضح حتى من غرفة ثانية، أنصح فيه.", rating: 5 },
-      { name: "سعد البقمي", city: "أبها", text: "هدية مميزة لأهلي — انبسطوا فيها وكانت بسعر مناسب.", rating: 4 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "هل يشتغل على الكهرباء السعودية؟",
@@ -330,13 +314,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(179),
     defaultOffer: 1,
     crossSellIds: ["electric-chopper", "neck-fan"],
-    reviewCount: 298,
-    rating: 4.8,
-    reviews: [
-      { name: "لجين الحارثي", city: "جدة", text: "حطيته على مكتب الدراسة وصار أنيق جداً — والشحن اللاسلكي ممتاز.", rating: 5 },
-      { name: "تركي الجهني", city: "الرياض", text: "قيمة ممتازة مقابل السعر، شغله سلس وتصميمه عصري.", rating: 5 },
-      { name: "ندى المالكي", city: "المدينة", text: "اشتريته هدية ووصل بتغليف نظيف — أعجب من أهديته.", rating: 4 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "يناسب أي جوال؟",
@@ -388,13 +368,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(129),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "black-sheila"],
-    reviewCount: 341,
-    rating: 4.7,
-    reviews: [
-      { name: "أم فيصل", city: "الرياض", text: "وفّرت عليّ وقت طويل كل يوم في المطبخ — قطع الخضار صار أسهل بكثير.", rating: 5 },
-      { name: "سارة الغامدي", city: "جدة", text: "سريعة ونظيفة وما تتعب — أنصح فيها لكل بيت.", rating: 5 },
-      { name: "هنوف الشمري", city: "بريدة", text: "خذيتها لأمي وانبسطت فيها كثير، سهلت عليها الطبخ.", rating: 4 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "تفرم البصل والثوم؟",
@@ -444,13 +420,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(299),
     defaultOffer: 1,
     crossSellIds: ["black-sheila", "neck-fan"],
-    reviewCount: 427,
-    rating: 4.9,
-    reviews: [
-      { name: "دلال القرني", city: "جدة", text: "رائحة فاخرة جداً وتدوم من الصبح للليل — ما توقعت تكون بهالجودة.", rating: 5 },
-      { name: "العنود الفيفي", city: "الرياض", text: "اشتريته هدية وما شاء الله كل من شمته سأل عنه، أحسنت الاختيار.", rating: 5 },
-      { name: "ليلى السبيعي", city: "المدينة", text: "خامة رفيعة وريحة تمشي معك — أنصح فيه بشدة.", rating: 5 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "كم يدوم العطر؟",
@@ -462,7 +434,7 @@ export const PRODUCTS: Product[] = [
       },
       {
         question: "هل العبوة أصلية؟",
-        answer: "نعم، نضمن أصالة المنتج مع ضمان الاسترجاع.",
+        answer: "نوضح مواصفات المنتج في صفحة الطلب. إذا وصلك شيء مختلف عن الوصف، تواصل معنا حسب سياسة الاسترجاع.",
       },
     ],
     imagePlaceholder: "/images/products/perfume-intense.jpg",
@@ -502,13 +474,9 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(79),
     defaultOffer: 1,
     crossSellIds: ["perfume-intense", "electric-chopper"],
-    reviewCount: 563,
-    rating: 4.8,
-    reviews: [
-      { name: "رنا الأسمري", city: "الطائف", text: "خامة خفيفة ومريحة وسعرها مناسب — اشتريت منها ثلاث شيلات.", rating: 5 },
-      { name: "مي السلمي", city: "الرياض", text: "أنيقة جداً وتثبت بدون عناء — تستاهل أكثر من سعرها.", rating: 5 },
-      { name: "شهد العمري", city: "جدة", text: "اشتريتها للمناسبة وما شاء الله كانت مميزة — شكراً رياض.", rating: 5 },
-    ],
+    reviewCount: 0,
+    rating: 0,
+    reviews: [],
     faqs: [
       {
         question: "هل القماش شفاف؟",
