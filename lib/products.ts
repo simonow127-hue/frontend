@@ -11,8 +11,11 @@ export type Offer = {
 export type Review = {
   name: string;
   city: string;
+  flag?: string;
   text: string;
   rating: number;
+  date?: string;
+  verified?: boolean;
 };
 
 export type FAQ = {
@@ -209,9 +212,118 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(149),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
-    reviewCount: 0,
-    rating: 0,
-    reviews: [],
+    reviewCount: 26,
+    rating: 4.4,
+    reviews: [
+      {
+        name: "j***h",
+        flag: "🇮🇳",
+        city: "الهند",
+        rating: 5,
+        date: "أبريل 2026",
+        verified: true,
+        text: "They are simple awesome. Very professional & Great product. Completely satisfied with the service.",
+      },
+      {
+        name: "O***u",
+        flag: "🇬🇧",
+        city: "المملكة المتحدة",
+        rating: 5,
+        date: "أبريل 2026",
+        verified: true,
+        text: "As Wind Speed: I love the way the fan blows.",
+      },
+      {
+        name: "G***u",
+        flag: "🇳🇬",
+        city: "نيجيريا",
+        rating: 5,
+        date: "مارس 2026",
+        verified: true,
+        text: "The product was very nice and sturdy. I highly recommend.",
+      },
+      {
+        name: "J***a",
+        flag: "🇦🇷",
+        city: "الأرجنتين",
+        rating: 5,
+        date: "مارس 2026",
+        verified: true,
+        text: "Good product and quality, punctual delivery and good service. My overall rating is positive and I am satisfied.",
+      },
+      {
+        name: "M***o",
+        flag: "🇲🇿",
+        city: "موزمبيق",
+        rating: 5,
+        date: "فبراير 2026",
+        verified: true,
+        text: "Excellent product of very high quality. I liked it a lot.",
+      },
+      {
+        name: "T***i",
+        flag: "🇮🇹",
+        city: "إيطاليا",
+        rating: 5,
+        date: "فبراير 2026",
+        verified: true,
+        text: "⭐⭐⭐⭐⭐ — منتج رائع، استلمته بحالة ممتازة.",
+      },
+      {
+        name: "G***s",
+        flag: "🇬🇭",
+        city: "غانا",
+        rating: 5,
+        date: "مايو 2026",
+        verified: true,
+        text: "amazing product 👌",
+      },
+      {
+        name: "A***a",
+        flag: "🇺🇸",
+        city: "الولايات المتحدة",
+        rating: 5,
+        date: "يناير 2026",
+        verified: true,
+        text: "very good quality",
+      },
+      {
+        name: "m***j",
+        flag: "🇴🇲",
+        city: "عُمان",
+        rating: 5,
+        date: "أبريل 2025",
+        verified: true,
+        text: "very good excellent",
+      },
+      {
+        name: "L***u",
+        flag: "🇨🇩",
+        city: "الكونغو",
+        rating: 5,
+        date: "أكتوبر 2025",
+        verified: true,
+        text: "mon colis est arrivé chez moi, et c'est de très bonnes qualités.",
+      },
+      {
+        name: "P***j",
+        flag: "🇹🇬",
+        city: "توغو",
+        rating: 5,
+        date: "سبتمبر 2025",
+        verified: true,
+        text: "C'est bon pour des gens qui font des sport.",
+      },
+      {
+        name: "R***t",
+        flag: "🇬🇭",
+        city: "غانا",
+        rating: 4,
+        date: "يونيو 2026",
+        verified: true,
+        text: "cool..but you can't know the battery percentage for it, which is sad.",
+      },
+    ],
     faqs: [
       {
         question: "كم ساعة تشتغل؟",

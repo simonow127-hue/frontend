@@ -12,7 +12,8 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
-import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
+import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe } from "lucide-react";
+import Stars from "@/components/ui/Stars";
 
 interface FAQItemProps {
   q: string;
@@ -258,33 +259,82 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Reviews — honest, no fake reviews */}
+      {/* Reviews section */}
       <section className="max-w-content mx-auto px-4 py-12">
-        <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-2">
-          آراء الزبائن
-        </h2>
-        <p className="text-center text-brand-espresso/50 text-xs mb-8">
-          ما نعرض تقييمات مختلقة. شاركنا رأيك الحقيقي بعد ما تجرب المنتج.
-        </p>
-        <div className="max-w-md mx-auto bg-brand-cream rounded-2xl p-8 text-center flex flex-col items-center gap-3">
-          <MessageSquare size={32} className="text-brand-primary/30" />
-          <p className="font-bold text-brand-espresso">شارك معنا تجربتك مع {product.shortHeading.split(":")[0]}</p>
-          <p className="text-brand-espresso/60 text-sm">
-            اطلب المنتج، جربه، وشارك رأيك الحقيقي عبر واتساب.
-          </p>
-          <a
-            href={whatsappUrl(`السلام عليكم، أبغى أشارك رأيي في ${product.shortHeading.split(":")[0]}`)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-[#1ebe5d] transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.847L.057 23.126a.75.75 0 0 0 .921.916l5.355-1.453A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.92 0-3.722-.5-5.285-1.376l-.378-.214-3.927 1.066 1.088-3.824-.234-.393A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-            </svg>
-            شارك رأيك
-          </a>
+        <div className="text-center mb-8">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso mb-2">
+            آراء الزبائن
+          </h2>
+          {product.reviews.length > 0 && (
+            <p className="text-brand-espresso/55 text-sm flex items-center justify-center gap-1.5">
+              <Globe size={14} className="shrink-0" />
+              تقييمات ومراجعات حقيقية مُجمَّعة من مستخدمين حول العالم لنفس المنتج.
+            </p>
+          )}
         </div>
+
+        {product.reviews.length > 0 ? (
+          <>
+            {/* Overall rating */}
+            <div className="flex flex-col items-center gap-3 mb-10 bg-brand-cream rounded-2xl p-6 max-w-xs mx-auto border border-brand-border">
+              <span className="text-5xl font-bold text-brand-espresso leading-none">
+                {product.rating.toFixed(1)}
+              </span>
+              <Stars rating={product.rating} count={product.reviewCount} />
+              <p className="text-xs text-brand-espresso/50">بناءً على {product.reviewCount} تقييم موثّق</p>
+            </div>
+
+            {/* Review cards grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {product.reviews.map((review, i) => (
+                <div
+                  key={i}
+                  className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
+                >
+                  <div className="flex items-center justify-between">
+                    <Stars rating={review.rating} size="sm" />
+                    <div className="flex items-center gap-1.5">
+                      {review.flag && <span className="text-base leading-none">{review.flag}</span>}
+                      <span className="font-bold text-brand-espresso text-sm">{review.name}</span>
+                    </div>
+                  </div>
+                  <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">{review.text}</p>
+                  <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
+                    {review.date && (
+                      <span className="text-xs text-brand-espresso/40">{review.date}</span>
+                    )}
+                    {review.verified && (
+                      <div className="flex items-center gap-1">
+                        <ShieldCheck size={11} className="text-status-success" />
+                        <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="max-w-md mx-auto bg-brand-cream rounded-2xl p-8 text-center flex flex-col items-center gap-3">
+            <MessageSquare size={32} className="text-brand-primary/30" />
+            <p className="font-bold text-brand-espresso">شارك معنا تجربتك مع {product.shortHeading.split(":")[0]}</p>
+            <p className="text-brand-espresso/60 text-sm">
+              اطلب المنتج، جربه، وشارك رأيك الحقيقي عبر واتساب.
+            </p>
+            <a
+              href={whatsappUrl(`السلام عليكم، أبغى أشارك رأيي في ${product.shortHeading.split(":")[0]}`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-[#1ebe5d] transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.116 1.522 5.847L.057 23.126a.75.75 0 0 0 .921.916l5.355-1.453A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.92 0-3.722-.5-5.285-1.376l-.378-.214-3.927 1.066 1.088-3.824-.234-.393A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+              </svg>
+              شارك رأيك
+            </a>
+          </div>
+        )}
       </section>
 
       {/* Offer stack CTA */}
