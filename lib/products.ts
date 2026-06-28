@@ -43,6 +43,7 @@ export type Product = {
   imagePlaceholder: string;
   ingredientsImage?: string;
   usageImage?: string;
+  scienceImage?: string;
   imageColor: string;
   isNew?: boolean;
 };
@@ -464,6 +465,7 @@ export const PRODUCTS: Product[] = [
     imagePlaceholder: "/images/products/perfume-intense.jpg",
     ingredientsImage: "/images/products/perfume-notes.jpg",
     usageImage: "/images/products/perfume-collection.jpg",
+    scienceImage: "/images/products/perfume-science.jpg",
     imageColor: "#1A1A1A",
     isNew: true,
   },
@@ -536,6 +538,9 @@ export function getProductSectionImage(
   }
   if (section === "usage" && product.usageImage) {
     return product.usageImage;
+  }
+  if (section === "science" && product.scienceImage) {
+    return product.scienceImage;
   }
   return product.imagePlaceholder;
 }
