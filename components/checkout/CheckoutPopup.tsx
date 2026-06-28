@@ -184,7 +184,7 @@ export default function CheckoutPopup() {
                 type="tel"
                 autoComplete="tel"
                 dir="ltr"
-                placeholder="0512345678"
+                placeholder="05XXXXXXXX"
                 className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors text-left"
                 {...register("phone")}
               />

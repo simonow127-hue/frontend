@@ -10,27 +10,35 @@ export function validateSaudiPhone(raw: string): {
     return { valid: false, error: "الرجاء إدخال رقم الجوال" };
   }
 
-  const cleaned = raw.trim().replace(/\s|-|\(|\)/g, "");
+  const cleaned = raw.trim().replace(/[\s\-\(\)]/g, "");
 
+  // Try libphonenumber-js first
   try {
-    const isValid = isValidPhoneNumber(cleaned, "SA");
-    if (!isValid) {
-      return { valid: false, error: "الرجاء إدخال رقم جوال سعودي صحيح" };
+    if (isValidPhoneNumber(cleaned, "SA")) {
+      const parsed = parsePhoneNumber(cleaned, "SA");
+      const e164 = parsed.format("E.164");
+      const digitsSA = e164.replace("+", "");
+      return { valid: true, e164, digitsSA };
     }
-
-    const parsed = parsePhoneNumber(cleaned, "SA");
-    const e164 = parsed.format("E.164");
-    const digitsSA = e164.replace("+", "");
-
-    const national = parsed.nationalNumber;
-    if (!national.startsWith("5")) {
-      return { valid: false, error: "الرجاء إدخال رقم جوال سعودي يبدأ بـ 05" };
-    }
-
-    return { valid: true, e164, digitsSA };
   } catch {
-    return { valid: false, error: "الرجاء إدخال رقم جوال سعودي صحيح" };
+    // fall through to manual check
   }
+
+  // Manual fallback: accept 05XXXXXXXX (10 digits) — covers all SA operators incl. 057
+  if (/^05\d{8}$/.test(cleaned)) {
+    const e164 = "+966" + cleaned.slice(1);
+    const digitsSA = "966" + cleaned.slice(1);
+    return { valid: true, e164, digitsSA };
+  }
+
+  // Accept +9665XXXXXXXX or 9665XXXXXXXX
+  if (/^(\+966|966)5\d{8}$/.test(cleaned)) {
+    const e164 = cleaned.startsWith("+") ? cleaned : "+" + cleaned;
+    const digitsSA = e164.replace("+", "");
+    return { valid: true, e164, digitsSA };
+  }
+
+  return { valid: false, error: "الرجاء إدخال رقم جوال سعودي صحيح — مثال: 0512345678" };
 }
 
 /** @deprecated use validateSaudiPhone */
