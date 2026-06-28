@@ -183,7 +183,8 @@ export const PRODUCTS: Product[] = [
     ],
     imagePlaceholder: "/images/products/car-phone-holder.jpg",
     ingredientsImage: "/images/products/car-phone-holder-magnets.jpg",
-    usageImage: "/images/products/car-phone-holder-usage.jpg",
+    usageImage: "/images/products/car-phone-holder-views.jpg",
+    scienceImage: "/images/products/car-phone-holder-science.jpg",
     imageColor: "#8C8C8C",
   },
   {
