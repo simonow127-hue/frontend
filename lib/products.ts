@@ -215,7 +215,7 @@ export const PRODUCTS: Product[] = [
     offers: buildOffers(149),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
-    reviewCount: 26,
+    reviewCount: 28,
     rating: 4.4,
     reviews: [
       {
@@ -316,6 +316,24 @@ export const PRODUCTS: Product[] = [
         date: "سبتمبر 2025",
         verified: true,
         text: "C'est bon pour des gens qui font des sport.",
+      },
+      {
+        name: "N***z",
+        flag: "🇩🇪",
+        city: "ألمانيا",
+        rating: 4,
+        date: "يوليو 2025",
+        verified: true,
+        text: "gut",
+      },
+      {
+        name: "A***s",
+        flag: "🇩🇪",
+        city: "ألمانيا",
+        rating: 4,
+        date: "يونيو 2025",
+        verified: true,
+        text: "für den Preis 😉 ist es okay.",
       },
       {
         name: "R***t",
