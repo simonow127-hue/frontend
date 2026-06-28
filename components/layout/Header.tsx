@@ -36,8 +36,9 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <BrandMark size="md" />
             <div className="flex flex-col items-end leading-none">
-              <span className="font-arabic font-black text-brand-gold text-base tracking-tight">رياض</span>
-              <span className="font-latin text-brand-gold/60 text-[9px] ltr-text tracking-[0.25em]">STORE</span>
+              <span className="font-arabic font-black text-lg tracking-tight bg-gradient-to-l from-brand-gold via-[#E8C97A] to-brand-gold bg-clip-text text-transparent">
+                رياض
+              </span>
             </div>
           </Link>
 

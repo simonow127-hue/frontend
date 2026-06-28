@@ -239,7 +239,6 @@ export const PRODUCTS: Product[] = [
     ],
     imagePlaceholder: "/images/products/neck-fan.jpg",
     ingredientsImage: "/images/products/neck-fan-features.jpg",
-    usageImage: "/images/products/neck-fan-speeds.jpg",
     imageColor: "#E8E8E8",
     isNew: true,
   },
