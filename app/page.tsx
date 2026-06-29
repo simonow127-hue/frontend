@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
+import SaudiDeliveryMap from "@/components/ui/SaudiDeliveryMap";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
 import { formatPrice } from "@/lib/currency";
@@ -345,32 +346,7 @@ export default function HomePage() {
             <p className="text-brand-ivory/50 text-sm mt-2">من الشمال للجنوب — كل منطقة مغطاة</p>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 mb-8">
-            {[
-              { name: "الرياض", emoji: "🏙️" },
-              { name: "جدة", emoji: "🌊" },
-              { name: "مكة المكرمة", emoji: "🕌" },
-              { name: "المدينة المنورة", emoji: "🌹" },
-              { name: "الدمام", emoji: "🏭" },
-              { name: "الخبر", emoji: "🏗️" },
-              { name: "القصيم", emoji: "🌾" },
-              { name: "تبوك", emoji: "🏔️" },
-              { name: "أبها", emoji: "🌿" },
-              { name: "جازان", emoji: "⛵" },
-              { name: "نجران", emoji: "🌵" },
-              { name: "حائل", emoji: "❄️" },
-              { name: "الجوف", emoji: "🌴" },
-              { name: "الباحة", emoji: "🌲" },
-            ].map((r) => (
-              <div
-                key={r.name}
-                className="flex flex-col items-center gap-1.5 bg-white/5 border border-white/10 rounded-xl py-3 px-2 hover:border-brand-gold/40 hover:bg-white/8 transition-all"
-              >
-                <span className="text-xl">{r.emoji}</span>
-                <span className="text-brand-ivory/75 text-[11px] font-medium text-center leading-tight">{r.name}</span>
-              </div>
-            ))}
-          </div>
+          <SaudiDeliveryMap />
 
           <div className="flex items-center justify-center gap-3 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-4 px-6">
             <Truck size={18} className="text-brand-gold shrink-0" />

@@ -33,30 +33,38 @@ export default function BrandMark({
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-full"
       >
-        {/* Background */}
-        <circle cx="50" cy="50" r="50" fill="#1B2B1B" />
-        {/* Outer decorative ring */}
-        <circle cx="50" cy="50" r="43" stroke="#C9A45C" strokeWidth="1" strokeOpacity="0.35" />
-        {/* 4-pointed compass star — main arms */}
-        <path
-          d="M50 15 L56.5 43.5 L85 50 L56.5 56.5 L50 85 L43.5 56.5 L15 50 L43.5 43.5 Z"
-          fill="#C9A45C"
-        />
-        {/* Inner diamond overlay for depth */}
-        <path
-          d="M50 15 L56.5 43.5 L85 50 L56.5 56.5 L50 85 L43.5 56.5 L15 50 L43.5 43.5 Z"
-          fill="url(#starGrad)"
-        />
-        {/* Center circle cutout */}
-        <circle cx="50" cy="50" r="9" fill="#1B2B1B" />
-        {/* Center diamond */}
-        <path d="M50 44 L56 50 L50 56 L44 50 Z" fill="#C9A45C" opacity="0.9" />
         <defs>
-          <radialGradient id="starGrad" cx="50%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#E8C97A" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#C9A45C" stopOpacity="0" />
+          <radialGradient id="bgGrad" cx="50%" cy="35%" r="65%">
+            <stop offset="0%" stopColor="#2A3F2A" />
+            <stop offset="100%" stopColor="#0F1F0F" />
           </radialGradient>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E8C97A" />
+            <stop offset="50%" stopColor="#C9A45C" />
+            <stop offset="100%" stopColor="#A8843A" />
+          </linearGradient>
         </defs>
+
+        {/* Background */}
+        <circle cx="50" cy="50" r="50" fill="url(#bgGrad)" />
+
+        {/* Outer ring */}
+        <circle cx="50" cy="50" r="45" stroke="#C9A45C" strokeWidth="0.7" strokeOpacity="0.5" />
+        {/* Inner ring */}
+        <circle cx="50" cy="50" r="38" stroke="#C9A45C" strokeWidth="0.4" strokeOpacity="0.25" />
+
+        {/* 8-pointed Islamic star */}
+        <path
+          d="M50,17 L55.36,37.06 L73.33,26.67 L62.94,44.64 L83,50 L62.94,55.36 L73.33,73.33 L55.36,62.94 L50,83 L44.64,62.94 L26.67,73.33 L37.06,55.36 L17,50 L37.06,44.64 L26.67,26.67 L44.64,37.06 Z"
+          fill="url(#goldGrad)"
+          opacity="0.95"
+        />
+
+        {/* Center octagon cutout */}
+        <circle cx="50" cy="50" r="10" fill="url(#bgGrad)" />
+
+        {/* Center small diamond */}
+        <path d="M50,44.5 L55.5,50 L50,55.5 L44.5,50 Z" fill="url(#goldGrad)" />
       </svg>
     </div>
   );
