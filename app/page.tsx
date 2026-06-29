@@ -336,6 +336,55 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── DELIVERY REGIONS ── */}
+      <section className="bg-brand-espresso py-14 overflow-hidden">
+        <div className="max-w-content mx-auto px-4">
+          <div className="text-center mb-10">
+            <span className="inline-block bg-brand-gold/15 text-brand-gold text-xs font-bold px-4 py-1.5 rounded-full mb-3 tracking-widest uppercase">
+              التغطية الجغرافية
+            </span>
+            <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-ivory">
+              نوصل لكل مناطق المملكة
+            </h2>
+            <p className="text-brand-ivory/50 text-sm mt-2">من الشمال للجنوب — كل منطقة مغطاة</p>
+          </div>
+
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 mb-8">
+            {[
+              { name: "الرياض", emoji: "🏙️" },
+              { name: "جدة", emoji: "🌊" },
+              { name: "مكة المكرمة", emoji: "🕌" },
+              { name: "المدينة المنورة", emoji: "🌹" },
+              { name: "الدمام", emoji: "🏭" },
+              { name: "الخبر", emoji: "🏗️" },
+              { name: "القصيم", emoji: "🌾" },
+              { name: "تبوك", emoji: "🏔️" },
+              { name: "أبها", emoji: "🌿" },
+              { name: "جازان", emoji: "⛵" },
+              { name: "نجران", emoji: "🌵" },
+              { name: "حائل", emoji: "❄️" },
+              { name: "الجوف", emoji: "🌴" },
+              { name: "الباحة", emoji: "🌲" },
+            ].map((r) => (
+              <div
+                key={r.name}
+                className="flex flex-col items-center gap-1.5 bg-white/5 border border-white/10 rounded-xl py-3 px-2 hover:border-brand-gold/40 hover:bg-white/8 transition-all"
+              >
+                <span className="text-xl">{r.emoji}</span>
+                <span className="text-brand-ivory/75 text-[11px] font-medium text-center leading-tight">{r.name}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-3 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-4 px-6">
+            <Truck size={18} className="text-brand-gold shrink-0" />
+            <p className="text-brand-ivory/80 text-sm">
+              التوصيل من <span className="text-brand-gold font-bold">٢ إلى ٤ أيام عمل</span> · الدفع عند الاستلام في كل المناطق
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── HONEST FEEDBACK ── */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-4">

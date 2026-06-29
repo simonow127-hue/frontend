@@ -11,6 +11,7 @@ interface ProductImageProps {
   imageClassName?: string;
   priority?: boolean;
   sizes?: string;
+  quality?: number;
 }
 
 const aspectClasses: Record<AspectRatio, string> = {
@@ -27,6 +28,7 @@ export default function ProductImage({
   imageClassName = "",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  quality = 72,
 }: ProductImageProps) {
   return (
     <div
@@ -41,7 +43,9 @@ export default function ProductImage({
         alt={alt}
         fill
         priority={priority}
+        loading={priority ? "eager" : "lazy"}
         sizes={sizes}
+        quality={quality}
         className={clsx("object-contain object-center p-2 md:p-4", imageClassName)}
       />
     </div>

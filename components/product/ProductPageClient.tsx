@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
-import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe } from "lucide-react";
+import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe, Zap } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
 interface FAQItemProps {
@@ -37,12 +37,41 @@ function FAQItem({ q, a }: FAQItemProps) {
   );
 }
 
+function useCountdown(minutes: number) {
+  const getInitialSeconds = () => {
+    if (typeof window === "undefined") return minutes * 60;
+    const key = `countdown_${minutes}`;
+    const saved = sessionStorage.getItem(key);
+    if (saved) return parseInt(saved, 10);
+    const initial = minutes * 60;
+    sessionStorage.setItem(key, String(initial));
+    return initial;
+  };
+  const [seconds, setSeconds] = useState(getInitialSeconds);
+  useEffect(() => {
+    const key = `countdown_${minutes}`;
+    const t = setInterval(() => {
+      setSeconds((s) => {
+        const next = s > 0 ? s - 1 : minutes * 60;
+        sessionStorage.setItem(key, String(next));
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, [minutes]);
+  const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const s = String(seconds % 60).padStart(2, "0");
+  return `${m}:${s}`;
+}
+
 export default function ProductPageClient({ product }: { product: Product }) {
   const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(product.defaultOffer);
-  const { addItem, openDrawer } = useCartStore();
+  const { addItem, openDrawer, openCheckout } = useCartStore();
   const [isSticky, setIsSticky] = useState(false);
   const offerRef = useRef<HTMLDivElement>(null);
   const crossSells = getCrossSells(product);
+  const countdown = useCountdown(17);
+  const stock = 9;
 
   useEffect(() => {
     const eventId = getOrCreateEventId("viewContent");
@@ -67,6 +96,15 @@ export default function ProductPageClient({ product }: { product: Product }) {
     trackAddToCart({ id: product.id, name: product.arabicName, price: offer.price }, eventId);
     trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id, pieces: selectedPieces } });
     openDrawer();
+  };
+
+  const handleBuyNow = () => {
+    const offer = getOfferByPieces(product, selectedPieces);
+    addItem(product, offer);
+    const eventId = generateFreshEventId("addToCart");
+    trackAddToCart({ id: product.id, name: product.arabicName, price: offer.price }, eventId);
+    trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id, pieces: selectedPieces } });
+    openCheckout();
   };
 
   const selectedOffer = getOfferByPieces(product, selectedPieces);
@@ -118,9 +156,18 @@ export default function ProductPageClient({ product }: { product: Product }) {
             </div>
 
             {/* CTA */}
-            <Button onClick={handleAddToCart} fullWidth size="lg" className="text-lg">
-              أضف للسلة — {formatPrice(selectedOffer.price)}
-            </Button>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleBuyNow}
+                className="w-full py-4 px-6 rounded-2xl bg-brand-primary text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
+              >
+                <Zap size={20} fill="currentColor" />
+                اشتري الحين — {formatPrice(selectedOffer.price)}
+              </button>
+              <Button onClick={handleAddToCart} fullWidth size="lg" variant="secondary" className="text-base">
+                أضف للسلة
+              </Button>
+            </div>
 
             {/* Trust */}
             <div className="flex items-center gap-2 justify-center">
@@ -340,8 +387,15 @@ export default function ProductPageClient({ product }: { product: Product }) {
               selected={selectedPieces}
               onChange={setSelectedPieces}
             />
-            <Button onClick={handleAddToCart} fullWidth size="lg">
-              أضف للسلة — {formatPrice(selectedOffer.price)}
+            <button
+              onClick={handleBuyNow}
+              className="w-full py-4 px-6 rounded-2xl bg-brand-primary text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
+            >
+              <Zap size={20} fill="currentColor" />
+              اشتري الحين — {formatPrice(selectedOffer.price)}
+            </button>
+            <Button onClick={handleAddToCart} fullWidth size="lg" variant="secondary">
+              أضف للسلة فقط
             </Button>
             <p className="text-center text-xs text-brand-espresso/50">
               الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
@@ -383,14 +437,21 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
       {/* Sticky CTA */}
       {isSticky && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border p-4 shadow-lg animate-fade-in">
-          <div className="max-w-content mx-auto flex items-center justify-between gap-4">
-            <div className="text-right">
-              <p className="font-bold text-brand-espresso text-sm">{product.shortHeading.split(":")[0]}</p>
-              <p className="text-xs text-brand-espresso/60">{formatPrice(selectedOffer.price)} · {selectedPieces} {selectedPieces === 1 ? "قطعة" : "قطع"}</p>
+        <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
+          <div className="max-w-content mx-auto flex items-center gap-3">
+            <div className="text-right flex-1 min-w-0">
+              <p className="font-bold text-brand-espresso text-sm truncate">{product.shortHeading.split(":")[0]}</p>
+              <p className="text-xs text-brand-espresso/60">{formatPrice(selectedOffer.price)}</p>
             </div>
-            <Button onClick={handleAddToCart} size="md">
-              أضف للسلة — {formatPrice(selectedOffer.price)}
+            <button
+              onClick={handleBuyNow}
+              className="shrink-0 py-2.5 px-5 rounded-xl bg-brand-primary text-white font-bold text-sm flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all shadow-md"
+            >
+              <Zap size={15} fill="currentColor" />
+              اشتري الحين
+            </button>
+            <Button onClick={handleAddToCart} size="sm" variant="secondary" className="shrink-0 border">
+              السلة
             </Button>
           </div>
         </div>
