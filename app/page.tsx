@@ -390,14 +390,17 @@ export default function HomePage() {
         <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-4">
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso">آراء الزبائن</h2>
           <p className="text-sm text-brand-espresso/60 leading-relaxed">
-            ما نعرض تقييمات ولا آراء مختلقة. إذا طلبت منا وجرّبت منتجاً، شاركنا رأيك الحقيقي عبر الواتساب.
+            ما نعرض تقييمات ولا آراء مختلقة. إذا طلبت منا وجرّبت منتجاً، شاركنا رأيك الحقيقي عبر الإيميل.
           </p>
-          <Link
-            href="/contact"
+          <a
+            href="mailto:riads.shop@gmail.com"
             className="inline-flex items-center gap-2 bg-brand-primary text-brand-ivory text-sm font-bold px-5 py-2.5 rounded-full hover:bg-brand-gold hover:text-brand-primary transition-colors"
           >
-            تواصل معنا
-          </Link>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            riads.shop@gmail.com
+          </a>
         </div>
       </section>
 
