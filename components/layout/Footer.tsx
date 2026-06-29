@@ -20,7 +20,7 @@ export default function Footer() {
         <div className="max-w-content mx-auto px-4 py-6 flex flex-wrap justify-center gap-6 md:gap-12">
           {[
             { icon: ShieldCheck, text: "دفع آمن عند الاستلام" },
-            { icon: Phone, text: "دعم عبر الواتساب" },
+            { icon: Phone, text: "دعم عبر الإيميل" },
             { icon: MapPin, text: "توصيل لكل المملكة" },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-2 text-sm text-brand-cream/70">

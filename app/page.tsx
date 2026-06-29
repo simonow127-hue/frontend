@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ArrowLeft, Shield, Truck, RotateCcw, CreditCard,
+  ArrowLeft, Shield, Truck, CreditCard,
   Zap, Package, CheckCircle2, ChevronLeft,
 } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
@@ -35,14 +35,14 @@ const whyUs = [
   {
     icon: Shield,
     title: "منتجات مختارة بعناية",
-    text: "نختار كل منتج بعناية — وإذا ما عجبك، تواصل معنا حسب سياسة الاسترجاع.",
+    text: "نختار كل منتج بعناية — جودة حقيقية وأسعار عادلة.",
     color: "from-green-500/10 to-emerald-500/5",
     iconBg: "bg-green-500/10 text-green-600",
   },
   {
-    icon: RotateCcw,
-    title: "استرجاع خلال ٧ أيام",
-    text: "سياسة استرجاع واضحة وبدون تعقيد — راحتك أولاً.",
+    icon: Package,
+    title: "تغليف محترم",
+    text: "كل طلب يوصلك بتغليف آمن ومرتب — مناسب كهدية أو استخدام شخصي.",
     color: "from-purple-500/10 to-violet-500/5",
     iconBg: "bg-purple-500/10 text-purple-600",
   },
@@ -51,8 +51,8 @@ const whyUs = [
 const stats = [
   { num: "COD", label: "دفع عند الاستلام" },
   { num: "٢–٤", label: "أيام توصيل تقريبية" },
-  { num: "٧", label: "أيام سياسة الاسترجاع" },
-  { num: "واتساب", label: "دعم مباشر" },
+  { num: "١٤", label: "منطقة مغطاة" },
+  { num: "إيميل", label: "دعم مباشر" },
 ];
 
 const faqs = [
@@ -67,10 +67,6 @@ const faqs = [
   {
     q: "هل الدفع عند الاستلام متاح؟",
     a: "نعم — ادفع للمندوب لما يوصلك الطلب بالباب، بدون أي تحويل مسبق.",
-  },
-  {
-    q: "كيف أرجع المنتج؟",
-    a: "تواصل معنا خلال ٧ أيام من الاستلام عبر الواتساب — نرتب لك الإرجاع بدون تعقيد.",
   },
   {
     q: "هل المنتجات أصلية؟",
@@ -123,7 +119,7 @@ export default function HomePage() {
 
             {/* Mini trust row */}
             <div className="flex flex-wrap gap-4 justify-end text-sm text-brand-champagne/70">
-              {["دفع عند الاستلام", "توصيل سريع", "استرجاع خلال ٧ أيام"].map((t) => (
+              {["دفع عند الاستلام", "توصيل سريع", "منتجات مختارة"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5">
                   <CheckCircle2 size={14} className="text-brand-gold" />
                   {t}
@@ -385,24 +381,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── HONEST FEEDBACK ── */}
-      <section className="bg-brand-cream py-12">
-        <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-4">
-          <h2 className="font-arabic font-bold text-2xl text-brand-espresso">آراء الزبائن</h2>
-          <p className="text-sm text-brand-espresso/60 leading-relaxed">
-            ما نعرض تقييمات ولا آراء مختلقة. إذا طلبت منا وجرّبت منتجاً، شاركنا رأيك الحقيقي عبر الإيميل.
-          </p>
-          <a
-            href="mailto:riads.shop@gmail.com"
-            className="inline-flex items-center gap-2 bg-brand-primary text-brand-ivory text-sm font-bold px-5 py-2.5 rounded-full hover:bg-brand-gold hover:text-brand-primary transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-            riads.shop@gmail.com
-          </a>
-        </div>
-      </section>
 
       {/* ── FAQ ── */}
       <section className="py-16 md:py-20">
