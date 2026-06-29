@@ -52,7 +52,7 @@ const whyUs = [
 const stats = [
   { num: "COD", label: "دفع عند الاستلام" },
   { num: "٢–٤", label: "أيام توصيل تقريبية" },
-  { num: "١٤", label: "منطقة مغطاة" },
+  { num: "كل", label: "مناطق المملكة" },
   { num: "إيميل", label: "دعم مباشر" },
 ];
 
