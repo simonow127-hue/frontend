@@ -81,7 +81,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "car-gap-filler",
     slug: "car-gap-filler",
-    sku: "car-gap-filler",
+    sku: "MP-Z3SJMALO3RPR",
     categoryId: "car",
     arabicName: "حاجز فجوة المقعد — ودّع ضياع أغراضك",
     shortHeading: "حاجز الفجوة: سيارتك مرتبة وكل شيء قدامك",
@@ -135,7 +135,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "car-phone-holder",
     slug: "car-phone-holder",
-    sku: "car-phone-holder",
+    sku: "MP-D2FTXP9LUJ7Y",
     categoryId: "car",
     arabicName: "حامل جوال مغناطيسي للسيارة — ثبات ووضوح",
     shortHeading: "حامل الجوال: قيادة آمنة وشاشة واضحة",
@@ -270,7 +270,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "neck-fan",
     slug: "neck-fan",
-    sku: "neck-fan",
+    sku: "MP-UFVILGUCUBKG",
     categoryId: "electronics",
     arabicName: "مروحة الرقبة المحمولة — برودة وين ما كنت",
     shortHeading: "مروحة الرقبة: هواء بارد بدون يدين",
@@ -451,7 +451,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "quran-speaker",
     slug: "quran-speaker",
-    sku: "quran-speaker",
+    sku: "MP-GTW9WHZOJ3NL",
     categoryId: "electronics",
     arabicName: "مكبر قرآن للحائط — أجواء إيمانية في بيتك",
     shortHeading: "مكبر القرآن: وضوح وروحانية بضغطة زر",
@@ -502,7 +502,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "desk-lamp",
     slug: "desk-lamp",
-    sku: "desk-lamp",
+    sku: "MP-ZSWU29NOQK1F",
     categoryId: "home",
     arabicName: "مصباح مكتب ذكي — إضاءة وشحن لاسلكي",
     shortHeading: "مصباح المكتب: ضوء مريح وشحن بنفس المكان",
@@ -556,7 +556,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "electric-chopper",
     slug: "electric-chopper",
-    sku: "electric-chopper",
+    sku: "MP-WH8QUFVD3TEY",
     categoryId: "home",
     arabicName: "فرامة خضار كهربائية — تجهيز سريع بدون تعب",
     shortHeading: "فرامة الخضار: قطع موحّد بضغطة زر",
@@ -608,7 +608,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "perfume-intense",
     slug: "perfume-intense",
-    sku: "perfume-intense",
+    sku: "MP-KVJEQYF3EWOC",
     categoryId: "style",
     arabicName: "عطر قصة الفاخر ٢٠٠ مل — حضور يبقى معك",
     shortHeading: "عطر قصة: فوحان قوي وثبات طوال اليوم",
@@ -662,7 +662,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "black-sheila",
     slug: "black-sheila",
-    sku: "black-sheila",
+    sku: "MP-FMER4W5JZBAG",
     categoryId: "style",
     arabicName: "شيلة سوداء فاخرة — إطلالة أنيقة كل يوم",
     shortHeading: "الشيلة السوداء: نعومة وفخامة بكل لفّة",
