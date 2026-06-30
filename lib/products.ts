@@ -303,24 +303,6 @@ export const PRODUCTS: Product[] = [
     rating: 4.4,
     reviews: [
       {
-        name: "j***h",
-        flag: "🇮🇳",
-        city: "الهند",
-        rating: 5,
-        date: "أبريل 2026",
-        verified: true,
-        text: "They are simple awesome. Very professional & Great product. Completely satisfied with the service.",
-      },
-      {
-        name: "J***a",
-        flag: "🇦🇷",
-        city: "الأرجنتين",
-        rating: 5,
-        date: "مارس 2026",
-        verified: true,
-        text: "Good product and quality, punctual delivery and good service. My overall rating is positive and I am satisfied.",
-      },
-      {
         name: "O***u",
         flag: "🇬🇧",
         city: "المملكة المتحدة",
