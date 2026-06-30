@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
-import SaudiDeliveryMap from "@/components/ui/SaudiDeliveryMap";
+import { Star, Users, MapPin, BadgeCheck } from "lucide-react";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
 import { formatPrice } from "@/lib/currency";
@@ -333,26 +333,44 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── DELIVERY REGIONS ── */}
-      <section className="bg-brand-espresso py-14 overflow-hidden">
+      {/* ── WHY RIADS ── */}
+      <section className="bg-brand-espresso py-16 overflow-hidden">
         <div className="max-w-content mx-auto px-4">
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <span className="inline-block bg-brand-gold/15 text-brand-gold text-xs font-bold px-4 py-1.5 rounded-full mb-3 tracking-widest uppercase">
-              التغطية الجغرافية
+              ليش Riads؟
             </span>
             <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-ivory">
-              نوصل لكل مناطق المملكة
+              تسوق بثقة — كل يوم
             </h2>
-            <p className="text-brand-ivory/50 text-sm mt-2">من الشمال للجنوب — كل منطقة مغطاة</p>
+            <p className="text-brand-ivory/50 text-sm mt-2">نهتم بكل تفصيلة من لحظة طلبك حتى يوصلك</p>
           </div>
 
-          <SaudiDeliveryMap />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {[
+              { icon: <CreditCard size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "دفع عند الاستلام", sub: "ما تدفع قرش قبل ما يوصلك" },
+              { icon: <Truck size={28} className="text-brand-gold" />, number: "١–٣", label: "أيام توصيل", sub: "لكل مناطق المملكة" },
+              { icon: <Star size={28} className="text-brand-gold" />, number: "٤.٩⭐", label: "تقييم العملاء", sub: "مئات المراجعات الحقيقية" },
+              { icon: <BadgeCheck size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "جودة مضمونة", sub: "منتجات مختارة بعناية" },
+            ].map((item, i) => (
+              <div key={i} className="bg-white/5 border border-brand-gold/15 rounded-2xl p-5 text-center flex flex-col items-center gap-2 hover:bg-white/10 transition-colors">
+                <div className="mb-1">{item.icon}</div>
+                <div className="font-arabic font-black text-2xl text-brand-gold leading-none">{item.number}</div>
+                <div className="font-arabic font-bold text-brand-ivory text-sm">{item.label}</div>
+                <div className="text-brand-ivory/40 text-xs leading-snug">{item.sub}</div>
+              </div>
+            ))}
+          </div>
 
-          <div className="flex items-center justify-center gap-3 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-4 px-6">
-            <Truck size={18} className="text-brand-gold shrink-0" />
-            <p className="text-brand-ivory/80 text-sm">
-              التوصيل من <span className="text-brand-gold font-bold">٢ إلى ٤ أيام عمل</span> · الدفع عند الاستلام في كل المناطق
-            </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5">
+              <MapPin size={16} className="text-brand-gold shrink-0" />
+              <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
+            </div>
+            <div className="flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5">
+              <Users size={16} className="text-brand-gold shrink-0" />
+              <p className="text-brand-ivory/80 text-sm">أكثر من <span className="text-brand-gold font-bold">٥٠٠+ عميل</span> طلبوا معنا</p>
+            </div>
           </div>
         </div>
       </section>
