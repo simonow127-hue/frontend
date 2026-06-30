@@ -47,6 +47,7 @@ export type Product = {
   ingredientsImage?: string;
   usageImage?: string;
   scienceImage?: string;
+  painImage?: string;
   imageColor: string;
   isNew?: boolean;
 };
@@ -129,6 +130,7 @@ export const PRODUCTS: Product[] = [
     scienceImage: "/images/products/car-gap-filler-science.jpg",
     usageImage: "/images/products/car-gap-filler-usage.jpg",
     ingredientsImage: "/images/products/car-gap-filler-features.jpg",
+    painImage: "/images/products/car-gap-filler-pain.jpg",
     imageColor: "#2D2D2D",
     isNew: true,
   },

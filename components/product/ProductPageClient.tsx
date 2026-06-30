@@ -189,7 +189,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="order-2 md:order-1">
             <ProductImage
-              src={product.imagePlaceholder}
+              src={product.painImage || product.imagePlaceholder}
               alt={`${product.shortHeading.split(":")[0]} — المنتج`}
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
