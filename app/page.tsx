@@ -366,7 +366,7 @@ export default function HomePage() {
               <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
             </div>
             <img
-              src="/images/saudi-map.jpg"
+              src="/images/products/saudi-map.jpg"
               alt="خريطة توصيل رياض — جميع مناطق المملكة العربية السعودية"
               className="w-full object-cover opacity-90"
             />
