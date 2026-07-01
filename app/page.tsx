@@ -360,9 +360,16 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="flex items-center justify-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5 max-w-sm mx-auto">
-            <MapPin size={16} className="text-brand-gold shrink-0" />
-            <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
+          <div className="mt-10 rounded-2xl overflow-hidden border border-brand-gold/20 max-w-2xl mx-auto">
+            <div className="bg-brand-gold/10 px-5 py-3 flex items-center gap-2">
+              <MapPin size={16} className="text-brand-gold shrink-0" />
+              <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
+            </div>
+            <img
+              src="/images/saudi-map.jpg"
+              alt="خريطة توصيل رياض — جميع مناطق المملكة العربية السعودية"
+              className="w-full object-cover opacity-90"
+            />
           </div>
         </div>
       </section>
