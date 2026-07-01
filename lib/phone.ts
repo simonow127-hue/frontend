@@ -12,10 +12,13 @@ export function validateSaudiPhone(raw: string): {
 
   const cleaned = raw.trim().replace(/[\s\-\(\)]/g, "");
 
-  // Try libphonenumber-js first
+  // Try libphonenumber-js first — must also confirm country is SA
   try {
     if (isValidPhoneNumber(cleaned, "SA")) {
       const parsed = parsePhoneNumber(cleaned, "SA");
+      if (parsed.country !== "SA") {
+        return { valid: false, error: "الرجاء إدخال رقم جوال سعودي صحيح — مثال: 0512345678" };
+      }
       const e164 = parsed.format("E.164");
       const digitsSA = e164.replace("+", "");
       return { valid: true, e164, digitsSA };
