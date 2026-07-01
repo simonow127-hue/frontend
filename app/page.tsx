@@ -346,12 +346,10 @@ export default function HomePage() {
             <p className="text-brand-ivory/50 text-sm mt-2">نهتم بكل تفصيلة من لحظة طلبك حتى يوصلك</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-2 gap-4 mb-10 max-w-sm mx-auto w-full">
             {[
               { icon: <CreditCard size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "دفع عند الاستلام", sub: "ما تدفع قرش قبل ما يوصلك" },
               { icon: <Truck size={28} className="text-brand-gold" />, number: "١–٣", label: "أيام توصيل", sub: "لكل مناطق المملكة" },
-              { icon: <Star size={28} className="text-brand-gold" />, number: "٤.٩⭐", label: "تقييم العملاء", sub: "مئات المراجعات الحقيقية" },
-              { icon: <BadgeCheck size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "جودة مضمونة", sub: "منتجات مختارة بعناية" },
             ].map((item, i) => (
               <div key={i} className="bg-white/5 border border-brand-gold/15 rounded-2xl p-5 text-center flex flex-col items-center gap-2 hover:bg-white/10 transition-colors">
                 <div className="mb-1">{item.icon}</div>
@@ -362,15 +360,9 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <div className="flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5">
-              <MapPin size={16} className="text-brand-gold shrink-0" />
-              <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
-            </div>
-            <div className="flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5">
-              <Users size={16} className="text-brand-gold shrink-0" />
-              <p className="text-brand-ivory/80 text-sm">أكثر من <span className="text-brand-gold font-bold">٥٠٠+ عميل</span> طلبوا معنا</p>
-            </div>
+          <div className="flex items-center justify-center gap-2 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl py-3 px-5 max-w-sm mx-auto">
+            <MapPin size={16} className="text-brand-gold shrink-0" />
+            <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
           </div>
         </div>
       </section>
