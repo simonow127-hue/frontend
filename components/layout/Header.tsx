@@ -24,6 +24,11 @@ const announcementTicker = [
 
 const darkHeroPages = ["/", "/about", "/shipping", "/terms", "/privacy", "/refund-policy"];
 
+function getScrollThreshold(pathname: string) {
+  if (pathname === "/") return Math.round(window.innerHeight * 0.72);
+  return 160;
+}
+
 export default function Header() {
   const pathname = usePathname();
   const { getTotalItems, openDrawer } = useCartStore();
@@ -34,28 +39,32 @@ export default function Header() {
   const itemCount = getTotalItems();
 
   const hasDarkHero = darkHeroPages.includes(pathname);
-  const isTransparent = hasDarkHero && !scrolled && !menuOpen;
+  const useLightChrome = hasDarkHero && !scrolled && !menuOpen;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > getScrollThreshold(pathname));
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [pathname]);
 
   useEffect(() => {
-    setScrolled(window.scrollY > 24);
+    setScrolled(window.scrollY > getScrollThreshold(pathname));
     setMenuOpen(false);
     setCatOpen(false);
   }, [pathname]);
 
-  const iconClass = isTransparent ? "text-brand-ivory" : "text-brand-espresso";
-  const navLinkClass = isTransparent
+  const iconClass = useLightChrome ? "text-brand-ivory" : "text-brand-espresso";
+  const navLinkClass = useLightChrome
     ? "text-brand-champagne/90 hover:text-brand-gold"
     : "text-brand-espresso/80 hover:text-brand-primary";
-  const actionBtnClass = isTransparent
+  const actionBtnClass = useLightChrome
     ? "hover:bg-white/10"
-    : "hover:bg-brand-cream";
+    : "hover:bg-brand-cream/80";
 
   return (
     <div className="sticky top-0 z-50">
@@ -74,13 +83,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main header */}
+      {/* Main header — always transparent, colors adapt on scroll */}
       <header
         className={clsx(
-          "transition-all duration-300",
-          isTransparent
-            ? "bg-transparent border-b border-transparent shadow-none"
-            : "bg-brand-ivory border-b border-brand-border shadow-sm"
+          "bg-transparent border-b transition-all duration-300",
+          useLightChrome
+            ? "border-white/10"
+            : scrolled
+              ? "border-brand-border/40"
+              : "border-transparent"
         )}
       >
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
