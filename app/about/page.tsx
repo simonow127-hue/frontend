@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck, Truck, HeadphonesIcon, Package, RefreshCw, Zap } from "lucide-react";
+import { ShieldCheck, Truck, HeadphonesIcon, Package, Zap } from "lucide-react";
 
 const promises = [
   {
@@ -16,11 +16,6 @@ const promises = [
     icon: Package,
     title: "الدفع عند الاستلام",
     desc: "ما تدفع قرش قبل ما يوصلك طلبك — هذا هو الضمان الحقيقي.",
-  },
-  {
-    icon: RefreshCw,
-    title: "استرجاع بدون تعقيد",
-    desc: "لو ما عجبك المنتج لأي سبب — تواصل معنا وما نتركك.",
   },
   {
     icon: HeadphonesIcon,
