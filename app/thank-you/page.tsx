@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "شكراً — تم تسجيل طلبك",
-  description: "شكراً على طلبك. فريق رياض ستور بيتواصل معك لتأكيد الطلب.",
+  description: "شكراً على طلبك. فريق رياض بيتواصل معك لتأكيد الطلب.",
   robots: { index: false, follow: false },
 };
 
@@ -23,7 +23,7 @@ export default function ThankYouPage() {
           شكراً! طلبك انسجل بنجاح
         </h1>
         <p className="text-brand-espresso/70 text-center mb-8">
-          فريق رياض ستور بيتواصل معك قريب عشان يأكد التفاصيل.
+          فريق رياض بيتواصل معك قريب عشان يأكد التفاصيل.
         </p>
 
         <div className="flex flex-col gap-4 mb-8">

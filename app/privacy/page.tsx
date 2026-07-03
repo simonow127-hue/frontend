@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "سياسة الخصوصية — رياض ستور" };
+export const metadata: Metadata = { title: "سياسة الخصوصية — رياض" };
 
 export default function PrivacyPage() {
   return (
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-bold text-base text-brand-espresso mb-2">استخدام المعلومات</h2>
             <p>
-              معلوماتك تُستخدم بس عشان: تأكيد الطلب بالجوال، التوصيل، وتحسين تجربتك مع رياض ستور.
+              معلوماتك تُستخدم بس عشان: تأكيد الطلب بالجوال، التوصيل، وتحسين تجربتك مع رياض.
             </p>
           </section>
         </div>

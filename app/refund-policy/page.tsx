@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "سياسة الاسترجاع — رياض ستور" };
+export const metadata: Metadata = { title: "سياسة الاسترجاع — رياض" };
 
 export default function RefundPage() {
   return (

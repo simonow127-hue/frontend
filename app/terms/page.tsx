@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "شروط الاستخدام — رياض ستور" };
+export const metadata: Metadata = { title: "شروط الاستخدام — رياض" };
 
 export default function TermsPage() {
   return (
@@ -14,7 +14,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="font-bold text-base text-brand-espresso mb-2">الطلبات</h2>
-            <p>كل طلب يحتاج تأكيد بالجوال. رياض ستور يحتفظ بحق رفض أي طلب غير مؤكد أو مكرر.</p>
+            <p>كل طلب يحتاج تأكيد بالجوال. رياض يحتفظ بحق رفض أي طلب غير مؤكد أو مكرر.</p>
           </section>
           <section>
             <h2 className="font-bold text-base text-brand-espresso mb-2">المنتجات</h2>
@@ -26,7 +26,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="font-bold text-base text-brand-espresso mb-2">الملكية الفكرية</h2>
-            <p>كل محتويات الموقع من نصوص وصور وشعارات هي ملكية حصرية لرياض ستور (riads.shop).</p>
+            <p>كل محتويات الموقع من نصوص وصور وشعارات هي ملكية حصرية لرياض (riads.shop).</p>
           </section>
         </div>
       </div>
