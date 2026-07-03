@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, Menu, X, ChevronDown, Truck, Search, Star, Globe } from "lucide-react";
+import { ShoppingBag, Menu, X, ChevronDown, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
@@ -15,10 +15,11 @@ const navLinks = [
   { href: "/contact", label: "تواصل معنا" },
 ];
 
-const announcements = [
-  { icon: Truck, text: "توصيل سريع لكل مناطق المملكة", highlight: "٢–٤ أيام عمل" },
-  { icon: Star, text: "تقييمات حقيقية من مستخدمين حول العالم", highlight: "موثّقة" },
-  { icon: Globe, text: "الدفع عند الاستلام متاح", highlight: "بدون بطاقة" },
+const announcementTicker = [
+  "توصيل سريع لكل مناطق المملكة — ٢–٤ أيام عمل",
+  "تقييمات حقيقية من مستخدمين حول العالم",
+  "الدفع عند الاستلام متاح — بدون بطاقة",
+  "رياض",
 ];
 
 const darkHeroPages = ["/", "/about", "/shipping", "/terms", "/privacy", "/refund-policy"];
@@ -29,7 +30,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [annoIdx, setAnnoIdx] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const itemCount = getTotalItems();
 
@@ -49,11 +49,6 @@ export default function Header() {
     setCatOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    const t = setInterval(() => setAnnoIdx((i) => (i + 1) % announcements.length), 3500);
-    return () => clearInterval(t);
-  }, []);
-
   const iconClass = isTransparent ? "text-brand-ivory" : "text-brand-espresso";
   const navLinkClass = isTransparent
     ? "text-brand-champagne/90 hover:text-brand-gold"
@@ -64,27 +59,19 @@ export default function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      {/* Announcement bar — rotating */}
-      <div className="bg-brand-gold text-brand-primary text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
-        {announcements.map((a, i) => {
-          const Icon = a.icon;
-          return (
-            <div
+      {/* Announcement bar — continuous ticker */}
+      <div className="bg-brand-gold text-brand-primary py-2 overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...announcementTicker, ...announcementTicker].map((text, i) => (
+            <span
               key={i}
-              className="absolute flex items-center gap-2 transition-all duration-500"
-              style={{
-                opacity: i === annoIdx ? 1 : 0,
-                transform: i === annoIdx ? "translateY(0)" : "translateY(8px)",
-              }}
+              className="inline-flex items-center gap-3 mx-8 text-xs font-bold font-arabic shrink-0"
             >
-              <Icon size={12} className="text-brand-primary/60 shrink-0" />
-              <span>
-                {a.text} •{" "}
-                <span className="font-black">{a.highlight}</span>
-              </span>
-            </div>
-          );
-        })}
+              {text}
+              <span className="text-brand-primary/40 text-sm leading-none">✦</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       {/* Main header */}
