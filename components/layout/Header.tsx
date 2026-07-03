@@ -35,7 +35,7 @@ export default function Header() {
   return (
     <div className="sticky top-0 z-50">
       {/* Announcement bar — rotating */}
-      <div className="bg-brand-gold/10 border-b border-brand-gold/20 text-brand-espresso text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
+      <div className="bg-brand-gold text-brand-primary text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
         {announcements.map((a, i) => {
           const Icon = a.icon;
           return (
@@ -47,10 +47,10 @@ export default function Header() {
                 transform: i === annoIdx ? "translateY(0)" : "translateY(8px)",
               }}
             >
-              <Icon size={12} className="text-brand-gold shrink-0" />
+              <Icon size={12} className="text-brand-primary/60 shrink-0" />
               <span>
                 {a.text} •{" "}
-                <span className="text-brand-gold font-bold">{a.highlight}</span>
+                <span className="font-black">{a.highlight}</span>
               </span>
             </div>
           );

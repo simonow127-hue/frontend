@@ -1,31 +1,36 @@
+import type { Metadata } from "next";
+import { Truck, MapPin, Clock, CreditCard } from "lucide-react";
+
+export const metadata: Metadata = { title: "سياسة التوصيل — رياض" };
+
 export default function ShippingPage() {
   return (
-    <div className="max-w-content mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-2xl mx-auto text-right">
-        <h1 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">سياسة التوصيل</h1>
-        <div className="flex flex-col gap-6 text-brand-espresso/80 leading-loose text-sm">
-          <section>
-            <h2 className="font-bold text-brand-espresso text-lg mb-2">مناطق التوصيل</h2>
-            <p>نوصل لجميع مناطق المملكة العربية السعودية — المدن الرئيسية والمناطق البعيدة.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-brand-espresso text-lg mb-2">مدة التوصيل</h2>
-            <p>من ٢ إلى ٥ أيام عمل حسب مدينتك. الرياض وجدة والدمام والخبر عادةً أسرع.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-brand-espresso text-lg mb-2">تكلفة الشحن</h2>
-            <p>شحن مجاني على الطلبات — بدون رسوم إضافية مخفية.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-brand-espresso text-lg mb-2">تأكيد الطلب</h2>
-            <p>نتواصل معك بالجوال لتأكيد الطلب قبل الإرسال — تأكد رقمك صحيح.</p>
-          </section>
-          <section>
-            <h2 className="font-bold text-brand-espresso text-lg mb-2">الدفع عند الاستلام</h2>
-            <p>تدفع للمندوب لما يوصلك الطلب — نقداً أو شبكة حسب توفر المندوب.</p>
-          </section>
+    <div className="text-right" dir="rtl">
+      <section className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center">
+        <h1 className="font-arabic font-bold text-3xl md:text-4xl text-brand-gold mb-3">سياسة التوصيل</h1>
+        <p className="text-brand-ivory/60 text-base">نوصل لكل مناطق المملكة — سريع وآمن</p>
+      </section>
+
+      <section className="max-w-2xl mx-auto px-4 py-14">
+        <div className="flex flex-col gap-5">
+          {[
+            { icon: MapPin, title: "مناطق التوصيل", text: "نوصل لجميع مناطق المملكة العربية السعودية — المدن الرئيسية والمناطق البعيدة." },
+            { icon: Clock, title: "مدة التوصيل", text: "من ٢ إلى ٤ أيام عمل حسب مدينتك. الرياض وجدة والدمام عادةً أسرع." },
+            { icon: Truck, title: "تكلفة الشحن", text: "شحن مجاني على الطلبات — بدون رسوم إضافية مخفية." },
+            { icon: CreditCard, title: "الدفع عند الاستلام", text: "تدفع للمندوب لما يوصلك الطلب — ما تحتاج بطاقة أو تحويل مسبق." },
+          ].map((item) => (
+            <div key={item.title} className="flex gap-4 items-start bg-brand-cream rounded-2xl border border-brand-border p-5">
+              <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                <item.icon size={18} className="text-brand-primary" />
+              </div>
+              <div>
+                <h2 className="font-bold text-brand-espresso mb-1">{item.title}</h2>
+                <p className="text-brand-espresso/70 text-sm leading-relaxed">{item.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

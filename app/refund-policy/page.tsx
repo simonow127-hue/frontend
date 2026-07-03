@@ -1,39 +1,43 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-export const metadata: Metadata = { title: "سياسة الاسترجاع — رياض" };
+export const metadata: Metadata = { title: "سياسة الشكاوى — رياض" };
 
 export default function RefundPage() {
   return (
-    <div className="max-w-content mx-auto px-4 py-16">
-      <div className="max-w-2xl mx-auto text-right">
-        <h1 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">سياسة الاسترجاع</h1>
-        <div className="flex flex-col gap-6 text-brand-espresso/80">
-          <section>
-            <h2 className="font-bold text-lg text-brand-espresso mb-2">الاسترجاع والاستبدال</h2>
-            <p>
-              إذا وصلك منتج تالف أو مختلف عن طلبك، تواصل معنا خلال 48 ساعة من الاستلام مع صور واضحة للمنتج.
-            </p>
-          </section>
-          <section>
-            <h2 className="font-bold text-lg text-brand-espresso mb-2">شروط الاسترجاع</h2>
-            <ul className="list-disc list-inside flex flex-col gap-2">
-              <li>المنتج ما انستخدم ولسه بتغليفه الأصلي</li>
-              <li>التواصل خلال 48 ساعة من الاستلام</li>
-              <li>إرسال صور للمنتج</li>
-            </ul>
-          </section>
-          <section>
-            <h2 className="font-bold text-lg text-brand-espresso mb-2">الحالات المستثناة</h2>
-            <p>
-              ما نقبل الاسترجاع إذا تغير رأيك بعد فتح المنتج واستخدامه، أو رفضت الاستلام بدون سبب مقنع.
-            </p>
-          </section>
-          <section>
-            <h2 className="font-bold text-lg text-brand-espresso mb-2">للتواصل</h2>
-            <p>تواصل معنا عبر الجوال أو واتساب مع ذكر رقم طلبك.</p>
-          </section>
+    <div className="text-right" dir="rtl">
+      <section className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center">
+        <h1 className="font-arabic font-bold text-3xl md:text-4xl text-brand-gold mb-3">الشكاوى والمشاكل</h1>
+        <p className="text-brand-ivory/60 text-base">وصلك شيء غلط؟ نحل معك</p>
+      </section>
+
+      <section className="max-w-2xl mx-auto px-4 py-14">
+        <div className="flex flex-col gap-6 text-brand-espresso/80 text-sm leading-loose">
+          {[
+            { title: "منتج تالف أو مختلف عن الطلب", text: "إذا وصلك منتج تالف أو مختلف عن طلبك، تواصل معنا خلال 48 ساعة من الاستلام مع صور واضحة للمنتج." },
+            { title: "شروط القبول", text: "المنتج ما انستخدم ولسه بتغليفه الأصلي، والتواصل خلال 48 ساعة من استلامك للطلب مع صور توضيحية." },
+            { title: "الحالات غير المقبولة", text: "ما نقبل الشكوى إذا تغير رأيك بعد استلام المنتج وفتحه، أو رفضت الاستلام بدون سبب واضح." },
+          ].map((s) => (
+            <div key={s.title} className="border-b border-brand-border pb-5 last:border-0">
+              <h2 className="font-bold text-base text-brand-espresso mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-gold shrink-0" />
+                {s.title}
+              </h2>
+              <p>{s.text}</p>
+            </div>
+          ))}
         </div>
-      </div>
+
+        <div className="mt-8 bg-brand-espresso rounded-2xl p-6 text-center">
+          <p className="text-brand-ivory/80 text-sm mb-4">لأي مشكلة تواصل معنا مباشرة</p>
+          <Link
+            href="mailto:riads.shop@gmail.com"
+            className="inline-flex items-center gap-2 bg-brand-gold text-brand-espresso font-bold px-6 py-3 rounded-full hover:brightness-110 transition-all text-sm"
+          >
+            راسلنا على الإيميل
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
