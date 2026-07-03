@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "سياسة الخصوصية — ري
 export default function PrivacyPage() {
   return (
     <div className="text-right" dir="rtl">
-      <section className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center">
+      <section data-header-theme="dark" className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center -mt-24 pt-32">
         <h1 className="font-arabic font-bold text-3xl md:text-4xl text-brand-gold mb-3">سياسة الخصوصية</h1>
         <p className="text-brand-ivory/60 text-base">خصوصيتك أمانة عندنا</p>
       </section>

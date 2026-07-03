@@ -33,7 +33,7 @@ export default function AboutPage() {
   return (
     <div className="text-right" dir="rtl">
       {/* Hero */}
-      <section className="bg-brand-espresso text-brand-ivory py-20 px-4">
+      <section data-header-theme="dark" className="bg-brand-espresso text-brand-ivory py-20 px-4 -mt-24 pt-32">
         <div className="max-w-2xl mx-auto text-center">
           <h1 className="font-arabic font-bold text-4xl md:text-5xl leading-tight mb-5">
             رياض — متجر سعودي

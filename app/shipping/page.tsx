@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "سياسة التوصيل — ريا
 export default function ShippingPage() {
   return (
     <div className="text-right" dir="rtl">
-      <section className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center">
+      <section data-header-theme="dark" className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center -mt-24 pt-32">
         <h1 className="font-arabic font-bold text-3xl md:text-4xl text-brand-gold mb-3">سياسة التوصيل</h1>
         <p className="text-brand-ivory/60 text-base">نوصل لكل مناطق المملكة — سريع وآمن</p>
       </section>

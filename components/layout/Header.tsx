@@ -7,6 +7,7 @@ import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 import SearchOverlay from "@/components/ui/SearchOverlay";
+import { useHeaderTheme } from "@/lib/useHeaderTheme";
 import { clsx } from "clsx";
 
 const navLinks = [
@@ -22,49 +23,36 @@ const announcementTicker = [
   "رياض",
 ];
 
-const darkHeroPages = ["/", "/about", "/shipping", "/terms", "/privacy", "/refund-policy"];
-
-function getScrollThreshold(pathname: string) {
-  if (pathname === "/") return Math.round(window.innerHeight * 0.72);
-  return 160;
-}
-
 export default function Header() {
   const pathname = usePathname();
   const { getTotalItems, openDrawer } = useCartStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const overDark = useHeaderTheme(pathname);
   const itemCount = getTotalItems();
 
-  const hasDarkHero = darkHeroPages.includes(pathname);
-  const useLightChrome = hasDarkHero && !scrolled && !menuOpen;
+  const useLightChrome = overDark && !menuOpen;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > getScrollThreshold(pathname));
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [pathname]);
-
-  useEffect(() => {
-    setScrolled(window.scrollY > getScrollThreshold(pathname));
     setMenuOpen(false);
     setCatOpen(false);
   }, [pathname]);
 
-  const iconClass = useLightChrome ? "text-brand-ivory" : "text-brand-espresso";
-  const navLinkClass = useLightChrome
-    ? "text-brand-champagne/90 hover:text-brand-gold"
-    : "text-brand-espresso/80 hover:text-brand-primary";
-  const actionBtnClass = useLightChrome
-    ? "hover:bg-white/10"
-    : "hover:bg-brand-cream/80";
+  const iconClass = clsx(
+    "transition-colors duration-300",
+    useLightChrome ? "text-brand-ivory" : "text-brand-espresso"
+  );
+  const navLinkClass = clsx(
+    "transition-colors duration-300",
+    useLightChrome
+      ? "text-brand-champagne/90 hover:text-brand-gold"
+      : "text-brand-espresso/80 hover:text-brand-primary"
+  );
+  const actionBtnClass = clsx(
+    "transition-colors duration-300",
+    useLightChrome ? "hover:bg-white/10" : "hover:bg-brand-cream/80"
+  );
 
   return (
     <div className="sticky top-0 z-50">
@@ -89,9 +77,7 @@ export default function Header() {
           "bg-transparent border-b transition-all duration-300",
           useLightChrome
             ? "border-white/10"
-            : scrolled
-              ? "border-brand-border/40"
-              : "border-transparent"
+            : "border-brand-border/30"
         )}
       >
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">

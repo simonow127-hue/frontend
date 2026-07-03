@@ -96,7 +96,7 @@ export default function HomePage() {
     <div className="flex flex-col">
 
       {/* ── HERO ── */}
-      <section className="relative bg-brand-primary text-brand-ivory overflow-hidden min-h-[85vh] flex items-center">
+      <section data-header-theme="dark" className="relative -mt-24 pt-24 bg-brand-primary text-brand-ivory overflow-hidden min-h-[85vh] flex items-center">
         {/* Background texture */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#C9A45C18_0%,transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,#ffffff08_0%,transparent_50%)]" />
@@ -177,7 +177,7 @@ export default function HomePage() {
       </section>
 
       {/* ── MARQUEE STRIP ── */}
-      <section className="bg-brand-gold text-brand-primary py-3.5 overflow-hidden">
+      <section data-header-theme="light" className="bg-brand-gold text-brand-primary py-3.5 overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
             <span key={i} className="inline-flex items-center gap-3 mx-6 text-sm font-bold tracking-wide font-arabic shrink-0">
@@ -189,7 +189,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LATEST PRODUCTS ── */}
-      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+      <section data-header-theme="light" className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
         <div className="flex items-center justify-between mb-10">
           <Link
             href="/collections"
@@ -217,7 +217,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SPOTLIGHT / FEATURED PRODUCT ── */}
-      <section className="bg-brand-primary text-brand-ivory overflow-hidden">
+      <section data-header-theme="dark" className="bg-brand-primary text-brand-ivory overflow-hidden">
         <div className="max-w-content mx-auto px-4 py-14 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="relative order-2 md:order-1">
             <div className="relative aspect-square max-w-sm mx-auto rounded-3xl overflow-hidden border border-white/10">
@@ -265,7 +265,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SHOP BY CATEGORY ── */}
-      <section className="bg-brand-cream py-16 md:py-20">
+      <section data-header-theme="light" className="bg-brand-cream py-16 md:py-20">
         <div className="max-w-content mx-auto px-4">
           <div className="text-center mb-10">
             <div className="flex items-center gap-2 justify-center mb-1">
@@ -306,7 +306,7 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY CHOOSE US ── */}
-      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+      <section data-header-theme="light" className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
         <div className="text-center mb-12">
           <div className="flex items-center gap-2 justify-center mb-1">
             <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
@@ -336,7 +336,7 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY RIADS ── */}
-      <section className="bg-brand-espresso py-16 overflow-hidden">
+      <section data-header-theme="dark" className="bg-brand-espresso py-16 overflow-hidden">
         <div className="max-w-content mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-block bg-brand-gold/15 text-brand-gold text-xs font-bold px-4 py-1.5 rounded-full mb-3 tracking-widest uppercase">
@@ -378,7 +378,7 @@ export default function HomePage() {
 
 
       {/* ── FAQ ── */}
-      <section className="py-16 md:py-20">
+      <section data-header-theme="light" className="py-16 md:py-20">
         <div className="max-w-2xl mx-auto px-4">
           <div className="text-center mb-10">
             <div className="flex items-center gap-2 justify-center mb-1">
@@ -413,7 +413,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FINAL CTA ── */}
-      <section className="bg-brand-primary text-brand-ivory relative overflow-hidden py-20">
+      <section data-header-theme="dark" className="bg-brand-primary text-brand-ivory relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#C9A45C20_0%,transparent_60%)]" />
         <div className="relative max-w-content mx-auto px-4 text-center flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 justify-center">

@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "شروط الاستخدام — ري
 export default function TermsPage() {
   return (
     <div className="text-right" dir="rtl">
-      <section className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center">
+      <section data-header-theme="dark" className="bg-brand-espresso text-brand-ivory py-14 px-4 text-center -mt-24 pt-32">
         <h1 className="font-arabic font-bold text-3xl md:text-4xl text-brand-gold mb-3">شروط الاستخدام</h1>
         <p className="text-brand-ivory/60 text-base">آخر تحديث: ٢٠٢٦</p>
       </section>
