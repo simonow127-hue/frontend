@@ -42,6 +42,7 @@ const config: Config = {
         "fade-in": "fadeIn 0.2s ease-out",
         "scale-in": "scaleIn 0.2s ease-out",
         marquee: "marquee 28s linear infinite",
+        shimmer: "shimmer 1.5s infinite",
       },
       keyframes: {
         marquee: {
@@ -59,6 +60,10 @@ const config: Config = {
         scaleIn: {
           from: { opacity: "0", transform: "scale(0.95)" },
           to: { opacity: "1", transform: "scale(1)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
         },
       },
     },

@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import { clsx } from "clsx";
+import { useState } from "react";
 
 type AspectRatio = "square" | "wide" | "portrait";
 
@@ -28,16 +30,24 @@ export default function ProductImage({
   imageClassName = "",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
-  quality = 72,
+  quality = 75,
 }: ProductImageProps) {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-cream to-brand-ivory",
+        "relative overflow-hidden rounded-2xl bg-brand-cream",
         aspectClasses[aspect],
         className
       )}
     >
+      {/* Shimmer skeleton while loading */}
+      {!loaded && (
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-cream via-brand-ivory to-brand-cream animate-[shimmer_1.5s_infinite]"
+          style={{ backgroundSize: "200% 100%" }}
+        />
+      )}
       <Image
         src={src}
         alt={alt}
@@ -46,7 +56,12 @@ export default function ProductImage({
         loading={priority ? "eager" : "lazy"}
         sizes={sizes}
         quality={quality}
-        className={clsx("object-contain object-center p-2 md:p-4", imageClassName)}
+        onLoad={() => setLoaded(true)}
+        className={clsx(
+          "object-contain object-center p-2 md:p-4 transition-opacity duration-300",
+          loaded ? "opacity-100" : "opacity-0",
+          imageClassName
+        )}
       />
     </div>
   );
