@@ -11,6 +11,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
+import PaymentLogos from "@/components/ui/PaymentLogos";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe, Zap } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
@@ -143,6 +144,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
             <div className="flex items-center gap-2 justify-center">
               <ShieldCheck size={16} className="text-status-success" />
               <span className="text-sm text-brand-espresso/70">الدفع عند الاستلام · توصيل لكل المملكة</span>
+            </div>
+
+            {/* Payment logos */}
+            <div className="flex justify-center pt-1">
+              <PaymentLogos size="sm" className="opacity-70" />
             </div>
           </div>
         </div>

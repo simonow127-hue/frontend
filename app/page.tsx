@@ -11,6 +11,7 @@ import { Star, Users, MapPin, BadgeCheck } from "lucide-react";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
 import { formatPrice } from "@/lib/currency";
+import PaymentLogos from "@/components/ui/PaymentLogos";
 
 export const metadata: Metadata = {
   title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
@@ -439,13 +440,9 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
-          {/* Payment methods */}
-          <div className="flex items-center gap-3 mt-4 opacity-60">
-            {["الدفع نقداً", "Visa", "Mada", "STC Pay"].map((m) => (
-              <span key={m} className="text-[11px] border border-brand-cream/20 rounded-lg px-3 py-1.5 text-brand-cream/80">
-                {m}
-              </span>
-            ))}
+          {/* Payment logos */}
+          <div className="mt-4 opacity-70">
+            <PaymentLogos size="sm" />
           </div>
         </div>
       </section>

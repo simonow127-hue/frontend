@@ -3,14 +3,7 @@ import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 import { PRODUCTS } from "@/lib/products";
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
-
-const paymentMethods = [
-  { label: "الدفع نقداً", abbr: "COD" },
-  { label: "فيزا", abbr: "VISA" },
-  { label: "مدى", abbr: "mada" },
-  { label: "STC Pay", abbr: "STC" },
-  { label: "Apple Pay", abbr: "⎆" },
-];
+import PaymentLogos from "@/components/ui/PaymentLogos";
 
 export default function Footer() {
   return (
@@ -41,16 +34,9 @@ export default function Footer() {
               متجر سعودي يجمع منتجات مختارة بجودة عالية.
               توصيل سريع، دفع عند الاستلام، وخدمة عملاء تهمّك.
             </p>
-            {/* Payment badges */}
-            <div className="flex flex-wrap gap-2 mt-1">
-              {paymentMethods.map((m) => (
-                <span
-                  key={m.abbr}
-                  className="text-[10px] font-bold border border-brand-cream/15 rounded-lg px-2.5 py-1.5 text-brand-cream/60 hover:border-brand-gold/40 hover:text-brand-gold transition-colors"
-                >
-                  {m.abbr}
-                </span>
-              ))}
+            {/* Payment logos */}
+            <div className="mt-1 opacity-80">
+              <PaymentLogos size="sm" />
             </div>
           </div>
 
