@@ -301,9 +301,14 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 >
                   <div className="flex items-center justify-between">
                     <Stars rating={review.rating} size="sm" />
-                    <div className="flex items-center gap-1.5">
-                      {review.flag && <span className="text-base leading-none">{review.flag}</span>}
-                      <span className="font-bold text-brand-espresso text-sm">{review.name}</span>
+                    <div className="flex flex-col items-end gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        {review.flag && <span className="text-base leading-none">{review.flag}</span>}
+                        <span className="font-bold text-brand-espresso text-sm">{review.name}</span>
+                      </div>
+                      {review.city && (
+                        <span className="text-[11px] text-brand-espresso/45 leading-none">{review.city}</span>
+                      )}
                     </div>
                   </div>
                   <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">{review.text}</p>
