@@ -34,7 +34,7 @@ export default function ProductGallery({ images, alt, priority = false }: Produc
     <div className="flex flex-col gap-3">
       {/* Main image */}
       <div
-        className="relative aspect-square rounded-2xl overflow-hidden bg-brand-ivory border border-brand-border/50 select-none"
+        className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-brand-border/50 select-none"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -93,7 +93,7 @@ export default function ProductGallery({ images, alt, priority = false }: Produc
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`relative w-14 h-14 rounded-xl overflow-hidden border-2 shrink-0 transition-all duration-200 bg-brand-ivory ${
+              className={`relative w-14 h-14 rounded-xl overflow-hidden border-2 shrink-0 transition-all duration-200 bg-white ${
                 i === active
                   ? "border-brand-gold scale-105"
                   : "border-brand-border opacity-60 hover:opacity-90"

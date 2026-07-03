@@ -29,12 +29,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="bg-brand-ivory rounded-2xl border border-brand-border overflow-hidden flex flex-col hover:shadow-xl hover:border-brand-gold/40 transition-all duration-300 group">
       {/* Image */}
       <Link href={`/products/${product.slug}`} className="block relative overflow-hidden">
-        <div className="relative aspect-square bg-brand-cream border-b border-brand-border">
+        <div className="relative aspect-square bg-white border-b border-brand-border">
           <Image
             src={product.imagePlaceholder}
             alt={product.arabicName}
             fill
-            className="object-cover group-hover:scale-[1.06] transition-transform duration-500"
+            className="object-contain p-3 group-hover:scale-[1.04] transition-transform duration-500"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           {/* Gradient overlay on hover */}

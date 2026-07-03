@@ -37,14 +37,14 @@ export default function ProductImage({
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-2xl bg-brand-ivory",
+        "relative overflow-hidden rounded-2xl bg-white",
         aspectClasses[aspect],
         className
       )}
     >
       {/* Shimmer skeleton while loading */}
       {!loaded && (
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-cream via-brand-ivory to-brand-cream animate-[shimmer_1.5s_infinite]"
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-gray-50 to-white animate-[shimmer_1.5s_infinite]"
           style={{ backgroundSize: "200% 100%" }}
         />
       )}
