@@ -16,7 +16,7 @@ import PaymentLogos from "@/components/ui/PaymentLogos";
 export const metadata: Metadata = {
   title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
   description:
-    "رياض — منتجات مختارة للسوق السعودي. دفع عند الاستلام، توصيل سريع، وسياسة استرجاع واضحة.",
+    "رياض — منتجات مختارة للسوق السعودي. دفع عند الاستلام، توصيل سريع، تقييمات حقيقية.",
 };
 
 const whyUs = [

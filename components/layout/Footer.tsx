@@ -80,7 +80,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-2.5">
               {[
                 { href: "/shipping", label: "سياسة التوصيل" },
-                { href: "/refund-policy", label: "الاسترجاع والاستبدال" },
+                { href: "/contact", label: "تواصل معنا" },
                 { href: "/privacy", label: "سياسة الخصوصية" },
                 { href: "/terms", label: "الشروط والأحكام" },
                 { href: "/contact", label: "تواصل معنا" },

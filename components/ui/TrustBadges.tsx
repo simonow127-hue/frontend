@@ -1,9 +1,9 @@
-import { ShieldCheck, Phone, Package, Truck, RotateCcw } from "lucide-react";
+import { ShieldCheck, Phone, Package, Truck } from "lucide-react";
 
 const badges = [
   { icon: ShieldCheck, text: "دفع عند الاستلام", sub: "ادفع لما يوصلك" },
   { icon: Truck, text: "توصيل سريع", sub: "لكل مناطق المملكة" },
-  { icon: RotateCcw, text: "استرجاع سهل", sub: "خلال ٧ أيام" },
+  { icon: Phone, text: "دعم مباشر", sub: "عبر الإيميل" },
   { icon: Package, text: "تغليف فاخر", sub: "يصل بأمان" },
 ];
 
