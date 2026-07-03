@@ -35,7 +35,7 @@ export default function Header() {
   return (
     <div className="sticky top-0 z-50">
       {/* Announcement bar — rotating */}
-      <div className="bg-brand-primary text-brand-champagne text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
+      <div className="bg-brand-gold/10 border-b border-brand-gold/20 text-brand-espresso text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
         {announcements.map((a, i) => {
           const Icon = a.icon;
           return (
