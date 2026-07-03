@@ -12,6 +12,7 @@ import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
+import ProductGallery from "@/components/ui/ProductGallery";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe, Zap } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
@@ -85,15 +86,18 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Product image (left in RTL on desktop) */}
+          {/* Product gallery (left in RTL on desktop) */}
           <div className="order-1 md:order-2">
-            <ProductImage
-              src={product.imagePlaceholder}
+            <ProductGallery
+              images={[
+                product.imagePlaceholder,
+                ...(product.painImage ? [product.painImage] : []),
+                ...(product.scienceImage ? [product.scienceImage] : []),
+                ...(product.usageImage ? [product.usageImage] : []),
+                ...(product.ingredientsImage ? [product.ingredientsImage] : []),
+              ]}
               alt={product.arabicName}
-              aspect="square"
-              className="shadow-lg ring-1 ring-brand-border/60"
               priority
-              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
