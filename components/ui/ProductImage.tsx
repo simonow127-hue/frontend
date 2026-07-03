@@ -37,7 +37,7 @@ export default function ProductImage({
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-2xl bg-brand-cream",
+        "relative overflow-hidden rounded-2xl bg-brand-ivory",
         aspectClasses[aspect],
         className
       )}
@@ -58,7 +58,7 @@ export default function ProductImage({
         quality={quality}
         onLoad={() => setLoaded(true)}
         className={clsx(
-          "object-contain object-center p-2 md:p-4 transition-opacity duration-300",
+          "object-contain object-center p-3 transition-opacity duration-300",
           loaded ? "opacity-100" : "opacity-0",
           imageClassName
         )}
