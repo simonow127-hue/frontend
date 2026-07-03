@@ -58,7 +58,7 @@ export default function Header() {
       </div>
 
       {/* Main header */}
-      <header className="bg-brand-ivory/97 backdrop-blur-md border-b border-brand-border shadow-sm">
+      <header className="bg-brand-ivory border-b border-brand-border shadow-sm">
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
           {/* Logo */}
           <BrandWordmark asLink size="md" />
