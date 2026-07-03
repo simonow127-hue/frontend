@@ -50,11 +50,14 @@ const whyUs = [
   },
 ];
 
-const stats = [
-  { num: "COD", label: "دفع عند الاستلام" },
-  { num: "٢–٤", label: "أيام توصيل تقريبية" },
-  { num: "كل", label: "مناطق المملكة" },
-  { num: "إيميل", label: "دعم مباشر" },
+const marqueeItems = [
+  "رياض",
+  "دفع عند الاستلام",
+  "توصيل سريع لكل المملكة",
+  "منتجات مختارة بعناية",
+  "تغليف فاخر",
+  "تقييمات حقيقية",
+  "خدمة تليق فيك",
 ];
 
 const faqs = [
@@ -173,17 +176,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── STATS STRIP ── */}
-      <section className="bg-brand-gold text-brand-primary py-5">
-        <div className="max-w-content mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-            {stats.map((s) => (
-              <div key={s.label} className="flex flex-col items-center text-center">
-                <span className="font-arabic font-black text-xl md:text-2xl">{s.num}</span>
-                <span className="text-xs font-medium opacity-80 mt-0.5">{s.label}</span>
-              </div>
-            ))}
-          </div>
+      {/* ── MARQUEE STRIP ── */}
+      <section className="bg-brand-gold text-brand-primary py-3.5 overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-3 mx-6 text-sm font-bold tracking-wide font-arabic shrink-0">
+              {item}
+              <span className="text-brand-primary/40 text-lg leading-none">✦</span>
+            </span>
+          ))}
         </div>
       </section>
 
