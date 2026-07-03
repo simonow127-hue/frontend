@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ShoppingBag, Menu, X, ChevronDown, Truck, Search, Star, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 import SearchOverlay from "@/components/ui/SearchOverlay";
+import { clsx } from "clsx";
 
 const navLinks = [
   { href: "/collections", label: "كل المنتجات" },
@@ -19,18 +21,46 @@ const announcements = [
   { icon: Globe, text: "الدفع عند الاستلام متاح", highlight: "بدون بطاقة" },
 ];
 
+const darkHeroPages = ["/", "/about", "/shipping", "/terms", "/privacy", "/refund-policy"];
+
 export default function Header() {
+  const pathname = usePathname();
   const { getTotalItems, openDrawer } = useCartStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [annoIdx, setAnnoIdx] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const itemCount = getTotalItems();
+
+  const hasDarkHero = darkHeroPages.includes(pathname);
+  const isTransparent = hasDarkHero && !scrolled && !menuOpen;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
+
+  useEffect(() => {
+    setScrolled(window.scrollY > 24);
+    setMenuOpen(false);
+    setCatOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const t = setInterval(() => setAnnoIdx((i) => (i + 1) % announcements.length), 3500);
     return () => clearInterval(t);
   }, []);
+
+  const iconClass = isTransparent ? "text-brand-ivory" : "text-brand-espresso";
+  const navLinkClass = isTransparent
+    ? "text-brand-champagne/90 hover:text-brand-gold"
+    : "text-brand-espresso/80 hover:text-brand-primary";
+  const actionBtnClass = isTransparent
+    ? "hover:bg-white/10"
+    : "hover:bg-brand-cream";
 
   return (
     <div className="sticky top-0 z-50">
@@ -58,7 +88,14 @@ export default function Header() {
       </div>
 
       {/* Main header */}
-      <header className="bg-brand-ivory border-b border-brand-border shadow-sm">
+      <header
+        className={clsx(
+          "transition-all duration-300",
+          isTransparent
+            ? "bg-transparent border-b border-transparent shadow-none"
+            : "bg-brand-ivory border-b border-brand-border shadow-sm"
+        )}
+      >
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
           {/* Logo */}
           <BrandWordmark asLink size="md" />
@@ -71,7 +108,10 @@ export default function Header() {
                 type="button"
                 onClick={() => setCatOpen(!catOpen)}
                 onBlur={() => setTimeout(() => setCatOpen(false), 150)}
-                className="flex items-center gap-1 text-sm font-semibold text-brand-espresso/80 hover:text-brand-primary transition-colors"
+                className={clsx(
+                  "flex items-center gap-1 text-sm font-semibold transition-colors",
+                  navLinkClass
+                )}
               >
                 التصنيفات
                 <ChevronDown size={14} className={`transition-transform duration-200 ${catOpen ? "rotate-180" : ""}`} />
@@ -96,7 +136,10 @@ export default function Header() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm font-semibold text-brand-espresso/80 hover:text-brand-primary transition-colors relative group"
+                className={clsx(
+                  "text-sm font-semibold transition-colors relative group",
+                  navLinkClass
+                )}
               >
                 {l.label}
                 <span className="absolute -bottom-0.5 right-0 left-0 h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-200 rounded-full" />
@@ -112,17 +155,17 @@ export default function Header() {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="بحث"
-              className="p-2.5 rounded-full hover:bg-brand-cream transition-colors"
+              className={clsx("p-2.5 rounded-full transition-colors", actionBtnClass)}
             >
-              <Search size={20} className="text-brand-espresso" />
+              <Search size={20} className={iconClass} />
             </button>
 
             <button
               onClick={openDrawer}
               aria-label="فتح سلة التسوق"
-              className="relative p-2.5 rounded-full hover:bg-brand-cream transition-colors"
+              className={clsx("relative p-2.5 rounded-full transition-colors", actionBtnClass)}
             >
-              <ShoppingBag size={21} className="text-brand-espresso" />
+              <ShoppingBag size={21} className={iconClass} />
               {itemCount > 0 && (
                 <span className="absolute -top-0.5 -left-0.5 bg-brand-gold text-brand-primary text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md">
                   {itemCount}
@@ -132,11 +175,11 @@ export default function Header() {
 
             {/* Mobile burger */}
             <button
-              className="md:hidden p-2 rounded-full hover:bg-brand-cream transition-colors"
+              className={clsx("md:hidden p-2 rounded-full transition-colors", actionBtnClass)}
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="القائمة"
             >
-              {menuOpen ? <X size={20} className="text-brand-espresso" /> : <Menu size={20} className="text-brand-espresso" />}
+              {menuOpen ? <X size={20} className={iconClass} /> : <Menu size={20} className={iconClass} />}
             </button>
           </div>
         </div>
