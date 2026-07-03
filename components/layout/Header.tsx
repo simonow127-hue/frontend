@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import { ShoppingBag, Menu, X, ChevronDown, Truck } from "lucide-react";
+import { ShoppingBag, Menu, X, ChevronDown, Truck, Search } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
+import SearchOverlay from "@/components/ui/SearchOverlay";
 
 const navLinks = [
   { href: "/collections", label: "كل المنتجات" },
@@ -16,6 +17,7 @@ export default function Header() {
   const { getTotalItems, openDrawer } = useCartStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const itemCount = getTotalItems();
 
   return (
@@ -76,8 +78,19 @@ export default function Header() {
             ))}
           </nav>
 
+          {/* Search overlay */}
+          {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
+
           {/* Actions */}
           <div className="flex items-center gap-2 ms-auto md:ms-0">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="بحث"
+              className="p-2.5 rounded-full hover:bg-brand-cream transition-colors"
+            >
+              <Search size={20} className="text-brand-espresso" />
+            </button>
+
             <button
               onClick={openDrawer}
               aria-label="فتح سلة التسوق"
