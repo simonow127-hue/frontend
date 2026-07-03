@@ -204,7 +204,7 @@ export default function HomePage() {
             <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso">
               أحدث المنتجات
             </h2>
-            <p className="text-brand-espresso/60 text-sm mt-1">وصل حديثاً — كميات محدودة</p>
+            <p className="text-brand-espresso/60 text-sm mt-1">وصل حديثاً — اكتشف الجديد</p>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -349,7 +349,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-4 mb-10 max-w-sm mx-auto w-full">
             {[
               { icon: <CreditCard size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "دفع عند الاستلام", sub: "ما تدفع قرش قبل ما يوصلك" },
-              { icon: <Truck size={28} className="text-brand-gold" />, number: "١–٣", label: "أيام توصيل", sub: "لكل مناطق المملكة" },
+              { icon: <Truck size={28} className="text-brand-gold" />, number: "٢–٤", label: "أيام توصيل", sub: "لكل مناطق المملكة" },
             ].map((item, i) => (
               <div key={i} className="bg-white/5 border border-brand-gold/15 rounded-2xl p-5 text-center flex flex-col items-center gap-2 hover:bg-white/10 transition-colors">
                 <div className="mb-1">{item.icon}</div>

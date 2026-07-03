@@ -36,41 +36,12 @@ function FAQItem({ q, a }: FAQItemProps) {
   );
 }
 
-function useCountdown(minutes: number) {
-  const getInitialSeconds = () => {
-    if (typeof window === "undefined") return minutes * 60;
-    const key = `countdown_${minutes}`;
-    const saved = sessionStorage.getItem(key);
-    if (saved) return parseInt(saved, 10);
-    const initial = minutes * 60;
-    sessionStorage.setItem(key, String(initial));
-    return initial;
-  };
-  const [seconds, setSeconds] = useState(getInitialSeconds);
-  useEffect(() => {
-    const key = `countdown_${minutes}`;
-    const t = setInterval(() => {
-      setSeconds((s) => {
-        const next = s > 0 ? s - 1 : minutes * 60;
-        sessionStorage.setItem(key, String(next));
-        return next;
-      });
-    }, 1000);
-    return () => clearInterval(t);
-  }, [minutes]);
-  const m = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const s = String(seconds % 60).padStart(2, "0");
-  return `${m}:${s}`;
-}
-
 export default function ProductPageClient({ product }: { product: Product }) {
   const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(product.defaultOffer);
   const { addItem, openDrawer, openCheckout } = useCartStore();
   const [isSticky, setIsSticky] = useState(false);
   const offerRef = useRef<HTMLDivElement>(null);
   const crossSells = getCrossSells(product);
-  const countdown = useCountdown(17);
-  const stock = 9;
 
   useEffect(() => {
     const eventId = getOrCreateEventId("viewContent");
@@ -208,7 +179,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
               ))}
             </ul>
             <p className="text-brand-primary font-bold text-xl leading-relaxed">
-              {product.shortHeading} هو الحل اللي صممناه خصيصاً لهالمشاكل.
+              {product.shortHeading} هو الحل المناسب لهالمشاكل.
             </p>
           </div>
         </div>
