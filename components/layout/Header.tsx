@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { ShoppingBag, Menu, X, ChevronDown, Truck, Search } from "lucide-react";
-import { useState } from "react";
+import { ShoppingBag, Menu, X, ChevronDown, Truck, Search, Star, Globe } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
@@ -13,22 +13,48 @@ const navLinks = [
   { href: "/contact", label: "تواصل معنا" },
 ];
 
+const announcements = [
+  { icon: Truck, text: "توصيل سريع لكل مناطق المملكة", highlight: "٢–٤ أيام عمل" },
+  { icon: Star, text: "تقييمات حقيقية من مستخدمين حول العالم", highlight: "موثّقة" },
+  { icon: Globe, text: "الدفع عند الاستلام متاح", highlight: "بدون بطاقة" },
+];
+
 export default function Header() {
   const { getTotalItems, openDrawer } = useCartStore();
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [annoIdx, setAnnoIdx] = useState(0);
   const itemCount = getTotalItems();
+
+  useEffect(() => {
+    const t = setInterval(() => setAnnoIdx((i) => (i + 1) % announcements.length), 3500);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <div className="sticky top-0 z-50">
-      {/* Announcement bar */}
-      <div className="bg-brand-primary text-brand-champagne text-center py-2 px-4 text-xs font-medium flex items-center justify-center gap-2">
-        <Truck size={12} className="text-brand-gold shrink-0" />
-        <span>
-          توصيل سريع لكل مناطق المملكة •{" "}
-          <span className="text-brand-gold font-bold">الدفع عند الاستلام متاح</span>
-        </span>
+      {/* Announcement bar — rotating */}
+      <div className="bg-brand-primary text-brand-champagne text-center py-2 px-4 text-xs font-medium overflow-hidden h-8 flex items-center justify-center">
+        {announcements.map((a, i) => {
+          const Icon = a.icon;
+          return (
+            <div
+              key={i}
+              className="absolute flex items-center gap-2 transition-all duration-500"
+              style={{
+                opacity: i === annoIdx ? 1 : 0,
+                transform: i === annoIdx ? "translateY(0)" : "translateY(8px)",
+              }}
+            >
+              <Icon size={12} className="text-brand-gold shrink-0" />
+              <span>
+                {a.text} •{" "}
+                <span className="text-brand-gold font-bold">{a.highlight}</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Main header */}

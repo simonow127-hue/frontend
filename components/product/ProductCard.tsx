@@ -2,8 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/products";
-import Button from "@/components/ui/Button";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Zap } from "lucide-react";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId } from "@/lib/events";
 import { trackAddToCart } from "@/lib/tracking";
@@ -15,15 +14,15 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addItem, openDrawer } = useCartStore();
+  const { addItem, openCheckout } = useCartStore();
   const offer1 = product.offers.find((o) => o.pieces === 1)!;
 
-  const handleAddToCart = () => {
+  const handleBuyNow = () => {
     addItem(product, offer1);
     const eventId = generateFreshEventId("addToCart");
     trackAddToCart({ id: product.id, name: product.arabicName, price: offer1.price }, eventId);
     trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id } });
-    openDrawer();
+    openCheckout();
   };
 
   return (
@@ -78,10 +77,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* CTA */}
-        <Button onClick={handleAddToCart} fullWidth size="md" variant="primary"
-          className="bg-brand-primary hover:bg-brand-gold hover:text-brand-primary transition-colors font-bold">
-          أضف للسلة
-        </Button>
+        <button
+          onClick={handleBuyNow}
+          className="w-full py-2.5 px-4 rounded-xl bg-brand-primary text-white font-bold text-sm flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all"
+        >
+          <Zap size={15} fill="currentColor" />
+          اشتري الحين
+        </button>
       </div>
     </div>
   );
