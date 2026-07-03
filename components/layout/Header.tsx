@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, Menu, X, ChevronDown, Search } from "lucide-react";
+import { ShoppingBag, Menu, X, ChevronDown, Search, Truck, Star, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
@@ -16,11 +16,22 @@ const navLinks = [
   { href: "/contact", label: "تواصل معنا" },
 ];
 
-const announcementTicker = [
-  "توصيل سريع لكل مناطق المملكة — ٢–٤ أيام عمل",
-  "تقييمات حقيقية من مستخدمين حول العالم",
-  "الدفع عند الاستلام متاح — بدون بطاقة",
-  "رياض",
+const announcements = [
+  {
+    icon: Truck,
+    text: "توصيل سريع لكل مناطق المملكة",
+    highlight: "٢–٤ أيام عمل",
+  },
+  {
+    icon: Star,
+    text: "تقييمات حقيقية من مستخدمين حول العالم",
+    highlight: "موثّقة",
+  },
+  {
+    icon: Globe,
+    text: "الدفع عند الاستلام متاح",
+    highlight: "بدون بطاقة",
+  },
 ];
 
 export default function Header() {
@@ -29,6 +40,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [annoIdx, setAnnoIdx] = useState(0);
   const overDark = useHeaderTheme(pathname);
   const itemCount = getTotalItems();
 
@@ -38,6 +50,11 @@ export default function Header() {
     setMenuOpen(false);
     setCatOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const t = setInterval(() => setAnnoIdx((i) => (i + 1) % announcements.length), 4000);
+    return () => clearInterval(t);
+  }, []);
 
   const iconClass = clsx(
     "transition-colors duration-300",
@@ -56,19 +73,28 @@ export default function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      {/* Announcement bar — continuous ticker */}
-      <div className="bg-brand-gold text-brand-primary py-2 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...announcementTicker, ...announcementTicker].map((text, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-3 mx-8 text-xs font-bold font-arabic shrink-0"
+      {/* Announcement bar — fade rotate */}
+      <div className="relative bg-brand-gold text-brand-primary py-2.5 px-4 overflow-hidden min-h-[36px]">
+        {announcements.map((a, i) => {
+          const Icon = a.icon;
+          const isActive = i === annoIdx;
+          return (
+            <div
+              key={a.text}
+              className={clsx(
+                "absolute inset-0 flex items-center justify-center gap-2 text-xs font-medium font-arabic transition-all duration-500 px-4",
+                isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
+              )}
+              aria-hidden={!isActive}
             >
-              {text}
-              <span className="text-brand-primary/40 text-sm leading-none">✦</span>
-            </span>
-          ))}
-        </div>
+              <Icon size={13} className="text-brand-primary/70 shrink-0" />
+              <span className="text-center leading-snug">
+                {a.text} •{" "}
+                <span className="font-black">{a.highlight}</span>
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Main header — always transparent, colors adapt on scroll */}
