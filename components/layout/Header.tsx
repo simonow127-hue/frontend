@@ -20,7 +20,7 @@ const announcements = [
   {
     icon: Truck,
     text: "توصيل سريع لكل مناطق المملكة",
-    highlight: "٢–٤ أيام عمل",
+    highlight: "٣–٥ أيام توصيل",
   },
   {
     icon: Star,

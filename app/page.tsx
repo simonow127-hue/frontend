@@ -31,7 +31,7 @@ const whyUs = [
   {
     icon: Truck,
     title: "توصيل لكل المملكة",
-    text: "نوصل الرياض، جدة، الدمام وكل مناطق السعودية في ٢–٤ أيام.",
+    text: "٣–٥ أيام توصيل حسب المدينة.",
     color: "from-blue-500/10 to-sky-500/5",
     iconBg: "bg-blue-500/10 text-blue-600",
   },
@@ -64,7 +64,7 @@ const faqs = [
   },
   {
     q: "كم وقت التوصيل؟",
-    a: "من ٢ إلى ٤ أيام عمل على أغلب مناطق المملكة. الرياض وجدة والدمام عادة أسرع.",
+    a: "٣–٥ أيام توصيل حسب المدينة.",
   },
   {
     q: "هل الدفع عند الاستلام متاح؟",
@@ -363,7 +363,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-4 mb-10 max-w-sm mx-auto w-full">
             {[
               { icon: <CreditCard size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "دفع عند الاستلام", sub: "ما تدفع قرش قبل ما يوصلك" },
-              { icon: <Truck size={28} className="text-brand-gold" />, number: "٢–٤", label: "أيام توصيل", sub: "لكل مناطق المملكة" },
+              { icon: <Truck size={28} className="text-brand-gold" />, number: "٣–٥", label: "أيام توصيل حسب المدينة", sub: "" },
             ].map((item, i) => (
               <div key={i} className="bg-white/5 border border-brand-gold/15 rounded-2xl p-5 text-center flex flex-col items-center gap-2 hover:bg-white/10 transition-colors">
                 <div className="mb-1">{item.icon}</div>
