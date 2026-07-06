@@ -41,6 +41,7 @@ export default function Header() {
   const [catOpen, setCatOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [annoIdx, setAnnoIdx] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const overDark = useHeaderTheme(pathname);
   const itemCount = getTotalItems();
 
@@ -50,6 +51,13 @@ export default function Header() {
     setMenuOpen(false);
     setCatOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const t = setInterval(() => setAnnoIdx((i) => (i + 1) % announcements.length), 4000);
@@ -69,6 +77,17 @@ export default function Header() {
   const actionBtnClass = clsx(
     "transition-colors duration-300",
     useLightChrome ? "hover:bg-white/10" : "hover:bg-brand-cream/80"
+  );
+
+  const headerSurfaceClass = clsx(
+    "border-b transition-all duration-300",
+    scrolled
+      ? useLightChrome
+        ? "bg-[rgba(30,53,32,0.72)] backdrop-blur-lg border-[#C9A45C]/20 shadow-[0_4px_24px_rgba(10,22,11,0.25)]"
+        : "bg-[rgba(250,250,248,0.88)] backdrop-blur-xl border-brand-border/40 shadow-[0_4px_24px_rgba(26,26,26,0.06)]"
+      : useLightChrome
+        ? "bg-transparent border-white/10"
+        : "bg-transparent border-brand-border/30"
   );
 
   return (
@@ -97,15 +116,8 @@ export default function Header() {
         })}
       </div>
 
-      {/* Main header — always transparent, colors adapt on scroll */}
-      <header
-        className={clsx(
-          "bg-transparent border-b transition-all duration-300",
-          useLightChrome
-            ? "border-white/10"
-            : "border-brand-border/30"
-        )}
-      >
+      {/* Main header — glass background on scroll, transparent at top */}
+      <header className={headerSurfaceClass}>
         <div className="max-w-content mx-auto px-4 h-16 flex items-center gap-4">
           {/* Logo */}
           <BrandWordmark asLink size="md" />
