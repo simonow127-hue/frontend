@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { X, Search } from "lucide-react";
 import { PRODUCTS } from "@/lib/products";
-import { formatPrice } from "@/lib/currency";
+import PriceDisplay from "@/components/ui/PriceDisplay";
 import Image from "next/image";
 
 interface SearchOverlayProps {
@@ -77,9 +77,11 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
                     <p className="font-bold text-brand-espresso text-sm truncate">{p.shortHeading.split(":")[0]}</p>
                     <p className="text-xs text-brand-espresso/60 truncate">{p.subheading}</p>
                   </div>
-                  <span className="text-sm font-bold text-brand-gold shrink-0">
-                    {formatPrice(p.offers[0].price)}
-                  </span>
+                  <PriceDisplay
+                    price={p.offers[0].price}
+                    compareAtPrice={p.offers[0].compareAtPrice}
+                    size="sm"
+                  />
                 </Link>
               </li>
             ))}

@@ -1,6 +1,6 @@
 "use client";
 import { Offer } from "@/lib/products";
-import { formatPrice } from "@/lib/currency";
+import PriceDisplay from "@/components/ui/PriceDisplay";
 import { clsx } from "clsx";
 import { Check } from "lucide-react";
 
@@ -49,8 +49,12 @@ export default function OfferSelector({ offers, selected, onChange }: OfferSelec
                 {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}
               </div>
               <div className="text-right">
-                <div className="font-bold text-brand-espresso text-base">{formatPrice(offer.price)}</div>
-                <div className="text-xs text-brand-espresso/60">{offer.sublabel}</div>
+                <PriceDisplay
+                  price={offer.price}
+                  compareAtPrice={offer.compareAtPrice}
+                  size="sm"
+                />
+                <div className="text-xs text-brand-espresso/60 mt-0.5">{offer.sublabel}</div>
               </div>
             </div>
 

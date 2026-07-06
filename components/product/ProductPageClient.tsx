@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Product, Review, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
+import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
@@ -117,6 +118,14 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 {product.emotionalHeadline}
               </h1>
               <p className="text-brand-espresso/70 mt-2 text-base">{product.subheading}</p>
+              <div className="mt-4">
+                <PriceDisplay
+                  price={selectedOffer.price}
+                  compareAtPrice={selectedOffer.compareAtPrice}
+                  size="lg"
+                  showBadge
+                />
+              </div>
             </div>
 
             {/* Pain bullets */}
@@ -426,7 +435,12 @@ export default function ProductPageClient({ product }: { product: Product }) {
           <div className="max-w-content mx-auto flex items-center gap-3">
             <div className="text-right flex-1 min-w-0">
               <p className="font-bold text-brand-espresso text-sm truncate">{product.shortHeading.split(":")[0]}</p>
-              <p className="text-xs text-brand-espresso/60">{formatPrice(selectedOffer.price)}</p>
+              <PriceDisplay
+                price={selectedOffer.price}
+                compareAtPrice={selectedOffer.compareAtPrice}
+                size="sm"
+                className="items-start"
+              />
             </div>
             <button
               onClick={handleBuyNow}

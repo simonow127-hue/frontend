@@ -1,8 +1,10 @@
 import type { Category } from "./categories";
+import { getCompareAtPrice } from "./pricing";
 
 export type Offer = {
   pieces: 1 | 2 | 3;
   price: number;
+  compareAtPrice: number;
   label: string;
   sublabel: string;
   badge?: string;
@@ -52,29 +54,23 @@ export type Product = {
   isNew?: boolean;
 };
 
+function buildOffer(
+  pieces: 1 | 2 | 3,
+  price: number,
+  label: string,
+  sublabel: string,
+  badge?: string
+): Offer {
+  return { pieces, price, compareAtPrice: getCompareAtPrice(price), label, sublabel, badge };
+}
+
 function buildOffers(unitPrice: number): Offer[] {
   const two = Math.round(unitPrice * 1.82);
   const three = Math.round(unitPrice * 2.55);
   return [
-    {
-      pieces: 1,
-      price: unitPrice,
-      label: "قطعة واحدة",
-      sublabel: "للتجربة",
-    },
-    {
-      pieces: 2,
-      price: two,
-      label: "قطعتين",
-      sublabel: "للاستخدام اليومي",
-    },
-    {
-      pieces: 3,
-      price: three,
-      label: "٣ قطع",
-      sublabel: "أفضل قيمة",
-      badge: "أفضل قيمة",
-    },
+    buildOffer(1, unitPrice, "قطعة واحدة", "للتجربة"),
+    buildOffer(2, two, "قطعتين", "للاستخدام اليومي"),
+    buildOffer(3, three, "٣ قطع", "أفضل قيمة", "أفضل قيمة"),
   ];
 }
 

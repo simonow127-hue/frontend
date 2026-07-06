@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import { generateFreshEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
+import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
 
 export default function CartDrawer() {
@@ -158,7 +159,7 @@ function CrossSellCard({
   product: Product;
   onAdd: () => void;
 }) {
-  const fromPrice = product.offers.find((o) => o.pieces === 1)!.price;
+  const fromOffer = product.offers.find((o) => o.pieces === 1)!;
 
   return (
     <div className="flex items-center gap-3 bg-brand-cream rounded-xl p-3 border border-brand-border">
@@ -173,7 +174,12 @@ function CrossSellCard({
       </div>
       <div className="flex-1 text-right">
         <p className="font-bold text-sm text-brand-espresso">{product.shortHeading}</p>
-        <p className="text-xs text-brand-espresso/60">من {formatPrice(fromPrice)}</p>
+        <PriceDisplay
+          price={fromOffer.price}
+          compareAtPrice={fromOffer.compareAtPrice}
+          size="sm"
+          className="mt-0.5"
+        />
       </div>
       <button
         onClick={onAdd}

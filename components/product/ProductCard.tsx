@@ -7,7 +7,7 @@ import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId } from "@/lib/events";
 import { trackAddToCart } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
-import { formatPrice } from "@/lib/currency";
+import PriceDisplay from "@/components/ui/PriceDisplay";
 
 interface ProductCardProps {
   product: Product;
@@ -42,6 +42,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {/* Badges */}
         <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
+          <span className="bg-status-error text-white text-[10px] font-black px-2.5 py-1 rounded-full leading-none">
+            عرض مؤقت
+          </span>
           {product.isNew && (
             <span className="bg-brand-gold text-brand-primary text-[10px] font-black px-2.5 py-1 rounded-full leading-none">
               جديد
@@ -71,9 +74,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Price row */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-brand-border/60">
+        <div className="flex items-end justify-between mt-auto pt-3 border-t border-brand-border/60">
           <span className="text-[11px] text-brand-espresso/50 font-medium">دفع عند الاستلام</span>
-          <span className="font-black text-brand-primary text-lg">{formatPrice(offer1.price)}</span>
+          <PriceDisplay
+            price={offer1.price}
+            compareAtPrice={offer1.compareAtPrice}
+            size="md"
+          />
         </div>
 
         {/* CTA */}

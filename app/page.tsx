@@ -10,7 +10,8 @@ import Button from "@/components/ui/Button";
 import { Star, Users, MapPin, BadgeCheck } from "lucide-react";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
-import { formatPrice } from "@/lib/currency";
+import PriceDisplay from "@/components/ui/PriceDisplay";
+import { getCompareAtPrice } from "@/lib/pricing";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import BrandMarquee from "@/components/home/BrandMarquee";
 
@@ -143,7 +144,13 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <p className="text-xs text-brand-champagne/40">أسعار تبدأ من {formatPrice(minPrice)}</p>
+            <PriceDisplay
+              price={minPrice}
+              compareAtPrice={getCompareAtPrice(minPrice)}
+              size="sm"
+              inverted
+              className="opacity-60"
+            />
           </div>
 
           {/* Product mosaic */}
@@ -263,9 +270,13 @@ export default function HomePage() {
               ))}
             </ul>
             <div className="flex items-center gap-4 justify-end pt-2">
-              <span className="font-bold text-2xl text-brand-gold">
-                {formatPrice(spotlightProduct.offers[0].price)}
-              </span>
+              <PriceDisplay
+                price={spotlightProduct.offers[0].price}
+                compareAtPrice={spotlightProduct.offers[0].compareAtPrice}
+                size="lg"
+                inverted
+                showBadge
+              />
               <Link href={`/products/${spotlightProduct.slug}`}>
                 <Button size="lg" className="bg-brand-gold text-brand-primary hover:bg-brand-champagne font-bold">
                   اطلب الحين
