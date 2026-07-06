@@ -92,8 +92,8 @@ export default function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      {/* Announcement bar — fade rotate */}
-      <div className="relative bg-brand-gold text-brand-primary py-2.5 px-4 overflow-hidden min-h-[36px]">
+      {/* Announcement bar — icon + full message per slide */}
+      <div className="relative bg-brand-gold text-brand-primary py-2.5 px-3 sm:px-4 overflow-hidden min-h-[44px]">
         {announcements.map((a, i) => {
           const Icon = a.icon;
           const isActive = i === annoIdx;
@@ -101,15 +101,17 @@ export default function Header() {
             <div
               key={a.text}
               className={clsx(
-                "absolute inset-0 flex items-center justify-center gap-2 text-xs font-medium font-arabic transition-all duration-500 px-4",
+                "absolute inset-0 flex items-center justify-center gap-2.5 transition-all duration-500 px-2 sm:px-4",
                 isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"
               )}
               aria-hidden={!isActive}
             >
-              <Icon size={13} className="text-brand-primary/70 shrink-0" />
-              <span className="text-center leading-snug">
-                {a.text} •{" "}
-                <span className="font-black">{a.highlight}</span>
+              <span className="shrink-0 w-7 h-7 rounded-full bg-brand-primary/10 border border-brand-primary/15 flex items-center justify-center">
+                <Icon size={14} className="text-brand-primary" strokeWidth={2.25} />
+              </span>
+              <span className="text-center leading-snug text-[11px] sm:text-xs font-medium font-arabic max-w-[min(100%,22rem)]">
+                {a.text}{" "}
+                <span className="font-black whitespace-nowrap">• {a.highlight}</span>
               </span>
             </div>
           );

@@ -12,6 +12,7 @@ import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
 import { formatPrice } from "@/lib/currency";
 import PaymentLogos from "@/components/ui/PaymentLogos";
+import BrandMarquee from "@/components/home/BrandMarquee";
 
 export const metadata: Metadata = {
   title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
@@ -50,14 +51,10 @@ const whyUs = [
   },
 ];
 
-const marqueeItems = [
-  "رياض",
-  "دفع عند الاستلام",
-  "توصيل سريع لكل المملكة",
-  "منتجات مختارة بعناية",
-  "تغليف فاخر",
-  "تقييمات حقيقية",
-  "خدمة تليق فيك",
+const heroPerks = [
+  { icon: CreditCard, label: "دفع عند الاستلام" },
+  { icon: Truck, label: "توصيل سريع" },
+  { icon: Shield, label: "منتجات مختارة" },
 ];
 
 const faqs = [
@@ -96,13 +93,14 @@ export default function HomePage() {
     <div className="flex flex-col">
 
       {/* ── HERO ── */}
-      <section data-header-theme="dark" className="relative -mt-24 pt-24 bg-brand-primary text-brand-ivory overflow-hidden min-h-[85vh] flex items-center">
+      <section data-header-theme="dark" className="relative -mt-24 pt-24 bg-brand-primary text-brand-ivory overflow-hidden min-h-[min(85vh,900px)] flex flex-col">
         {/* Background texture */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#C9A45C18_0%,transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,#ffffff08_0%,transparent_50%)]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
 
-        <div className="relative max-w-content mx-auto px-4 py-16 md:py-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="relative flex-1 flex items-center w-full">
+        <div className="max-w-content mx-auto px-4 py-12 md:py-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text side */}
           <div className="flex flex-col gap-7 text-right order-2 md:order-1">
             <span className="inline-flex items-center gap-2 self-end bg-brand-gold/15 border border-brand-gold/25 text-brand-champagne text-xs font-bold px-4 py-2 rounded-full">
@@ -174,19 +172,33 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+        </div>
+
+        {/* Hero perks — fills empty space on mobile */}
+        <div className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+          <div className="max-w-content mx-auto px-4 py-4 grid grid-cols-3 gap-2.5">
+            {heroPerks.map((perk) => {
+              const Icon = perk.icon;
+              return (
+                <div
+                  key={perk.label}
+                  className="flex items-center gap-2.5 justify-end rounded-xl border border-white/10 bg-white/5 px-3 py-2.5"
+                >
+                  <span className="text-[11px] sm:text-xs font-bold text-brand-champagne/90 leading-snug text-right">
+                    {perk.label}
+                  </span>
+                  <span className="shrink-0 w-8 h-8 rounded-full bg-brand-gold/15 border border-brand-gold/25 flex items-center justify-center">
+                    <Icon size={15} className="text-brand-gold" strokeWidth={2.25} />
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* ── MARQUEE STRIP ── */}
-      <section data-header-theme="light" className="bg-brand-gold text-brand-primary py-3.5 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-3 mx-6 text-sm font-bold tracking-wide font-arabic shrink-0">
-              {item}
-              <span className="text-brand-primary/40 text-lg leading-none">✦</span>
-            </span>
-          ))}
-        </div>
-      </section>
+      <BrandMarquee />
 
       {/* ── LATEST PRODUCTS ── */}
       <section data-header-theme="light" className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
