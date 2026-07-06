@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { X, Search } from "lucide-react";
-import { PRODUCTS } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import PriceDisplay from "@/components/ui/PriceDisplay";
 import Image from "next/image";
 
@@ -12,15 +12,30 @@ interface SearchOverlayProps {
 
 export default function SearchOverlay({ onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
+  const [products, setProducts] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const results = query.trim().length > 0
-    ? PRODUCTS.filter((p) =>
-        p.arabicName.includes(query) ||
-        p.shortHeading.includes(query) ||
-        p.subheading.includes(query)
-      ).slice(0, 6)
-    : [];
+  useEffect(() => {
+    let active = true;
+    import("@/lib/products").then((mod) => {
+      if (active) setProducts(mod.PRODUCTS);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const results = useMemo(() => {
+    if (query.trim().length === 0) return [];
+    return products
+      .filter(
+        (p) =>
+          p.arabicName.includes(query) ||
+          p.shortHeading.includes(query) ||
+          p.subheading.includes(query)
+      )
+      .slice(0, 6);
+  }, [products, query]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -34,10 +49,11 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
   return (
     <div
       className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-16 px-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div className="w-full max-w-xl bg-brand-ivory rounded-2xl shadow-2xl overflow-hidden border border-brand-border">
-        {/* Input */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-brand-border">
           <Search size={18} className="text-brand-espresso/40 shrink-0" />
           <input
@@ -54,13 +70,13 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
           </button>
         </div>
 
-        {/* Results */}
         {results.length > 0 && (
           <ul className="divide-y divide-brand-border max-h-96 overflow-y-auto">
             {results.map((p) => (
               <li key={p.id}>
                 <Link
                   href={`/products/${p.slug}`}
+                  prefetch={false}
                   onClick={onClose}
                   className="flex items-center gap-3 px-4 py-3 hover:bg-brand-cream transition-colors text-right"
                 >
@@ -88,22 +104,21 @@ export default function SearchOverlay({ onClose }: SearchOverlayProps) {
           </ul>
         )}
 
-        {/* Empty state */}
-        {query.trim().length > 0 && results.length === 0 && (
+        {query.trim().length > 0 && results.length === 0 && products.length > 0 && (
           <div className="py-10 text-center">
-            <p className="text-brand-espresso/50 text-sm">لا توجد نتائج لـ "{query}"</p>
+            <p className="text-brand-espresso/50 text-sm">لا توجد نتائج لـ &quot;{query}&quot;</p>
           </div>
         )}
 
-        {/* Quick links when empty */}
-        {query.trim().length === 0 && (
+        {query.trim().length === 0 && products.length > 0 && (
           <div className="px-4 py-4">
             <p className="text-xs font-bold text-brand-espresso/40 mb-3 text-right">منتجات مقترحة</p>
             <div className="flex flex-wrap gap-2 justify-end">
-              {PRODUCTS.slice(0, 5).map((p) => (
+              {products.slice(0, 5).map((p) => (
                 <Link
                   key={p.id}
                   href={`/products/${p.slug}`}
+                  prefetch={false}
                   onClick={onClose}
                   className="text-xs bg-brand-cream border border-brand-border rounded-full px-3 py-1.5 text-brand-espresso hover:border-brand-gold hover:text-brand-gold transition-colors"
                 >

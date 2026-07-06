@@ -29,7 +29,6 @@ const config: Config = {
       fontFamily: {
         arabic: ["var(--font-noto-kufi)", "var(--font-tajawal)", "sans-serif"],
         body: ["var(--font-tajawal)", "var(--font-noto-kufi)", "sans-serif"],
-        latin: ["var(--font-cormorant)", "serif"],
       },
       maxWidth: {
         content: "1280px",

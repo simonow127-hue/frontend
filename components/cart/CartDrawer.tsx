@@ -1,7 +1,8 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useCartStore, CartItem } from "@/lib/cart";
-import { PRODUCTS, getProductById, Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { X, Trash2, ShieldCheck, Clock } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { generateFreshEventId } from "@/lib/events";
@@ -10,14 +11,23 @@ import { trackEvent } from "@/lib/api";
 import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
 
+type ProductCatalog = typeof import("@/lib/products");
+
 export default function CartDrawer() {
   const { items, isDrawerOpen, closeDrawer, removeItem, addItem, openCheckout, getTotalPrice } =
     useCartStore();
+  const [catalog, setCatalog] = useState<ProductCatalog | null>(null);
 
   const total = getTotalPrice();
 
+  useEffect(() => {
+    if (!isDrawerOpen || catalog) return;
+    import("@/lib/products").then(setCatalog);
+  }, [isDrawerOpen, catalog]);
+
   const cartProductIds = new Set(items.map((i) => i.productId));
-  const crossSells = PRODUCTS.filter((p) => !cartProductIds.has(p.id)).slice(0, 2);
+  const crossSells =
+    catalog?.PRODUCTS.filter((p) => !cartProductIds.has(p.id)).slice(0, 2) ?? [];
 
   const handleCheckout = () => {
     const eventId = generateFreshEventId("checkout");
@@ -61,7 +71,12 @@ export default function CartDrawer() {
             <>
               <div className="flex flex-col gap-3">
                 {items.map((item) => (
-                  <CartItemRow key={item.productId} item={item} onRemove={removeItem} />
+                  <CartItemRow
+                    key={item.productId}
+                    item={item}
+                    getProductById={catalog?.getProductById}
+                    onRemove={removeItem}
+                  />
                 ))}
               </div>
 
@@ -85,9 +100,9 @@ export default function CartDrawer() {
                   {crossSells.map((p) => (
                     <CrossSellCard
                       key={p.id}
-                      product={p as Product}
+                      product={p}
                       onAdd={() => {
-                        addItem(p as Product, (p as Product).offers.find((o) => o.pieces === 1)!);
+                        addItem(p, p.offers.find((o) => o.pieces === 1)!);
                       }}
                     />
                   ))}
@@ -116,8 +131,16 @@ export default function CartDrawer() {
   );
 }
 
-function CartItemRow({ item, onRemove }: { item: CartItem; onRemove: (id: string) => void }) {
-  const product = getProductById(item.productId);
+function CartItemRow({
+  item,
+  getProductById,
+  onRemove,
+}: {
+  item: CartItem;
+  getProductById?: ProductCatalog["getProductById"];
+  onRemove: (id: string) => void;
+}) {
+  const product = getProductById?.(item.productId);
 
   return (
     <div className="flex items-center gap-3 bg-brand-cream rounded-xl p-3">

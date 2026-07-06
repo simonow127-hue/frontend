@@ -30,33 +30,28 @@ export default function ProductGallery({ images, alt, priority = false }: Produc
     if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
   };
 
+  const mainSrc = images[active] ?? images[0];
+
   return (
     <div className="flex flex-col gap-3">
-      {/* Main image */}
+      {/* Main image — only mount the active slide */}
       <div
         className="relative aspect-square rounded-2xl overflow-hidden bg-white border border-brand-border/50 select-none"
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {images.map((src, i) => (
-          <div
-            key={i}
-            className="absolute inset-0 transition-opacity duration-300"
-            style={{ opacity: i === active ? 1 : 0, pointerEvents: i === active ? "auto" : "none" }}
-          >
-            <Image
-              src={src}
-              alt={`${alt} — ${i + 1}`}
-              fill
-              priority={priority && i === 0}
-              loading={priority && i === 0 ? "eager" : "lazy"}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              quality={75}
-              className="object-contain object-center p-3"
-            />
-          </div>
-        ))}
+        <Image
+          key={mainSrc}
+          src={mainSrc}
+          alt={`${alt} — ${active + 1}`}
+          fill
+          priority={priority && active === 0}
+          loading={priority && active === 0 ? "eager" : "lazy"}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          quality={75}
+          className="object-contain object-center p-3"
+        />
 
         {/* Arrows — desktop only */}
         {images.length > 1 && (

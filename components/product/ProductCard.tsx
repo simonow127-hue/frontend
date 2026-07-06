@@ -28,7 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-brand-ivory rounded-2xl border border-brand-border overflow-hidden flex flex-col hover:shadow-xl hover:border-brand-gold/40 transition-all duration-300 group">
       {/* Image */}
-      <Link href={`/products/${product.slug}`} className="block relative overflow-hidden">
+      <Link href={`/products/${product.slug}`} prefetch={false} className="block relative overflow-hidden">
         <div className="relative aspect-square bg-white border-b border-brand-border">
           <Image
             src={product.imagePlaceholder}
@@ -63,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-4 flex flex-col gap-3 flex-1">
         {/* Title & subtitle */}
         <div>
-          <Link href={`/products/${product.slug}`}>
+          <Link href={`/products/${product.slug}`} prefetch={false}>
             <h3 className="font-arabic font-bold text-brand-espresso text-sm md:text-base leading-snug hover:text-brand-gold transition-colors line-clamp-2">
               {product.shortHeading}
             </h3>

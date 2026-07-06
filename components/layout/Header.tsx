@@ -2,13 +2,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, Menu, X, ChevronDown, Search, Truck, Star, Globe } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/lib/cart";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
-import SearchOverlay from "@/components/ui/SearchOverlay";
 import { useHeaderTheme } from "@/lib/useHeaderTheme";
 import { clsx } from "clsx";
+
+const SearchOverlay = dynamic(() => import("@/components/ui/SearchOverlay"), { ssr: false });
 
 const navLinks = [
   { href: "/collections", label: "كل المنتجات" },

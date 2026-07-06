@@ -1,36 +1,27 @@
 import type { Metadata } from "next";
-import { Tajawal, Noto_Kufi_Arabic, Cormorant_Garamond } from "next/font/google";
+import { Tajawal, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import CartDrawer from "@/components/cart/CartDrawer";
-import CheckoutPopup from "@/components/checkout/CheckoutPopup";
-import PixelManager from "@/components/tracking/PixelManager";
-import SessionInit from "@/components/tracking/SessionInit";
-import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import ClientShell from "@/components/layout/ClientShell";
 import JsonLd from "@/components/seo/JsonLd";
 import { getSiteUrl } from "@/lib/site";
 import { STORE_IMAGES } from "@/lib/store-images";
 
 const tajawal = Tajawal({
   subsets: ["arabic"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "700"],
   variable: "--font-tajawal",
   display: "swap",
+  preload: true,
 });
 
 const notoKufiArabic = Noto_Kufi_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "700"],
   variable: "--font-noto-kufi",
   display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-cormorant",
-  display: "swap",
+  preload: true,
 });
 
 const siteUrl = getSiteUrl();
@@ -90,17 +81,13 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="ar-SA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable} ${cormorant.variable}`}>
+    <html lang="ar-SA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable}`}>
       <body className="font-body bg-brand-ivory text-brand-espresso min-h-screen">
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
-        <SessionInit />
-        <PixelManager />
+        <ClientShell />
         <Header />
         <main>{children}</main>
         <Footer />
-        <CartDrawer />
-        <CheckoutPopup />
-        <WhatsAppButton />
       </body>
     </html>
   );

@@ -21,7 +21,7 @@ export default function PixelManager() {
       {ENABLE_META && (
         <Script
           id="meta-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)
@@ -43,7 +43,7 @@ export default function PixelManager() {
       {ENABLE_TIKTOK && (
         <Script
           id="tiktok-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               !function (w, d, t) {
@@ -60,7 +60,7 @@ export default function PixelManager() {
       {ENABLE_SNAP && (
         <Script
           id="snap-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
@@ -82,11 +82,11 @@ export default function PixelManager() {
           <Script
             id="google-gtag-src"
             src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_PRIMARY_ID}`}
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
           <Script
             id="google-gtag"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
