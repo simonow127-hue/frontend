@@ -14,6 +14,7 @@ import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
+import ProductVideo from "@/components/ui/ProductVideo";
 import AddReviewForm from "./AddReviewForm";
 import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
 import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, Zap, Star } from "lucide-react";
@@ -97,7 +98,14 @@ export default function ProductPageClient({ product }: { product: Product }) {
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
           {/* Product gallery (left in RTL on desktop) */}
-          <div className="order-1 md:order-2">
+          <div className="order-1 md:order-2 flex flex-col gap-4">
+            {product.videoUrl && (
+              <ProductVideo
+                src={product.videoUrl}
+                poster={product.imagePlaceholder}
+                title={product.arabicName}
+              />
+            )}
             <ProductGallery
               images={[
                 product.imagePlaceholder,

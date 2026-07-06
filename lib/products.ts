@@ -50,6 +50,7 @@ export type Product = {
   usageImage?: string;
   scienceImage?: string;
   painImage?: string;
+  videoUrl?: string;
   imageColor: string;
   isNew?: boolean;
 };
@@ -524,6 +525,7 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/neck-fan.jpg",
+    videoUrl: "/videos/neck-fan-demo.mp4",
     scienceImage: "/images/products/neck-fan-science.jpg",
     ingredientsImage: "/images/products/neck-fan-features.jpg",
     usageImage: "/images/products/neck-fan-dimensions.jpg",
