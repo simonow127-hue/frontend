@@ -11,7 +11,6 @@ import { Star, Users, MapPin, BadgeCheck } from "lucide-react";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
 import PriceDisplay from "@/components/ui/PriceDisplay";
-import { getCompareAtPrice } from "@/lib/pricing";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import BrandMarquee from "@/components/home/BrandMarquee";
 
@@ -84,7 +83,6 @@ const heroProducts = [
   { id: "car-phone-holder", src: "/images/products/car-phone-holder.jpg", label: "حامل الجوال" },
 ];
 
-const minPrice = Math.min(...PRODUCTS.map((p) => p.offers[0].price));
 const spotlightProduct = PRODUCTS.find((p) => p.id === "perfume-intense")!;
 
 export default function HomePage() {
@@ -143,14 +141,6 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
-
-            <PriceDisplay
-              price={minPrice}
-              compareAtPrice={getCompareAtPrice(minPrice)}
-              size="sm"
-              inverted
-              className="opacity-60"
-            />
           </div>
 
           {/* Product mosaic */}
