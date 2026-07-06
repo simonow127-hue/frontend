@@ -78,7 +78,7 @@ function buildOffers(unitPrice: number): Offer[] {
   const two = Math.round(unitPrice * 1.82);
   const three = Math.round(unitPrice * 2.55);
   return [
-    buildOffer(1, unitPrice, "قطعة واحدة", BRAND_OFFER_SUBLABELS[0]),
+    buildOffer(1, unitPrice, "عرض أساسي", BRAND_OFFER_SUBLABELS[0]),
     buildOffer(2, two, "قطعتين", BRAND_OFFER_SUBLABELS[1]),
     buildOffer(3, three, "٣ قطع", BRAND_OFFER_SUBLABELS[2], "أفضل قيمة"),
   ];

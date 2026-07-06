@@ -64,7 +64,7 @@ export default function OfferSelector({ offers, selected, onChange }: OfferSelec
                 {offer.label}
               </div>
               <div className="text-xs text-brand-espresso/50">
-                {offer.pieces === 1 ? "قطعة واحدة" : offer.pieces === 2 ? "قطعتان" : "ثلاث قطع"}
+                {offer.pieces === 1 ? "١ قطعة" : offer.pieces === 2 ? "قطعتان" : "ثلاث قطع"}
               </div>
             </div>
           </button>
