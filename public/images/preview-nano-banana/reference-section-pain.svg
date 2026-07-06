@@ -1,18 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#A95C42"/><stop offset="100%" stop-color="#6F3224"/>
-    </linearGradient>
-  </defs>
-  <rect width="800" height="800" fill="url(#bg)"/>
-  <text x="90" y="92" fill="#FFF9F2" font-size="38" font-family="Tahoma" font-weight="700">'DE4CD)</text>
-  <rect x="70" y="120" width="660" height="610" rx="28" fill="#FFF9F2" opacity=".96"/>
-  <circle cx="150" cy="240" r="24" fill="#B42318"/><text x="150" y="250" text-anchor="middle" fill="#FFF" font-size="26">!</text>
-  <text x="690" y="248" text-anchor="end" fill="#2D201A" font-size="34" font-family="Tahoma" font-weight="700">*3'B7 (G*'F #H 1'&-) E29,)</text>
-  <circle cx="150" cy="360" r="24" fill="#B42318"/><text x="150" y="370" text-anchor="middle" fill="#FFF" font-size="26">!</text>
-  <text x="690" y="368" text-anchor="end" fill="#2D201A" font-size="30" font-family="Tahoma">1H*JF JHEJ :J1 EF'3( CJ#+1 9DI 'D+B)</text>
-  <circle cx="150" cy="480" r="24" fill="#B42318"/><text x="150" y="490" text-anchor="middle" fill="#FFF" font-size="26">!</text>
-  <text x="690" y="488" text-anchor="end" fill="#2D201A" font-size="30" font-family="Tahoma">'D-D: 9F'J) E1C2) EF 1J'6 (D' E('D:)</text>
-  <rect x="86" y="620" width="628" height="80" rx="16" fill="#2D201A"/>
-  <text x="400" y="670" text-anchor="middle" fill="#FFF9F2" font-size="30" font-family="Tahoma" font-weight="700">riads.shop  9F'J) EH+HB) DD,EJ9</text>
-</svg>
