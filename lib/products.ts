@@ -67,13 +67,20 @@ function buildOffer(
 
 type OfferSublabels = [string, string, string];
 
-function buildOffers(unitPrice: number, sublabels: OfferSublabels, badge3 = "وفر أكثر"): Offer[] {
+/** نفس جمل العروض على كل المنتجات — هوية رياض */
+const BRAND_OFFER_SUBLABELS: OfferSublabels = [
+  "ادفع لما يوصلك — بدون مخاطرة",
+  "قطعتين بسعر أوفر",
+  "٣ قطع — أكبر توفير",
+];
+
+function buildOffers(unitPrice: number): Offer[] {
   const two = Math.round(unitPrice * 1.82);
   const three = Math.round(unitPrice * 2.55);
   return [
-    buildOffer(1, unitPrice, "قطعة واحدة", sublabels[0]),
-    buildOffer(2, two, "قطعتين", sublabels[1]),
-    buildOffer(3, three, "٣ قطع", sublabels[2], badge3),
+    buildOffer(1, unitPrice, "قطعة واحدة", BRAND_OFFER_SUBLABELS[0]),
+    buildOffer(2, two, "قطعتين", BRAND_OFFER_SUBLABELS[1]),
+    buildOffer(3, three, "٣ قطع", BRAND_OFFER_SUBLABELS[2], "أفضل قيمة"),
   ];
 }
 
@@ -105,11 +112,7 @@ export const PRODUCTS: Product[] = [
       "تأكد إن فتحة الحزام في مكانها الصحيح",
       "حط أغراضك اليومية فوق الحاجز بكل راحة",
     ],
-    offers: buildOffers(89, [
-      "يسد فجوة مقعد واحد بالكامل",
-      "للمقعدين الأماميين — يمين ويسار",
-      "ثلاث قطع — سيارتك + احتياط أو هدية",
-    ]),
+    offers: buildOffers(89),
     defaultOffer: 1,
     crossSellIds: ["car-phone-holder", "neck-fan"],
     reviewCount: 11,
@@ -264,11 +267,7 @@ export const PRODUCTS: Product[] = [
       "ثبّت اللوحة المغناطيسية على ظهر الجوال",
       "عدّل الزاوية على مزاجك وانطلق",
     ],
-    offers: buildOffers(99, [
-      "ثبات قوي لجوالك طول الطريق",
-      "قطعتين — سائق وراكب أو سيارتين",
-      "ثلاث قطع — وفر وثبات لكل السيارات",
-    ]),
+    offers: buildOffers(99),
     defaultOffer: 1,
     crossSellIds: ["car-gap-filler", "neck-fan"],
     reviewCount: 9,
@@ -403,11 +402,7 @@ export const PRODUCTS: Product[] = [
       "اختر مستوى الرياح المناسب",
       "بعد الاستخدام اطويها واحفظها في الحقيبة",
     ],
-    offers: buildOffers(149, [
-      "هواء بارد يمشي معك كل مشوار",
-      "قطعتين — واحدة لك وواحدة احتياط",
-      "ثلاث قطع — برودة لك ولأهلك ووفر",
-    ]),
+    offers: buildOffers(149),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
     reviewCount: 28,
@@ -571,11 +566,7 @@ export const PRODUCTS: Product[] = [
       "اضبط مستوى الصوت على راحتك",
       "خلّه ثابت في المكان اللي تسمع فيه كل يوم",
     ],
-    offers: buildOffers(199, [
-      "تلاوة واضحة لمجلس واحد",
-      "قطعتين — مجلسين أو غرفتين",
-      "ثلاث قطع — قرآن يملأ كل أركان البيت",
-    ]),
+    offers: buildOffers(199),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "neck-fan"],
     reviewCount: 0,
@@ -626,11 +617,7 @@ export const PRODUCTS: Product[] = [
       "اضبط زاوية الإضاءة على مزاجك",
       "رتّب أقلامك في الحامل المدمج",
     ],
-    offers: buildOffers(179, [
-      "ضوء مريح وشحن لاسلكي لمكتبك",
-      "قطعتين — مكتب وغرفة دراسة",
-      "ثلاث قطع — إضاءة لكل ركن بالبيت ووفر",
-    ]),
+    offers: buildOffers(179),
     defaultOffer: 1,
     crossSellIds: ["electric-chopper", "neck-fan"],
     reviewCount: 0,
@@ -684,11 +671,7 @@ export const PRODUCTS: Product[] = [
       "اضغط الزر وحرّك بحركة دائرية خفيفة",
       "افرغ المحتوى واغسل الوعاء بالماء",
     ],
-    offers: buildOffers(129, [
-      "تقطع الخضار والسلطة في دقيقة",
-      "قطعتين — خضار وفواكه بدون انتظار",
-      "ثلاث قطع — مطبخ جاهز كل يوم ووفر",
-    ]),
+    offers: buildOffers(129),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "black-sheila"],
     reviewCount: 0,
@@ -740,11 +723,7 @@ export const PRODUCTS: Product[] = [
       "للثبات الأطول، رشّي خفيفاً على الملابس من الداخل",
       "احفظيه بعيد عن الشمس والحرارة للحفاظ على التركيبة",
     ],
-    offers: buildOffers(299, [
-      "ريحة ورد وعود تثبت طول اليوم",
-      "زجاجتين — للدوام والمناسبات",
-      "ثلاث زجاجات — وفر واستمتعي أشهر",
-    ]),
+    offers: buildOffers(299),
     defaultOffer: 1,
     crossSellIds: ["black-sheila", "neck-fan"],
     reviewCount: 0,
@@ -802,11 +781,7 @@ export const PRODUCTS: Product[] = [
       "للمناسبات، زيّنيها ببروش بسيط",
       "اغسليها يدوياً أو على دورة خفيفة",
     ],
-    offers: buildOffers(79, [
-      "شيلة ناعمة لإطلالة اليوم",
-      "قطعتين — دوام وخروج بدون تكرار",
-      "ثلاث قطع — أسبوع كامل ووفر أكثر",
-    ]),
+    offers: buildOffers(79),
     defaultOffer: 1,
     crossSellIds: ["perfume-intense", "electric-chopper"],
     reviewCount: 0,
