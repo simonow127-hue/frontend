@@ -13,7 +13,7 @@ import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
-import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Globe, Zap } from "lucide-react";
+import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Zap } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
 interface FAQItemProps {
@@ -292,12 +292,6 @@ export default function ProductPageClient({ product }: { product: Product }) {
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso mb-2">
             آراء الزبائن
           </h2>
-          {product.reviews.length > 0 && (
-            <p className="text-brand-espresso/55 text-sm flex items-center justify-center gap-1.5">
-              <Globe size={14} className="shrink-0" />
-              تقييمات ومراجعات حقيقية مُجمَّعة من مستخدمين حول العالم لنفس المنتج.
-            </p>
-          )}
         </div>
 
         {product.reviews.length > 0 ? (
