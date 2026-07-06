@@ -14,6 +14,7 @@ import PriceDisplay from "@/components/ui/PriceDisplay";
 import { getCompareAtPrice } from "@/lib/pricing";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import BrandMarquee from "@/components/home/BrandMarquee";
+import SaudiDeliveryMap from "@/components/ui/SaudiDeliveryMap";
 
 export const metadata: Metadata = {
   title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
@@ -86,6 +87,8 @@ const heroProducts = [
 
 const minPrice = Math.min(...PRODUCTS.map((p) => p.offers[0].price));
 const spotlightProduct = PRODUCTS.find((p) => p.id === "perfume-intense")!;
+
+const deliveryCities = ["الرياض", "جدة", "الدمام", "مكة", "المدينة", "أبها"];
 
 export default function HomePage() {
   const latest = getLatestProducts(8);
@@ -385,16 +388,28 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mt-10 rounded-2xl overflow-hidden border border-brand-gold/20 max-w-2xl mx-auto">
-            <div className="bg-brand-gold/10 px-5 py-3 flex items-center gap-2">
-              <MapPin size={16} className="text-brand-gold shrink-0" />
-              <p className="text-brand-ivory/80 text-sm">توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر</p>
+          <div className="mt-10 rounded-2xl overflow-hidden border border-brand-gold/30 max-w-2xl mx-auto shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+            <div className="bg-gradient-to-l from-[#1E3520] via-brand-primary to-[#1E3520] px-4 sm:px-5 py-4 border-b border-brand-gold/25">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <MapPin size={16} className="text-brand-gold shrink-0" />
+                <p className="text-brand-champagne/90 text-sm text-center">
+                  توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span>
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {deliveryCities.map((city) => (
+                  <span
+                    key={city}
+                    className="text-[11px] sm:text-xs font-bold font-arabic px-3 py-1 rounded-full bg-brand-gold/15 text-brand-champagne border border-brand-gold/30"
+                  >
+                    {city}
+                  </span>
+                ))}
+              </div>
             </div>
-            <img
-              src="/images/products/saudi-map.jpg"
-              alt="خريطة توصيل رياض — جميع مناطق المملكة العربية السعودية"
-              className="w-full object-cover opacity-90"
-            />
+            <div className="bg-brand-cream/95 px-3 py-4 sm:px-4">
+              <SaudiDeliveryMap />
+            </div>
           </div>
         </div>
       </section>
