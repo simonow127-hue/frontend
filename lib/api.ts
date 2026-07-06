@@ -97,3 +97,39 @@ export async function trackEvent(payload: {
     // Non-blocking
   }
 }
+
+type ReviewPayload = {
+  product_id: string;
+  product_name: string;
+  review: {
+    name: string;
+    city: string;
+    text: string;
+    rating: number;
+    date?: string;
+    flag?: string;
+    verified?: boolean;
+  };
+  event_id: string;
+};
+
+export async function submitReview(payload: ReviewPayload): Promise<void> {
+  const res = await apiFetch("/analytics/events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      event_name: "ReviewSubmitted",
+      event_id: payload.event_id,
+      payload: {
+        product_id: payload.product_id,
+        product_name: payload.product_name,
+        ...payload.review,
+      },
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw { status: res.status, detail: err.detail || err };
+  }
+}

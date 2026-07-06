@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Product, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
+import { Product, Review, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
 import { formatPrice } from "@/lib/currency";
 import { useCartStore } from "@/lib/cart";
 import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
@@ -13,7 +13,9 @@ import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
-import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, MessageSquare, Zap } from "lucide-react";
+import AddReviewForm from "./AddReviewForm";
+import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, Zap, Star } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
 interface FAQItemProps {
@@ -42,8 +44,15 @@ export default function ProductPageClient({ product }: { product: Product }) {
   const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(product.defaultOffer);
   const { addItem, openDrawer, openCheckout } = useCartStore();
   const [isSticky, setIsSticky] = useState(false);
+  const [userReviews, setUserReviews] = useState<Review[]>([]);
   const offerRef = useRef<HTMLDivElement>(null);
   const crossSells = getCrossSells(product);
+  const productLabel = product.shortHeading.split(":")[0];
+  const displayedReviews = [...userReviews, ...product.reviews];
+
+  useEffect(() => {
+    setUserReviews(loadUserReviews(product.id));
+  }, [product.id]);
 
   useEffect(() => {
     const eventId = getOrCreateEventId("viewContent");
@@ -289,65 +298,65 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {/* Reviews section */}
       <section className="max-w-content mx-auto px-4 py-12">
         <div className="text-center mb-8">
-          <h2 className="font-arabic font-bold text-2xl text-brand-espresso mb-2">
-            آراء الزبائن
-          </h2>
+          <div className="inline-flex flex-col items-center gap-4 max-w-xl mx-auto px-4 py-5 rounded-2xl bg-brand-cream/80 border border-brand-gold/20 w-full">
+            <span className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/25 text-brand-accent text-xs font-bold px-4 py-1.5 rounded-full">
+              <Star size={12} className="text-brand-gold" fill="currentColor" />
+              تقييمات موثّقة
+            </span>
+            <p className="text-brand-espresso/75 text-sm md:text-base leading-relaxed">
+              تقييمات ومراجعات حقيقية مجمعة من مستخدمين حول العالم لنفس المنتج.
+            </p>
+            <AddReviewForm
+              productId={product.id}
+              productName={productLabel}
+              onSubmitted={(review) => {
+                const next = saveUserReview(product.id, review);
+                setUserReviews(next);
+              }}
+            />
+          </div>
         </div>
 
-        {product.reviews.length > 0 ? (
-          <>
-            {/* Review cards grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {product.reviews.map((review, i) => (
-                <div
-                  key={i}
-                  className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
-                >
-                  <div className="flex items-center justify-between">
-                    <Stars rating={review.rating} size="sm" />
-                    <div className="flex flex-col items-end gap-0.5">
-                      <div className="flex items-center gap-1.5">
-                        {review.flag && <span className="text-base leading-none">{review.flag}</span>}
-                        <span className="font-bold text-brand-espresso text-sm">{review.name}</span>
-                      </div>
-                      {review.city && (
-                        <span className="text-[11px] text-brand-espresso/45 leading-none">{review.city}</span>
-                      )}
+        {displayedReviews.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {displayedReviews.map((review, i) => (
+              <div
+                key={`${review.name}-${review.date}-${i}`}
+                className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <Stars rating={review.rating} size="sm" />
+                  <div className="flex flex-col items-end gap-0.5">
+                    <div className="flex items-center gap-1.5">
+                      {review.flag && <span className="text-base leading-none">{review.flag}</span>}
+                      <span className="font-bold text-brand-espresso text-sm">{review.name}</span>
                     </div>
-                  </div>
-                  <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">{review.text}</p>
-                  <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
-                    {review.date && (
-                      <span className="text-xs text-brand-espresso/40">{review.date}</span>
-                    )}
-                    {review.verified && (
-                      <div className="flex items-center gap-1">
-                        <ShieldCheck size={11} className="text-status-success" />
-                        <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
-                      </div>
+                    {review.city && (
+                      <span className="text-[11px] text-brand-espresso/45 leading-none">{review.city}</span>
                     )}
                   </div>
                 </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="max-w-md mx-auto bg-brand-cream rounded-2xl p-8 text-center flex flex-col items-center gap-3">
-            <MessageSquare size={32} className="text-brand-primary/30" />
-            <p className="font-bold text-brand-espresso">شارك معنا تجربتك مع {product.shortHeading.split(":")[0]}</p>
-            <p className="text-brand-espresso/60 text-sm">
-              اطلب المنتج، جربه، وشارك رأيك الحقيقي عبر الإيميل.
-            </p>
-            <a
-              href="mailto:riads.shop@gmail.com"
-              className="inline-flex items-center gap-2 bg-brand-primary text-white text-sm font-bold px-4 py-2 rounded-full hover:bg-brand-gold transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
-              راسلنا
-            </a>
+                <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">{review.text}</p>
+                <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
+                  {review.date && (
+                    <span className="text-xs text-brand-espresso/40">{review.date}</span>
+                  )}
+                  {review.verified ? (
+                    <div className="flex items-center gap-1">
+                      <ShieldCheck size={11} className="text-status-success" />
+                      <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
+        ) : (
+          <p className="text-center text-brand-espresso/55 text-sm">
+            كن أول من يشارك تجربته مع {productLabel}.
+          </p>
         )}
       </section>
 
