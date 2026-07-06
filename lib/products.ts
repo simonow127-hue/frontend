@@ -64,13 +64,15 @@ function buildOffer(
   return { pieces, price, compareAtPrice: getCompareAtPrice(price), label, sublabel, badge };
 }
 
-function buildOffers(unitPrice: number): Offer[] {
+type OfferSublabels = [string, string, string];
+
+function buildOffers(unitPrice: number, sublabels: OfferSublabels, badge3 = "وفر أكثر"): Offer[] {
   const two = Math.round(unitPrice * 1.82);
   const three = Math.round(unitPrice * 2.55);
   return [
-    buildOffer(1, unitPrice, "قطعة واحدة", "للتجربة"),
-    buildOffer(2, two, "قطعتين", "للاستخدام اليومي"),
-    buildOffer(3, three, "٣ قطع", "أفضل قيمة", "أفضل قيمة"),
+    buildOffer(1, unitPrice, "قطعة واحدة", sublabels[0]),
+    buildOffer(2, two, "قطعتين", sublabels[1]),
+    buildOffer(3, three, "٣ قطع", sublabels[2], badge3),
   ];
 }
 
@@ -102,7 +104,7 @@ export const PRODUCTS: Product[] = [
       "تأكد إن فتحة الحزام في مكانها الصحيح",
       "حط أغراضك اليومية فوق الحاجز بكل راحة",
     ],
-    offers: buildOffers(89),
+    offers: buildOffers(89, ["لمقعد السائق", "للمقعدين الأماميين", "لسيارتين أو كهدية"]),
     defaultOffer: 1,
     crossSellIds: ["car-phone-holder", "neck-fan"],
     reviewCount: 11,
@@ -257,7 +259,7 @@ export const PRODUCTS: Product[] = [
       "ثبّت اللوحة المغناطيسية على ظهر الجوال",
       "عدّل الزاوية على مزاجك وانطلق",
     ],
-    offers: buildOffers(99),
+    offers: buildOffers(99, ["لجوالك اليومي", "لسيارتين", "للعائلة أو الهدية"]),
     defaultOffer: 1,
     crossSellIds: ["car-gap-filler", "neck-fan"],
     reviewCount: 9,
@@ -392,7 +394,7 @@ export const PRODUCTS: Product[] = [
       "اختر مستوى الرياح المناسب",
       "بعد الاستخدام اطويها واحفظها في الحقيبة",
     ],
-    offers: buildOffers(149),
+    offers: buildOffers(149, ["للحر والمشاوير", "لك ولمن تحب", "للعائلة والسفر"]),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
     reviewCount: 28,
@@ -555,7 +557,7 @@ export const PRODUCTS: Product[] = [
       "اضبط مستوى الصوت على راحتك",
       "خلّه ثابت في المكان اللي تسمع فيه كل يوم",
     ],
-    offers: buildOffers(199),
+    offers: buildOffers(199, ["لمجلس واحد", "لمجلسين", "لبيت كامل أو صدقة جارية"]),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "neck-fan"],
     reviewCount: 0,
@@ -606,7 +608,7 @@ export const PRODUCTS: Product[] = [
       "اضبط زاوية الإضاءة على مزاجك",
       "رتّب أقلامك في الحامل المدمج",
     ],
-    offers: buildOffers(179),
+    offers: buildOffers(179, ["لمكتب واحد", "للشغل والدراسة", "للبيت أو الهدية"]),
     defaultOffer: 1,
     crossSellIds: ["electric-chopper", "neck-fan"],
     reviewCount: 0,
@@ -660,7 +662,7 @@ export const PRODUCTS: Product[] = [
       "اضغط الزر وحرّك بحركة دائرية خفيفة",
       "افرغ المحتوى واغسل الوعاء بالماء",
     ],
-    offers: buildOffers(129),
+    offers: buildOffers(129, ["لوجبة اليوم", "للطبخ اليومي", "للمطبخ والعائلة"]),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "black-sheila"],
     reviewCount: 0,
@@ -712,7 +714,7 @@ export const PRODUCTS: Product[] = [
       "للثبات الأطول، رشّي خفيفاً على الملابس من الداخل",
       "احفظيه بعيد عن الشمس والحرارة للحفاظ على التركيبة",
     ],
-    offers: buildOffers(299),
+    offers: buildOffers(299, ["زجاجة لكِ", "لكِ ولأختكِ", "للهدايا والمناسبات"]),
     defaultOffer: 1,
     crossSellIds: ["black-sheila", "neck-fan"],
     reviewCount: 0,
@@ -770,7 +772,7 @@ export const PRODUCTS: Product[] = [
       "للمناسبات، زيّنيها ببروش بسيط",
       "اغسليها يدوياً أو على دورة خفيفة",
     ],
-    offers: buildOffers(79),
+    offers: buildOffers(79, ["للدوام", "للأسبوع", "للعائلة أو الهدية"]),
     defaultOffer: 1,
     crossSellIds: ["perfume-intense", "electric-chopper"],
     reviewCount: 0,
