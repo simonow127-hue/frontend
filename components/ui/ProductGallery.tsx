@@ -78,11 +78,27 @@ export default function ProductGallery({ images, alt, priority = false }: Produc
           </>
         )}
 
-        {/* Counter badge */}
+        {/* Branded slide indicator — dots instead of numbers */}
         {images.length > 1 && (
-          <span className="absolute bottom-2 left-2 bg-black/40 text-white text-[11px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">
-            {active + 1} / {images.length}
-          </span>
+          <div
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[rgba(26,26,26,0.45)] backdrop-blur-sm border border-[#C9A45C]/25 z-10"
+            aria-label={`صورة ${active + 1} من ${images.length}`}
+          >
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`عرض الصورة ${i + 1}`}
+                aria-current={i === active ? "true" : undefined}
+                className={`rounded-full transition-all duration-300 ${
+                  i === active
+                    ? "w-5 h-1.5 bg-brand-gold shadow-[0_0_8px_rgba(201,164,92,0.55)]"
+                    : "w-1.5 h-1.5 bg-brand-champagne/50 hover:bg-brand-champagne/80"
+                }`}
+              />
+            ))}
+          </div>
         )}
       </div>
 
