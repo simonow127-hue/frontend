@@ -17,9 +17,9 @@ export default function BrandWordmark({
   asLink = false,
 }: BrandWordmarkProps) {
   const content = (
-    <div className={clsx("flex items-center gap-2.5 shrink-0", className)}>
+    <div className={clsx("flex items-center gap-2.5 shrink-0 min-w-0", className)}>
       <BrandMark size={size === "sm" ? "sm" : "md"} framed />
-      <div className="flex flex-col items-end leading-none gap-0.5">
+      <div className="flex items-baseline gap-1.5 whitespace-nowrap leading-none">
         <span
           className={clsx(
             "font-arabic font-black tracking-tight",
@@ -31,7 +31,7 @@ export default function BrandWordmark({
         </span>
         <span
           className={clsx(
-            "font-latin font-bold ltr-text tracking-[0.22em] uppercase",
+            "font-body font-bold ltr-text tracking-[0.18em] uppercase",
             nameStyles,
             size === "sm" ? "text-[8px]" : "text-[9px] md:text-[10px]"
           )}
