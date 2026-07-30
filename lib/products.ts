@@ -1055,8 +1055,13 @@ export const PRODUCTS: Product[] = [
         answer: "الذراعان والقاعدة السفلية يمسكان الجوال بإحكام أثناء الفرملة والمطبات.",
       },
     ],
-    imagePlaceholder: "/images/products/wireless-car-charger.jpg",
-    imageColor: "#1A1A1A",
+   imagePlaceholder: "/images/products/wireless-car-charger.jpg",
+
+ingredientsImage: "/images/products/wireless-car-charger-features.jpg",
+usageImage: "/images/products/wireless-car-charger-usage.jpg",
+scienceImage: "/images/products/wireless-car-charger-science.jpg",
+
+imageColor: "#1A1A1A",
     isNew: true,
   },
 ];
