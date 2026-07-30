@@ -1035,7 +1035,7 @@ export const PRODUCTS: Product[] = [
       "ضع جوالك بين الذراعين حتى يثبت",
       "الشحن يبدأ تلقائياً — ركّز على الطريق",
     ],
-    offers: buildOffers(109),
+    offers: buildOffers(175),
     defaultOffer: 1,
     crossSellIds: ["car-phone-holder", "car-gap-filler", "car-comfort-set"],
     reviewCount: 0,
