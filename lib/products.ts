@@ -1011,7 +1011,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "wireless-car-charger",
     slug: "wireless-car-charger",
-    sku: "MP-WCCARGE2H6TN",
+    sku: "MP-E33HQGSNW2SK",
     categoryId: "electronics",
     arabicName: "شاحن سيارة لاسلكي — تثبيت وشحن بيد واحدة",
     shortHeading: "الشاحن اللاسلكي: جوالك ثابت ومشحون وأنت تقود",
