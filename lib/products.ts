@@ -1056,7 +1056,7 @@ export const PRODUCTS: Product[] = [
       },
     ],
    imagePlaceholder: "/images/products/wireless-car-charger.jpg",
-
+ videoUrl: "/videos/wireless-car-charger-demo.mp4"
 painImage: "/images/products/wireless-car-charger-pain.jpg",
 scienceImage: "/images/products/wireless-car-charger-science.jpg",
 usageImage: "/images/products/wireless-car-charger-usage.jpg",
