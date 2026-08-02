@@ -12,8 +12,6 @@ export type Offer = {
 
 export type Review = {
   name: string;
-  city: string;
-  flag?: string;
   text: string;
   rating: number;
   date?: string;
