@@ -361,20 +361,16 @@ export default function ProductPageClient({ product }: { product: Product }) {
                       <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
                     </div>
                   ) : (
-                    <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
+                   </div> <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
                   )}
-                </div><div className="flex items-center gap-1.5">
-  <span className="font-bold text-brand-espresso text-sm">
-    {review.name}
-  </span>
-</div>
               </div>
             ))}
           </div>
         ) : (
           <p className="text-center text-brand-espresso/55 text-sm">
             كن أول من يشارك تجربته مع {productLabel}.
-          </p>
+          </p> 
+        </div>
         )}
       </section>
 
