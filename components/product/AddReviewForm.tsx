@@ -20,7 +20,6 @@ export default function AddReviewForm({
 }: AddReviewFormProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [city, setCity] = useState("");
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +28,6 @@ export default function AddReviewForm({
 
   const reset = () => {
     setName("");
-    setCity("");
     setRating(5);
     setText("");
     setError("");
@@ -120,19 +118,6 @@ export default function AddReviewForm({
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="review-city" className="text-xs font-bold text-brand-espresso/70">
-              المدينة (اختياري)
-            </label>
-            <input
-              id="review-city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="w-full rounded-xl border border-brand-border bg-white px-4 py-2.5 text-sm text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
-              placeholder="مثال: الرياض"
-              maxLength={40}
-            />
-          </div>
 
           <div className="flex flex-col gap-2">
             <span className="text-xs font-bold text-brand-espresso/70">تقييمك *</span>
