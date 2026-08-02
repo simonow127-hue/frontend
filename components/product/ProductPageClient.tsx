@@ -334,44 +334,57 @@ export default function ProductPageClient({ product }: { product: Product }) {
           </div>
         </div>
 
-        {displayedReviews.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {displayedReviews.map((review, i) => (
-              <div
-                key={`${review.name}-${review.date}-${i}`}
-                className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
-              >
-                <div className="flex items-center justify-between">
-                  <Stars rating={review.rating} size="sm" />
-                  <div className="flex flex-col items-end gap-0.5">
-                  <div className="flex items-center gap-1.5">
-  <span className="font-bold text-brand-espresso text-sm">
-    {review.name}
-  </span>
-</div>
-                </div>
-                <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">{review.text}</p>
-                <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
-                  {review.date && (
-                    <span className="text-xs text-brand-espresso/40">{review.date}</span>
-                  )}
-                  {review.verified ? (
-                    <div className="flex items-center gap-1">
-                      <ShieldCheck size={11} className="text-status-success" />
-                      <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
-                    </div>
-                  ) : (
-                   <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
-                  )}
-              </div>
-            ))}
+       {displayedReviews.length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {displayedReviews.map((review, i) => (
+      <div
+        key={`${review.name}-${review.date}-${i}`}
+        className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
+      >
+        <div className="flex items-center justify-between">
+          <Stars rating={review.rating} size="sm" />
+
+          <div className="flex flex-col items-end gap-0.5">
+            <div className="flex items-center gap-1.5">
+              <span className="font-bold text-brand-espresso text-sm">
+                {review.name}
+              </span>
+            </div>
           </div>
-        ) : (
-          <p className="text-center text-brand-espresso/55 text-sm">
-            كن أول من يشارك تجربته مع {productLabel}.
-          </p> 
         </div>
-        )}
+
+        <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
+          {review.text}
+        </p>
+
+        <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
+          {review.date && (
+            <span className="text-xs text-brand-espresso/40">
+              {review.date}
+            </span>
+          )}
+
+          {review.verified ? (
+            <div className="flex items-center gap-1">
+              <ShieldCheck size={11} className="text-status-success" />
+              <span className="text-xs text-status-success font-medium">
+                مشتري موثّق
+              </span>
+            </div>
+          ) : (
+            <span className="text-xs text-brand-espresso/45">
+              تقييم جديد
+            </span>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+) : (
+  <p className="text-center text-brand-espresso/55 text-sm">
+    كن أول من يشارك تجربته مع {productLabel}.
+  </p>
+)}
       </section>
 
       {/* Offer stack CTA */}
