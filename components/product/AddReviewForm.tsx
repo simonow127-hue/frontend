@@ -55,8 +55,6 @@ export default function AddReviewForm({
     setLoading(true);
     const review: Review = {
       name: trimmedName,
-      city: trimmedCity || "المملكة العربية السعودية",
-      flag: "🇸🇦",
       text: trimmedText,
       rating,
       date: formatReviewDate(),
