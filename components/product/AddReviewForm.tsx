@@ -39,8 +39,7 @@ export default function AddReviewForm({
 
     const trimmedName = name.trim();
     const trimmedText = text.trim();
-    const trimmedCity = city.trim();
-
+  
     if (trimmedName.length < 2) {
       setError("اكتب اسمك (حرفين على الأقل)");
       return;
