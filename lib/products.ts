@@ -402,7 +402,7 @@ export const PRODUCTS: Product[] = [
       "اختر مستوى الرياح المناسب",
       "بعد الاستخدام اطويها واحفظها في الحقيبة",
     ],
-    offers: buildOffers(119),
+    offers: buildOffers(149),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
     reviewCount: 28,
