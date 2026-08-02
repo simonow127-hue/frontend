@@ -143,7 +143,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
                   <CheckCircle2 size={18} className="text-brand-primary shrink-0 mt-0.5" />
                   <span className="text-sm text-brand-espresso/80">{b}</span>
                 </li>
-           
+             ))}
             </ul>
 
             {/* Offer selector */}
