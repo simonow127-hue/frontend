@@ -103,11 +103,9 @@ type ReviewPayload = {
   product_name: string;
   review: {
     name: string;
-    city: string;
     text: string;
     rating: number;
     date?: string;
-    flag?: string;
     verified?: boolean;
   };
   event_id: string;
