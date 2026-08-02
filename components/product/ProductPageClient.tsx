@@ -361,7 +361,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
                       <span className="text-xs text-status-success font-medium">مشتري موثّق</span>
                     </div>
                   ) : (
-                   </div> <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
+                   <span className="text-xs text-brand-espresso/45">تقييم جديد</span>
                   )}
               </div>
             ))}
