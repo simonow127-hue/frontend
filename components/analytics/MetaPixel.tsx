@@ -10,13 +10,17 @@ export default function MetaPixel() {
 
     if (w.fbq) return;
 
-    w.fbq = function (...args: any[]) {
-      w.fbq.queue.push(args);
+    const fbq = function (...args: any[]) {
+      fbq.callMethod
+        ? fbq.callMethod.apply(fbq, args)
+        : fbq.queue.push(args);
     };
 
-    w.fbq.queue = [];
-    w.fbq.loaded = true;
-    w.fbq.version = "2.0";
+    w.fbq = fbq;
+    fbq.push = fbq;
+    fbq.loaded = true;
+    fbq.version = "2.0";
+    fbq.queue = [];
 
     const script = document.createElement("script");
     script.async = true;
