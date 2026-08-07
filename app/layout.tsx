@@ -85,6 +85,7 @@ export default function RootLayout({
     <html lang="ar-SA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable}`}>
       <body className="font-body bg-brand-ivory text-brand-espresso min-h-screen">
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
+        <MetaPixel />
         <ClientShell />
         <Header />
         <main>{children}</main>
