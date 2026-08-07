@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { Tajawal, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
+
 import MetaPixel from "@/components/analytics/MetaPixel";
 import JsonLd from "@/components/seo/JsonLd";
 
-
-
+const tajawal = Tajawal({
   subsets: ["arabic"],
   weight: ["400", "700"],
   variable: "--font-tajawal",
@@ -12,7 +13,7 @@ import JsonLd from "@/components/seo/JsonLd";
   preload: true,
 });
 
-
+const notoKufiArabic = Noto_Kufi_Arabic({
   subsets: ["arabic"],
   weight: ["400", "700"],
   variable: "--font-noto-kufi",
@@ -24,21 +25,26 @@ const siteUrl = "https://riads.shop";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   title: {
     default: "رياض | Riads — تسوق بالسعودية",
     template: "%s | رياض",
   },
+
   description:
     "رياض — منتجات مختارة. توصيل للمملكة، دفع عند الاستلام، تقييمات حقيقية.",
+
   alternates: {
     canonical: "/",
   },
+
   openGraph: {
     siteName: "رياض",
     locale: "ar_SA",
     type: "website",
     url: siteUrl,
   },
+
   robots: {
     index: true,
     follow: true,
@@ -56,28 +62,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "رياض",
-  alternateName: "Riads",
-  url: siteUrl,
-  logo: `${siteUrl}/logo.png`,
-  description:
-    "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
-  areaServed: { "@type": "Country", name: "Saudi Arabia" },
-};
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "رياض",
+    alternateName: "Riads",
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    description:
+      "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
+    areaServed: {
+      "@type": "Country",
+      name: "Saudi Arabia",
+    },
+  };
+
   return (
-  <html
-    lang="ar-SA"
-    dir="rtl"
-    className={`${tajawal.variable} ${notoKufiArabic.variable}`}
-  >
-    <body>
-      <MetaPixel />
-      <JsonLd data={[organizationJsonLd]} />
-      {children}
-    </body>
-  </html>
-);
- 
+    <html
+      lang="ar-SA"
+      dir="rtl"
+      className={`${tajawal.variable} ${notoKufiArabic.variable}`}
+    >
+      <body>
+        <MetaPixel />
+        <JsonLd data={[organizationJsonLd]} />
+        {children}
+      </body>
+    </html>
+  );
+}
