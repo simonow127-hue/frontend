@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import ClientShell from "@/components/layout/ClientShell";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import JsonLd from "@/components/seo/JsonLd";
-import { getSiteUrl } from "@/lib/site";
+
 
 
   subsets: ["arabic"],
@@ -23,7 +23,7 @@ import { getSiteUrl } from "@/lib/site";
   preload: true,
 });
 
-const siteUrl = getSiteUrl();
+const siteUrl = "https://riads.shop";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
