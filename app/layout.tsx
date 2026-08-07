@@ -43,6 +43,19 @@ export const metadata: Metadata = {
     locale: "ar_SA",
     type: "website",
     url: siteUrl,
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "رياض Riads",
+      },
+    ],
+  },
+
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
   },
 
   robots: {
