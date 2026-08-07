@@ -61,17 +61,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const organizationJsonLd = {
+const organizationJsonLd = {
   "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "رياض",
-    alternateName: "Riads",
-    url: siteUrl,
+  "@type": "Organization",
+  name: "رياض",
+  alternateName: "Riads",
+  url: siteUrl,
   logo: `${siteUrl}/logo.png`,
-    description:
-      "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
-    areaServed: { "@type": "Country", name: "Saudi Arabia" },
-  };
+  description:
+    "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
+  areaServed: { "@type": "Country", name: "Saudi Arabia" },
+};
   return (
   <html
     lang="ar-SA"
