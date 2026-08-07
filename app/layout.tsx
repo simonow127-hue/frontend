@@ -1,25 +1,11 @@
 import type { Metadata } from "next";
-import { Tajawal, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import ClientShell from "@/components/layout/ClientShell";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import JsonLd from "@/components/seo/JsonLd";
-
-const tajawal = Tajawal({
-  subsets: ["arabic"],
-  weight: ["400", "700"],
-  variable: "--font-tajawal",
-  display: "swap",
-  preload: true,
-});
-
-const notoKufiArabic = Noto_Kufi_Arabic({
-  subsets: ["arabic"],
-  weight: ["400", "700"],
-  variable: "--font-noto-kufi",
-  display: "swap",
-  preload: true,
-});
 
 const siteUrl = "https://riads.shop";
 
@@ -43,19 +29,6 @@ export const metadata: Metadata = {
     locale: "ar_SA",
     type: "website",
     url: siteUrl,
-    images: [
-      {
-        url: "/logo.png",
-        width: 512,
-        height: 512,
-        alt: "رياض Riads",
-      },
-    ],
-  },
-
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
   },
 
   robots: {
@@ -91,15 +64,19 @@ export default function RootLayout({
   };
 
   return (
-    <html
-      lang="ar-SA"
-      dir="rtl"
-      className={`${tajawal.variable} ${notoKufiArabic.variable}`}
-    >
+    <html lang="ar-SA" dir="rtl">
       <body>
         <MetaPixel />
-        <JsonLd data={[organizationJsonLd]} />
-        {children}
+
+        <JsonLd data={organizationJsonLd} />
+
+        <Header />
+
+        <ClientShell>
+          {children}
+        </ClientShell>
+
+        <Footer />
       </body>
     </html>
   );
