@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Tajawal, Noto_Kufi_Arabic } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -9,7 +8,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import { getSiteUrl } from "@/lib/site";
 import { STORE_IMAGES } from "@/lib/store-images";
 
-const tajawal = Tajawal({
+
   subsets: ["arabic"],
   weight: ["400", "700"],
   variable: "--font-tajawal",
@@ -17,7 +16,7 @@ const tajawal = Tajawal({
   preload: true,
 });
 
-const notoKufiArabic = Noto_Kufi_Arabic({
+
   subsets: ["arabic"],
   weight: ["400", "700"],
   variable: "--font-noto-kufi",
