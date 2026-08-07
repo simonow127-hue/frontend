@@ -80,12 +80,9 @@ export default function RootLayout({
   >
     <body>
       <MetaPixel />
-
-      <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
-
+      <JsonLd data={[organizationJsonLd]} />
       {children}
     </body>
   </html>
 );
-}
  
