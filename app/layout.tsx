@@ -72,15 +72,7 @@ export default function RootLayout({
       "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
     areaServed: { "@type": "Country", name: "Saudi Arabia" },
   };
-  const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "رياض",
-  url: siteUrl,
-  inLanguage: "ar-SA",
-};
-
-return (
+  return (
   <html
     lang="ar-SA"
     dir="rtl"
@@ -96,3 +88,4 @@ return (
   </html>
 );
 }
+ 
