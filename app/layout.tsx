@@ -67,7 +67,7 @@ export default function RootLayout({
     name: "رياض",
     alternateName: "Riads",
     url: siteUrl,
-    logo: `${siteUrl}${STORE_IMAGES.heroTrio}`,
+  logo: `${siteUrl}/logo.png`,
     description:
       "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
     areaServed: { "@type": "Country", name: "Saudi Arabia" },
