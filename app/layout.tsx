@@ -6,7 +6,6 @@ import ClientShell from "@/components/layout/ClientShell";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import JsonLd from "@/components/seo/JsonLd";
 import { getSiteUrl } from "@/lib/site";
-import { STORE_IMAGES } from "@/lib/store-images";
 
 
   subsets: ["arabic"],
