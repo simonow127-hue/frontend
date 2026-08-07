@@ -10,19 +10,18 @@ export default function MetaPixel() {
 
     if (w.fbq) return;
 
-    const fbq = function (...args: any[]) {
-      (fbq as any).queue = (fbq as any).queue || [];
-      (fbq as any).queue.push(args);
+    w.fbq = function (...args: any[]) {
+      w.fbq.queue.push(args);
     };
 
-    (fbq as any).loaded = true;
-    (fbq as any).version = "2.0";
-
-    w.fbq = fbq;
+    w.fbq.queue = [];
+    w.fbq.loaded = true;
+    w.fbq.version = "2.0";
 
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://connect.facebook.net/en_US/fbevents.js";
+
     document.head.appendChild(script);
 
     w.fbq("init", PIXEL_ID);
