@@ -72,25 +72,28 @@ export default function RootLayout({
       "متجر سعودي يجمع منتجات مختارة. توصيل للمملكة والدفع عند الاستلام.",
     areaServed: { "@type": "Country", name: "Saudi Arabia" },
   };
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "رياض",
+  url: siteUrl,
+  inLanguage: "ar-SA",
+};
 
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "رياض",
-    url: siteUrl,
-    inLanguage: "ar-SA",
-  };
+return (
+  <html
+    lang="ar-SA"
+    dir="rtl"
+    className={`${tajawal.variable} ${notoKufiArabic.variable}`}
+  >
+    <body>
+      <MetaPixel />
 
-  return (
-    <html lang="ar-SA" dir="rtl" className={`${tajawal.variable} ${notoKufiArabic.variable}`}>
-      <body className="font-body bg-brand-ivory text-brand-espresso min-h-screen">
-        <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
-        <MetaPixel />
-        <ClientShell />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
-  );
+      <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
+
+      {children}
+    </body>
+  </html>
+);
 }
+  
