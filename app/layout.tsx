@@ -3,7 +3,6 @@ import "./globals.css";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ClientShell from "@/components/layout/ClientShell";
 import MetaPixel from "@/components/analytics/MetaPixel";
 import JsonLd from "@/components/seo/JsonLd";
 
@@ -70,13 +69,11 @@ export default function RootLayout({
 
         <JsonLd data={organizationJsonLd} />
 
-        <Header />
+       <Header />
 
-        <ClientShell>
-          {children}
-        </ClientShell>
+{children}
 
-        <Footer />
+<Footer />
       </body>
     </html>
   );
