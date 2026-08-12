@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Product,
   Review,
-  getOfferByPieces,
   getCrossSells,
+  getOfferByPieces,
   getProductSectionImage,
 } from "@/lib/products";
 import PriceDisplay from "@/components/ui/PriceDisplay";
@@ -16,8 +16,8 @@ import {
   getOrCreateEventId,
 } from "@/lib/events";
 import {
-  trackViewContent,
   trackAddToCart,
+  trackViewContent,
 } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
 import OfferSelector from "./OfferSelector";
@@ -56,7 +56,7 @@ function FAQItem({ q, a }: FAQItemProps) {
       <button
         type="button"
         className="w-full flex items-center justify-between py-4 text-right font-bold text-brand-espresso hover:text-brand-primary transition-colors"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
       >
         <span>
@@ -84,26 +84,19 @@ export default function ProductPageClient({
 }: {
   product: Product;
 }) {
-  const [selectedPieces, setSelectedPieces] =
-    useState<1 | 2 | 3>(product.defaultOffer);
+  const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(
+    product.defaultOffer
+  );
 
-  const {
-    addItem,
-    openDrawer,
-    openCheckout,
-  } = useCartStore();
+  const { addItem, openDrawer, openCheckout } = useCartStore();
 
   const [isSticky, setIsSticky] = useState(false);
-
-  const [userReviews, setUserReviews] =
-    useState<Review[]>([]);
+  const [userReviews, setUserReviews] = useState<Review[]>([]);
 
   const offerRef = useRef<HTMLDivElement>(null);
 
   const crossSells = getCrossSells(product);
-
-  const productLabel =
-    product.shortHeading.split(":")[0];
+  const productLabel = product.shortHeading.split(":")[0];
 
   const displayedReviews = [
     ...userReviews,
@@ -111,32 +104,23 @@ export default function ProductPageClient({
   ];
 
   useEffect(() => {
-    setUserReviews(
-      loadUserReviews(product.id)
-    );
+    setUserReviews(loadUserReviews(product.id));
   }, [product.id]);
 
   useEffect(() => {
-    const eventId =
-      getOrCreateEventId("viewContent");
+    const eventId = getOrCreateEventId("viewContent");
 
     const offer3 = product.offers.find(
-      (o) => o.pieces === 3
+      (offer) => offer.pieces === 3
     );
 
-    const fallbackOffer =
-      product.offers[0];
-
-    const price =
-      offer3?.price ??
-      fallbackOffer?.price ??
-      0;
+    if (!offer3) return;
 
     trackViewContent(
       {
         id: product.id,
         name: product.arabicName,
-        price,
+        price: offer3.price,
       },
       eventId
     );
@@ -151,15 +135,14 @@ export default function ProductPageClient({
   }, [product]);
 
   useEffect(() => {
-    const observer =
-      new IntersectionObserver(
-        ([entry]) => {
-          setIsSticky(!entry.isIntersecting);
-        },
-        {
-          threshold: 0.1,
-        }
-      );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSticky(!entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+      }
+    );
 
     if (offerRef.current) {
       observer.observe(offerRef.current);
@@ -178,8 +161,7 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId =
-      generateFreshEventId("addToCart");
+    const eventId = generateFreshEventId("addToCart");
 
     trackAddToCart(
       {
@@ -210,8 +192,7 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId =
-      generateFreshEventId("addToCart");
+    const eventId = generateFreshEventId("addToCart");
 
     trackAddToCart(
       {
@@ -234,25 +215,20 @@ export default function ProductPageClient({
     openCheckout();
   };
 
-  const selectedOffer =
-    getOfferByPieces(
-      product,
-      selectedPieces
-    );
+  const selectedOffer = getOfferByPieces(
+    product,
+    selectedPieces
+  );
 
   return (
     <div className="min-h-screen">
 
-      {/* ========================================================= */}
-      {/* HERO / ABOVE THE FOLD */}
-      {/* ========================================================= */}
-
+      {/* HERO */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
 
-          {/* Product Gallery */}
+          {/* Gallery */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
-
             {product.videoUrl && (
               <ProductVideo
                 src={product.videoUrl}
@@ -280,8 +256,10 @@ export default function ProductPageClient({
               alt={product.arabicName}
               priority
             />
-
           </div>
 
           {/* Product Info */}
-          <div className="order-2 md:order-
+          <div className="order-2 md:order-1 flex flex-col gap-5">
+
+            <div>
+              <h1 className="font
