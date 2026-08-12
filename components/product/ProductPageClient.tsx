@@ -1,11 +1,24 @@
-  "use client";
+"use client";
+
 import { useState, useEffect, useRef } from "react";
-import { Product, Review, getOfferByPieces, getCrossSells, getProductSectionImage } from "@/lib/products";
+import {
+  Product,
+  Review,
+  getOfferByPieces,
+  getCrossSells,
+  getProductSectionImage,
+} from "@/lib/products";
 import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
 import { useCartStore } from "@/lib/cart";
-import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
-import { trackViewContent, trackAddToCart } from "@/lib/tracking";
+import {
+  generateFreshEventId,
+  getOrCreateEventId,
+} from "@/lib/events";
+import {
+  trackViewContent,
+  trackAddToCart,
+} from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
 import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
@@ -16,8 +29,18 @@ import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductVideo from "@/components/ui/ProductVideo";
 import AddReviewForm from "./AddReviewForm";
-import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
-import { ShieldCheck, CheckCircle2, ChevronDown, ChevronUp, Zap, Star } from "lucide-react";
+import {
+  loadUserReviews,
+  saveUserReview,
+} from "@/lib/user-reviews";
+import {
+  ShieldCheck,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Zap,
+  Star,
+} from "lucide-react";
 import Stars from "@/components/ui/Stars";
 
 interface FAQItemProps {
@@ -27,6 +50,7 @@ interface FAQItemProps {
 
 function FAQItem({ q, a }: FAQItemProps) {
   const [open, setOpen] = useState(false);
+
   return (
     <div className="border-b border-brand-border last:border-0">
       <button
@@ -34,23 +58,47 @@ function FAQItem({ q, a }: FAQItemProps) {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
-        <span>{open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</span>
+        <span>
+          {open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </span>
+
         <span>{q}</span>
       </button>
-      {open && <p className="pb-4 text-brand-espresso/70 text-sm leading-relaxed text-right">{a}</p>}
+
+      {open && (
+        <p className="pb-4 text-brand-espresso/70 text-sm leading-relaxed text-right">
+          {a}
+        </p>
+      )}
     </div>
   );
 }
 
-export default function ProductPageClient({ product }: { product: Product }) {
-  const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(product.defaultOffer);
-  const { addItem, openDrawer, openCheckout } = useCartStore();
+export default function ProductPageClient({
+  product,
+}: {
+  product: Product;
+}) {
+  const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(
+    product.defaultOffer
+  );
+
+  const {
+    addItem,
+    openDrawer,
+    openCheckout,
+  } = useCartStore();
+
   const [isSticky, setIsSticky] = useState(false);
   const [userReviews, setUserReviews] = useState<Review[]>([]);
   const offerRef = useRef<HTMLDivElement>(null);
+
   const crossSells = getCrossSells(product);
   const productLabel = product.shortHeading.split(":")[0];
-  const displayedReviews = [...userReviews, ...product.reviews];
+  const displayedReviews = [
+    ...userReviews,
+    ...product.reviews,
+  ];
 
   useEffect(() => {
     setUserReviews(loadUserReviews(product.id));
@@ -58,46 +106,119 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
   useEffect(() => {
     const eventId = getOrCreateEventId("viewContent");
-    const offer3 = product.offers.find((o) => o.pieces === 3)!;
-    trackViewContent({ id: product.id, name: product.arabicName, price: offer3.price }, eventId);
-    trackEvent({ event_name: "ViewContent", event_id: eventId, payload: { product_id: product.id } });
+
+    const offer3 = product.offers.find(
+      (o) => o.pieces === 3
+    )!;
+
+    trackViewContent(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer3.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "ViewContent",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+      },
+    });
   }, [product]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsSticky(!entry.isIntersecting),
-      { threshold: 0.1 }
+      {
+        threshold: 0.1,
+      }
     );
-    if (offerRef.current) observer.observe(offerRef.current);
+
+    if (offerRef.current) {
+      observer.observe(offerRef.current);
+    }
+
     return () => observer.disconnect();
   }, []);
 
   const handleAddToCart = () => {
-    const offer = getOfferByPieces(product, selectedPieces);
+    const offer = getOfferByPieces(
+      product,
+      selectedPieces
+    );
+
     addItem(product, offer);
+
     const eventId = generateFreshEventId("addToCart");
-    trackAddToCart({ id: product.id, name: product.arabicName, price: offer.price }, eventId);
-    trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id, pieces: selectedPieces } });
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
     openDrawer();
   };
 
   const handleBuyNow = () => {
-    const offer = getOfferByPieces(product, selectedPieces);
+    const offer = getOfferByPieces(
+      product,
+      selectedPieces
+    );
+
     addItem(product, offer);
+
     const eventId = generateFreshEventId("addToCart");
-    trackAddToCart({ id: product.id, name: product.arabicName, price: offer.price }, eventId);
-    trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id, pieces: selectedPieces } });
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
     openCheckout();
   };
 
-  const selectedOffer = getOfferByPieces(product, selectedPieces);
+  const selectedOffer = getOfferByPieces(
+    product,
+    selectedPieces
+  );
 
   return (
     <div className="min-h-screen">
+
       {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Product gallery (left in RTL on desktop) */}
+
+          {/* Product gallery */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
             {product.videoUrl && (
               <ProductVideo
@@ -106,30 +227,46 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 title={product.arabicName}
               />
             )}
+
             <ProductGallery
               images={[
                 product.imagePlaceholder,
-                ...(product.painImage ? [product.painImage] : []),
-                ...(product.scienceImage ? [product.scienceImage] : []),
-                ...(product.usageImage ? [product.usageImage] : []),
-                ...(product.ingredientsImage ? [product.ingredientsImage] : []),
+                ...(product.painImage
+                  ? [product.painImage]
+                  : []),
+                ...(product.scienceImage
+                  ? [product.scienceImage]
+                  : []),
+                ...(product.usageImage
+                  ? [product.usageImage]
+                  : []),
+                ...(product.ingredientsImage
+                  ? [product.ingredientsImage]
+                  : []),
               ]}
               alt={product.arabicName}
               priority
             />
           </div>
 
-          {/* Product info (right in RTL on desktop) */}
+          {/* Product info */}
           <div className="order-2 md:order-1 flex flex-col gap-5">
+
             <div>
               <h1 className="font-arabic font-bold text-brand-espresso text-2xl md:text-3xl leading-snug">
                 {product.emotionalHeadline}
               </h1>
-              <p className="text-brand-espresso/70 mt-2 text-base">{product.subheading}</p>
+
+              <p className="text-brand-espresso/70 mt-2 text-base">
+                {product.subheading}
+              </p>
+
               <div className="mt-4">
                 <PriceDisplay
                   price={selectedOffer.price}
-                  compareAtPrice={selectedOffer.compareAtPrice}
+                  compareAtPrice={
+                    selectedOffer.compareAtPrice
+                  }
                   size="lg"
                   showBadge
                 />
@@ -139,16 +276,28 @@ export default function ProductPageClient({ product }: { product: Product }) {
             {/* Pain bullets */}
             <ul className="flex flex-col gap-2">
               {product.painBullets.map((b) => (
-                <li key={b} className="flex items-start gap-2">
-                  <CheckCircle2 size={18} className="text-brand-primary shrink-0 mt-0.5" />
-                  <span className="text-sm text-brand-espresso/80">{b}</span>
+                <li
+                  key={b}
+                  className="flex items-start gap-2"
+                >
+                  <CheckCircle2
+                    size={18}
+                    className="text-brand-primary shrink-0 mt-0.5"
+                  />
+
+                  <span className="text-sm text-brand-espresso/80">
+                    {b}
+                  </span>
                 </li>
-             ))}
+              ))}
             </ul>
 
             {/* Offer selector */}
             <div ref={offerRef}>
-              <h2 className="font-bold text-brand-espresso mb-3">اختر العرض</h2>
+              <h2 className="font-bold text-brand-espresso mb-3">
+                اختر العرض
+              </h2>
+
               <OfferSelector
                 offers={product.offers}
                 selected={selectedPieces}
@@ -158,27 +307,50 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
             {/* CTA */}
             <div className="flex flex-col gap-3">
+
+              {/* BUY NOW */}
               <button
                 onClick={handleBuyNow}
-                className="w-full py-4 px-6 rounded-2xl bg-brand-primary text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
+                className="w-full py-4 px-6 rounded-2xl bg-[#18AA4D] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
               >
-                <Zap size={20} fill="currentColor" />
-                اشتري الحين — {formatPrice(selectedOffer.price)}
+                <Zap
+                  size={20}
+                  fill="currentColor"
+                />
+
+                اشتري الحين —{" "}
+                {formatPrice(selectedOffer.price)}
               </button>
-              <Button onClick={handleAddToCart} fullWidth size="lg" variant="secondary" className="text-base">
+
+              <Button
+                onClick={handleAddToCart}
+                fullWidth
+                size="lg"
+                variant="secondary"
+                className="text-base"
+              >
                 أضف للسلة
               </Button>
             </div>
 
             {/* Trust */}
             <div className="flex items-center gap-2 justify-center">
-              <ShieldCheck size={16} className="text-status-success" />
-              <span className="text-sm text-brand-espresso/70">الدفع عند الاستلام · توصيل لكل المملكة</span>
+              <ShieldCheck
+                size={16}
+                className="text-status-success"
+              />
+
+              <span className="text-sm text-brand-espresso/70">
+                الدفع عند الاستلام · توصيل لكل المملكة
+              </span>
             </div>
 
             {/* Payment logos */}
             <div className="flex justify-center pt-1">
-              <PaymentLogos size="sm" className="opacity-70" />
+              <PaymentLogos
+                size="sm"
+                className="opacity-70"
+              />
             </div>
           </div>
         </div>
@@ -191,29 +363,46 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Pain mirror - Image Left, Text Right */}
+      {/* Pain mirror */}
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
           <div className="order-2 md:order-1">
             <ProductImage
-              src={product.painImage || product.imagePlaceholder}
+              src={
+                product.painImage ||
+                product.imagePlaceholder
+              }
               alt={`${product.shortHeading.split(":")[0]} — المنتج`}
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
               تعاني من نفس المشكلة؟
             </h2>
+
             <ul className="flex flex-col gap-4 mb-6">
-              {product.painBullets.map((bullet, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="text-status-error font-bold mt-1 text-lg">✕</span>
-                  <span className="text-brand-espresso/80 text-lg leading-relaxed">{bullet}</span>
-                </li>
-              ))}
+              {product.painBullets.map(
+                (bullet, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="text-status-error font-bold mt-1 text-lg">
+                      ✕
+                    </span>
+
+                    <span className="text-brand-espresso/80 text-lg leading-relaxed">
+                      {bullet}
+                    </span>
+                  </li>
+                )
+              )}
             </ul>
+
             <p className="text-brand-primary font-bold text-xl leading-relaxed">
               {product.shortHeading} هو الحل المناسب لهالمشاكل.
             </p>
@@ -221,28 +410,40 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Mechanism & Science - Text Left, Image Right */}
+      {/* Mechanism & Science */}
       <section className="bg-brand-cream py-16">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
           <div className="text-right">
             <span className="inline-block bg-brand-primary/10 text-brand-primary text-sm font-bold px-4 py-1.5 rounded-full mb-4">
               تفاصيل المنتج
             </span>
+
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
               كيف يشتغل {product.shortHeading.split(":")[0]}؟
             </h2>
+
             <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
               {product.mechanism}
             </p>
+
             <div className="flex items-center gap-3 bg-brand-ivory p-4 rounded-xl border border-brand-border">
-              <ShieldCheck className="text-status-success shrink-0" size={24} />
+              <ShieldCheck
+                className="text-status-success shrink-0"
+                size={24}
+              />
+
               <p className="text-sm text-brand-espresso/80 font-bold">
                 تم تطويره بعناية لضمان فعالية حقيقية دون ادعاءات مبالغ فيها.
               </p>
             </div>
           </div>
+
           <ProductImage
-            src={getProductSectionImage(product, "science")}
+            src={getProductSectionImage(
+              product,
+              "science"
+            )}
             alt={`${product.shortHeading.split(":")[0]} — المنتج`}
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -250,33 +451,51 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Ingredients - Image Left, Cards Right */}
+      {/* Ingredients */}
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
           <div className="order-2 md:order-1">
             <ProductImage
-              src={getProductSectionImage(product, "ingredients")}
+              src={getProductSectionImage(
+                product,
+                "ingredients"
+              )}
               alt="المكونات الطبيعية"
               aspect="square"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+
           <div className="order-1 md:order-2 text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
               المميزات اللي تفرق
             </h2>
+
             <p className="text-brand-espresso/70 mb-8 text-lg">
               اخترنا لك أفضل المواصفات عشان تجربة استخدام مريحة ونتيجة تليق فيك.
             </p>
+
             <div className="flex flex-col gap-4">
               {product.ingredients.map((ing) => (
-                <div key={ing.name} className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border">
+                <div
+                  key={ing.name}
+                  className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
+                >
                   <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-brand-primary font-bold text-xl">✦</span>
+                    <span className="text-brand-primary font-bold text-xl">
+                      ✦
+                    </span>
                   </div>
+
                   <div>
-                    <h3 className="font-bold text-brand-espresso text-lg mb-1">{ing.name}</h3>
-                    <p className="text-base text-brand-espresso/70 leading-relaxed">{ing.benefit}</p>
+                    <h3 className="font-bold text-brand-espresso text-lg mb-1">
+                      {ing.name}
+                    </h3>
+
+                    <p className="text-base text-brand-espresso/70 leading-relaxed">
+                      {ing.benefit}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -285,26 +504,40 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Usage - Text Left, Image Right */}
+      {/* Usage */}
       <section className="bg-brand-cream py-16">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
           <div className="text-right">
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
               طريقة الاستعمال (روتين سهل)
             </h2>
+
             <div className="flex flex-col gap-6">
-              {product.usageSteps.map((step, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
-                    {i + 1}
+              {product.usageSteps.map(
+                (step, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-4"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
+                      {i + 1}
+                    </div>
+
+                    <p className="text-brand-espresso/80 text-lg pt-1.5 leading-relaxed">
+                      {step}
+                    </p>
                   </div>
-                  <p className="text-brand-espresso/80 text-lg pt-1.5 leading-relaxed">{step}</p>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
+
           <ProductImage
-            src={getProductSectionImage(product, "usage")}
+            src={getProductSectionImage(
+              product,
+              "usage"
+            )}
             alt="طريقة الاستعمال"
             aspect="square"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -312,103 +545,145 @@ export default function ProductPageClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* Reviews section */}
+      {/* Reviews */}
       <section className="max-w-content mx-auto px-4 py-12">
+
         <div className="text-center mb-8">
           <div className="inline-flex flex-col items-center gap-4 max-w-xl mx-auto px-4 py-5 rounded-2xl bg-brand-cream/80 border border-brand-gold/20 w-full">
+
             <span className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/25 text-brand-accent text-xs font-bold px-4 py-1.5 rounded-full">
-              <Star size={12} className="text-brand-gold" fill="currentColor" />
+              <Star
+                size={12}
+                className="text-brand-gold"
+                fill="currentColor"
+              />
+
               تقييمات موثّقة
             </span>
+
             <p className="text-brand-espresso/75 text-sm md:text-base leading-relaxed">
               تقييمات ومراجعات حقيقية مجمعة من مستخدمين حول العالم لنفس المنتج.
             </p>
+
             <AddReviewForm
               productId={product.id}
               productName={productLabel}
               onSubmitted={(review) => {
-                const next = saveUserReview(product.id, review);
+                const next = saveUserReview(
+                  product.id,
+                  review
+                );
+
                 setUserReviews(next);
               }}
             />
           </div>
         </div>
 
-       {displayedReviews.length > 0 ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {displayedReviews.map((review, i) => (
-      <div
-        key={`${review.name}-${review.date}-${i}`}
-        className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
-      >
-        <div className="flex items-center justify-between">
-          <Stars rating={review.rating} size="sm" />
+        {displayedReviews.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-          <div className="flex flex-col items-end gap-0.5">
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-brand-espresso text-sm">
-                {review.name}
-              </span>
-            </div>
+            {displayedReviews.map(
+              (review, i) => (
+                <div
+                  key={`${review.name}-${review.date}-${i}`}
+                  className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
+                >
+
+                  <div className="flex items-center justify-between">
+                    <Stars
+                      rating={review.rating}
+                      size="sm"
+                    />
+
+                    <div className="flex flex-col items-end gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-brand-espresso text-sm">
+                          {review.name}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
+                    {review.text}
+                  </p>
+
+                  <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
+
+                    {review.date && (
+                      <span className="text-xs text-brand-espresso/40">
+                        {review.date}
+                      </span>
+                    )}
+
+                    {review.verified ? (
+                      <div className="flex items-center gap-1">
+                        <ShieldCheck
+                          size={11}
+                          className="text-status-success"
+                        />
+
+                        <span className="text-xs text-status-success font-medium">
+                          مشتري موثّق
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-brand-espresso/45">
+                        تقييم جديد
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )
+            )}
           </div>
-        </div>
-
-        <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
-          {review.text}
-        </p>
-
-        <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
-          {review.date && (
-            <span className="text-xs text-brand-espresso/40">
-              {review.date}
-            </span>
-          )}
-
-          {review.verified ? (
-            <div className="flex items-center gap-1">
-              <ShieldCheck size={11} className="text-status-success" />
-              <span className="text-xs text-status-success font-medium">
-                مشتري موثّق
-              </span>
-            </div>
-          ) : (
-            <span className="text-xs text-brand-espresso/45">
-              تقييم جديد
-            </span>
-          )}
-        </div>
-      </div>
-    ))}
-  </div>
-) : (
-  <p className="text-center text-brand-espresso/55 text-sm">
-    كن أول من يشارك تجربته مع {productLabel}.
-  </p>
-)}
+        ) : (
+          <p className="text-center text-brand-espresso/55 text-sm">
+            كن أول من يشارك تجربته مع {productLabel}.
+          </p>
+        )}
       </section>
 
       {/* Offer stack CTA */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
+
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-6">
             اختر عرضك الحين
           </h2>
+
           <div className="max-w-md mx-auto flex flex-col gap-4">
+
             <OfferSelector
               offers={product.offers}
               selected={selectedPieces}
               onChange={setSelectedPieces}
             />
+
+            {/* BUY NOW */}
             <button
               onClick={handleBuyNow}
-              className="w-full py-4 px-6 rounded-2xl bg-brand-primary text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
+              className="w-full py-4 px-6 rounded-2xl bg-[#18AA4D] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:brightness-110 active:scale-[0.98] transition-all"
             >
-              <Zap size={20} fill="currentColor" />
-              اشتري الحين — {formatPrice(selectedOffer.price)}
+              <Zap
+                size={20}
+                fill="currentColor"
+              />
+
+              اشتري الحين —{" "}
+              {formatPrice(selectedOffer.price)}
             </button>
-            <Button onClick={handleAddToCart} fullWidth size="lg" variant="secondary">
+
+            <Button
+              onClick={handleAddToCart}
+              fullWidth
+              size="lg"
+              variant="secondary"
+            >
               أضف للسلة فقط
             </Button>
+
             <p className="text-center text-xs text-brand-espresso/50">
               الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
             </p>
@@ -419,15 +694,21 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {/* Cross-sells */}
       {crossSells.length > 0 && (
         <section className="max-w-content mx-auto px-4 py-12">
+
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-2">
             قد يعجبك كمان
           </h2>
+
           <p className="text-center text-brand-espresso/60 mb-8">
             منتجات مختارة تكمل طلبك — من رياض
           </p>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {crossSells.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard
+                key={p.id}
+                product={p}
+              />
             ))}
           </div>
         </section>
@@ -436,13 +717,21 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {/* FAQ */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
+
           <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-8">
             الأسئلة الشائعة
           </h2>
+
           <div className="max-w-2xl mx-auto bg-brand-ivory rounded-2xl px-6 divide-y divide-brand-border">
+
             {product.faqs.map((faq) => (
-              <FAQItem key={faq.question} q={faq.question} a={faq.answer} />
+              <FAQItem
+                key={faq.question}
+                q={faq.question}
+                a={faq.answer}
+              />
             ))}
+
           </div>
         </div>
       </section>
@@ -450,26 +739,47 @@ export default function ProductPageClient({ product }: { product: Product }) {
       {/* Sticky CTA */}
       {isSticky && (
         <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
+
           <div className="max-w-content mx-auto flex items-center gap-3">
+
             <div className="text-right flex-1 min-w-0">
-              <p className="font-bold text-brand-espresso text-sm truncate">{product.shortHeading.split(":")[0]}</p>
+
+              <p className="font-bold text-brand-espresso text-sm truncate">
+                {product.shortHeading.split(":")[0]}
+              </p>
+
               <PriceDisplay
                 price={selectedOffer.price}
-                compareAtPrice={selectedOffer.compareAtPrice}
+                compareAtPrice={
+                  selectedOffer.compareAtPrice
+                }
                 size="sm"
                 className="items-start"
               />
             </div>
+
+            {/* STICKY BUY NOW */}
             <button
               onClick={handleBuyNow}
-              className="shrink-0 py-2.5 px-5 rounded-xl bg-brand-primary text-white font-bold text-sm flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all shadow-md"
+              className="shrink-0 py-2.5 px-5 rounded-xl bg-[#18AA4D] text-white font-bold text-sm flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all shadow-md"
             >
-              <Zap size={15} fill="currentColor" />
+              <Zap
+                size={15}
+                fill="currentColor"
+              />
+
               اشتري الحين
             </button>
-            <Button onClick={handleAddToCart} size="sm" variant="secondary" className="shrink-0 border">
+
+            <Button
+              onClick={handleAddToCart}
+              size="sm"
+              variant="secondary"
+              className="shrink-0 border"
+            >
               السلة
             </Button>
+
           </div>
         </div>
       )}
