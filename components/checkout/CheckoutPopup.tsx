@@ -6,12 +6,10 @@ import {
   zodResolver,
 } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import { useCartStore } from "@/lib/cart";
 import { validateSaudiPhone } from "@/lib/phone";
 import { formatPrice } from "@/lib/currency";
 import { createOrder } from "@/lib/api";
-
 import {
   getCookies,
   getClickIds,
@@ -20,11 +18,8 @@ import {
   getReferrer,
   generateFreshEventId,
 } from "@/lib/events";
-
 import { trackPurchase } from "@/lib/tracking";
-
 import Button from "@/components/ui/Button";
-
 import {
   X,
   ShieldCheck,
@@ -46,8 +41,9 @@ const schema = z.object({
     ),
 });
 
-type FormData =
-  z.infer<typeof schema>;
+type FormData = z.infer<
+  typeof schema
+>;
 
 export default function CheckoutPopup() {
   const {
@@ -72,7 +68,8 @@ export default function CheckoutPopup() {
     formState: { errors },
     setError: setFieldError,
   } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver:
+      zodResolver(schema),
   });
 
   const onSubmit = async (
@@ -86,13 +83,10 @@ export default function CheckoutPopup() {
       );
 
     if (!phoneResult.valid) {
-      setFieldError(
-        "phone",
-        {
-          message:
-            phoneResult.error,
-        }
-      );
+      setFieldError("phone", {
+        message:
+          phoneResult.error,
+      });
 
       return;
     }
@@ -119,11 +113,9 @@ export default function CheckoutPopup() {
           product_id:
             item.productId,
 
-          slug:
-            item.slug,
+          slug: item.slug,
 
-          name:
-            item.name,
+          name: item.name,
 
           offer_pieces:
             item.offerPieces,
@@ -155,13 +147,9 @@ export default function CheckoutPopup() {
             orderItems,
 
           totals: {
-            subtotal:
-              total,
-
+            subtotal: total,
             shipping: 0,
-
             total,
-
             currency: "SAR",
           },
 
@@ -177,8 +165,7 @@ export default function CheckoutPopup() {
           },
 
           tracking: {
-            event_id:
-              eventId,
+            event_id: eventId,
 
             fbp:
               cookies.fbp,
@@ -194,29 +181,27 @@ export default function CheckoutPopup() {
       trackPurchase(
         response.order_code,
         total,
-        items.map((i) => ({
+        items.map((item) => ({
           id:
-            i.productId,
+            item.productId,
 
           name:
-            i.name,
+            item.name,
 
           quantity:
-            i.offerPieces,
+            item.offerPieces,
 
           price:
-            i.total,
+            item.total,
         })),
         eventId
       );
 
       clearCart();
-
       closeCheckout();
 
       window.location.href =
         `/thank-you?order=${response.order_code}`;
-
     } catch (err: unknown) {
       const detail =
         (
@@ -234,7 +219,9 @@ export default function CheckoutPopup() {
           }
         )?.status;
 
-      if (detail?.message_ar) {
+      if (
+        detail?.message_ar
+      ) {
         setError(
           detail.message_ar
         );
@@ -279,6 +266,7 @@ export default function CheckoutPopup() {
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-brand-border">
 
           <button
+            type="button"
             onClick={
               closeCheckout
             }
@@ -302,38 +290,31 @@ export default function CheckoutPopup() {
               ملخص الطلب
             </h3>
 
-            {items.map(
-              (item) => (
-                <div
-                  key={
-                    item.productId
-                  }
-                  className="flex justify-between items-center mb-2"
-                >
-                  <span className="font-bold text-brand-primary">
-                    {formatPrice(
-                      item.total
-                    )}
-                  </span>
+            {items.map((item) => (
+              <div
+                key={item.productId}
+                className="flex justify-between items-center mb-2"
+              >
+                <span className="font-bold text-brand-primary">
+                  {formatPrice(
+                    item.total
+                  )}
+                </span>
 
-                  <span className="text-sm text-brand-espresso/80">
-                    {item.offerPieces}{" "}
-                    {item.offerPieces ===
-                    1
-                      ? "عبوة"
-                      : "عبوات"}{" "}
-                    ×{" "}
-                    {item.name
-                      .split(" ")
-                      .slice(
-                        1,
-                        3
-                      )
-                      .join(" ")}
-                  </span>
-                </div>
-              )
-            )}
+                <span className="text-sm text-brand-espresso/80">
+                  {item.offerPieces}{" "}
+                  {item.offerPieces ===
+                  1
+                    ? "عبوة"
+                    : "عبوات"}{" "}
+                  ×{" "}
+                  {item.name
+                    .split(" ")
+                    .slice(1, 3)
+                    .join(" ")}
+                </span>
+              </div>
+            ))}
 
             <div className="border-t border-brand-border pt-2 flex justify-between items-center">
 
@@ -397,8 +378,7 @@ export default function CheckoutPopup() {
               {errors.fullName && (
                 <p className="text-status-error text-xs">
                   {
-                    errors
-                      .fullName
+                    errors.fullName
                       .message
                   }
                 </p>
@@ -430,8 +410,7 @@ export default function CheckoutPopup() {
               {errors.phone && (
                 <p className="text-status-error text-xs">
                   {
-                    errors
-                      .phone
+                    errors.phone
                       .message
                   }
                 </p>
@@ -441,24 +420,23 @@ export default function CheckoutPopup() {
             {/* Error */}
             {error && (
               <div className="bg-status-error/10 border border-status-error/30 rounded-xl px-4 py-3">
-
                 <p className="text-status-error text-sm">
                   {error}
                 </p>
               </div>
             )}
 
-            {/* Submit */}
-           <Button
-  type="submit"
-  fullWidth
-  size="lg"
-  loading={loading}
-  className="mt-2 bg-[#2E822B] hover:bg-[#20671E] text-white"
->
-  تأكيد الطلب — {formatPrice(total)}
-</Button>
-
+            {/* Confirm */}
+            <Button
+              type="submit"
+              fullWidth
+              size="lg"
+              loading={loading}
+              className="mt-2"
+            >
+              تأكيد الطلب —{" "}
+              {formatPrice(total)}
+            </Button>
           </form>
 
           <p className="text-center text-xs text-brand-espresso/40">
