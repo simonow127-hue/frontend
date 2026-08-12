@@ -27,25 +27,18 @@ export default function ClientShell() {
   const [deferHeavy, setDeferHeavy] = useState(false);
 
   useEffect(() => {
-    const enable = () => setDeferHeavy(true);
-
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(enable, { timeout: 2500 });
-      return () => window.cancelIdleCallback(id);
-    }
-
-    const t = window.setTimeout(enable, 1500);
-    return () => window.clearTimeout(t);
+    // Meta mounts immediately; WhatsApp / session can wait a tick
+    setDeferHeavy(true);
   }, []);
 
   return (
     <>
+      <PixelManager />
       <CartDrawer />
       <CheckoutPopup />
       {deferHeavy && (
         <>
           <SessionInit />
-          <PixelManager />
           <WhatsAppButton />
         </>
       )}
