@@ -16,82 +16,156 @@ type CartState = {
   items: CartItem[];
   isDrawerOpen: boolean;
   isCheckoutOpen: boolean;
-  addItem: (product: Product, offer: Offer) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+
+  addItem: (
+    product: Product,
+    offer: Offer
+  ) => void;
+
+  removeItem: (
+    productId: string
+  ) => void;
+
+  updateQuantity: (
+    productId: string,
+    quantity: number
+  ) => void;
+
   clearCart: () => void;
+
   openDrawer: () => void;
   closeDrawer: () => void;
+
   openCheckout: () => void;
   closeCheckout: () => void;
+
   getTotalPrice: () => number;
   getTotalItems: () => number;
 };
 
-export const useCartStore = create<CartState>()(
-  persist(
-    (set, get) => ({
-      items: [],
-      isDrawerOpen: false,
-      isCheckoutOpen: false,
+export const useCartStore =
+  create<CartState>()(
+    persist(
+      (set, get) => ({
+        items: [],
 
-      addItem: (product, offer) => {
-        set((state) => {
-          const existing = state.items.find((i) => i.productId === product.id);
-          if (existing) {
+        isDrawerOpen: false,
+
+        isCheckoutOpen: false,
+
+        addItem: (product, offer) => {
+          set((state) => {
+            const existing =
+              state.items.find(
+                (i) =>
+                  i.productId === product.id
+              );
+
+            if (existing) {
+              return {
+                items: state.items.map((i) =>
+                  i.productId === product.id
+                    ? {
+                        ...i,
+                        offerPieces:
+                          offer.pieces,
+                        unitBundlePrice:
+                          offer.price,
+                        total:
+                          offer.price *
+                          i.quantity,
+                      }
+                    : i
+                ),
+              };
+            }
+
             return {
-              items: state.items.map((i) =>
-                i.productId === product.id
-                  ? {
-                      ...i,
-                      offerPieces: offer.pieces,
-                      unitBundlePrice: offer.price,
-                      total: offer.price,
-                    }
-                  : i
-              ),
+              items: [
+                ...state.items,
+                {
+                  productId: product.id,
+                  slug: product.slug,
+                  name: product.arabicName,
+                  offerPieces: offer.pieces,
+                  quantity: 1,
+                  unitBundlePrice: offer.price,
+                  total: offer.price,
+                },
+              ],
             };
-          }
-          return {
-            items: [
-              ...state.items,
-              {
-                productId: product.id,
-                slug: product.slug,
-                name: product.arabicName,
-                offerPieces: offer.pieces,
-                quantity: 1,
-                unitBundlePrice: offer.price,
-                total: offer.price,
-              },
-            ],
-          };
-        });
-      },
+          });
+        },
 
-      removeItem: (productId) =>
-        set((state) => ({ items: state.items.filter((i) => i.productId !== productId) })),
+        removeItem: (productId) =>
+          set((state) => ({
+            items: state.items.filter(
+              (i) =>
+                i.productId !== productId
+            ),
+          })),
 
-      updateQuantity: (productId, quantity) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.productId === productId ? { ...i, quantity, total: i.unitBundlePrice * quantity } : i
+        updateQuantity: (
+          productId,
+          quantity
+        ) =>
+          set((state) => ({
+            items: state.items.map((i) =>
+              i.productId === productId
+                ? {
+                    ...i,
+                    quantity,
+                    total:
+                      i.unitBundlePrice *
+                      quantity,
+                  }
+                : i
+            ),
+          })),
+
+        clearCart: () =>
+          set({
+            items: [],
+          }),
+
+        openDrawer: () =>
+          set({
+            isDrawerOpen: true,
+          }),
+
+        closeDrawer: () =>
+          set({
+            isDrawerOpen: false,
+          }),
+
+        openCheckout: () =>
+          set({
+            isCheckoutOpen: true,
+            isDrawerOpen: false,
+          }),
+
+        closeCheckout: () =>
+          set({
+            isCheckoutOpen: false,
+          }),
+
+        getTotalPrice: () =>
+          get().items.reduce(
+            (sum, i) =>
+              sum + i.total,
+            0
           ),
-        })),
 
-      clearCart: () => set({ items: [] }),
+        getTotalItems: () =>
+          get().items.length,
+      }),
 
-      openDrawer: () => set({ isDrawerOpen: true }),
-      closeDrawer: () => set({ isDrawerOpen: false }),
-      openCheckout: () => set({ isCheckoutOpen: true, isDrawerOpen: false }),
-      closeCheckout: () => set({ isCheckoutOpen: false }),
+      {
+        name: "riads-cart",
 
-      getTotalPrice: () => get().items.reduce((sum, i) => sum + i.total, 0),
-      getTotalItems: () => get().items.length,
-    }),
-    {
-      name: "riads-cart",
-      partialize: (state) => ({ items: state.items }),
-    }
-  )
-);
+        partialize: (state) => ({
+          items: state.items,
+        }),
+      }
+    )
+  );
