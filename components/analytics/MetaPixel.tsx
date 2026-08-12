@@ -11,12 +11,14 @@ export default function MetaPixel() {
     const w = window as any;
 
     // Don't initialize twice
-    if (w.fbq) return;
+    if (w.fbq && w.fbq.loaded) return;
 
-    const fbq = function (...args: any[]) {
-      fbq.callMethod
-        ? fbq.callMethod.apply(fbq, args)
-        : fbq.queue.push(args);
+    const fbq: any = function (...args: any[]) {
+      if (fbq.callMethod) {
+        fbq.callMethod.apply(fbq, args);
+      } else {
+        fbq.queue.push(args);
+      }
     };
 
     fbq.push = fbq;
@@ -32,8 +34,8 @@ export default function MetaPixel() {
 
     document.head.appendChild(script);
 
-    w.fbq("init", PIXEL_ID);
-    w.fbq("track", "PageView");
+    fbq("init", PIXEL_ID);
+    fbq("track", "PageView");
   }, []);
 
   return null;
