@@ -19,7 +19,6 @@ import {
   generateFreshEventId,
 } from "@/lib/events";
 import { trackPurchase } from "@/lib/tracking";
-import Button from "@/components/ui/Button";
 import {
   X,
   ShieldCheck,
@@ -427,16 +426,13 @@ export default function CheckoutPopup() {
             )}
 
             {/* Confirm */}
-            <Button
+            <button
               type="submit"
-              fullWidth
-              size="lg"
-              loading={loading}
-              className="mt-2 bg-[#2E822B] text-white hover:bg-[#20671E] active:bg-[#20671E]"
+              disabled={loading}
+              className="mt-2 w-full py-4 px-6 rounded-full bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              تأكيد الطلب —{" "}
-              {formatPrice(total)}
-            </Button>
+              {loading ? "جاري المعالجة..." : `تأكيد الطلب — ${formatPrice(total)}`}
+            </button>
           </form>
 
           <p className="text-center text-xs text-brand-espresso/40">
