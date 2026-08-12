@@ -25,7 +25,6 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
-import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductVideo from "@/components/ui/ProductVideo";
 import AddReviewForm from "./AddReviewForm";
@@ -42,6 +41,7 @@ import {
   Star,
 } from "lucide-react";
 import Stars from "@/components/ui/Stars";
+import PaymentLogos from "@/components/ui/PaymentLogos";
 
 interface FAQItemProps {
   q: string;
@@ -95,7 +95,9 @@ export default function ProductPageClient({
   const offerRef = useRef<HTMLDivElement>(null);
 
   const crossSells = getCrossSells(product);
+
   const productLabel = product.shortHeading.split(":")[0];
+
   const displayedReviews = [
     ...userReviews,
     ...product.reviews,
@@ -110,7 +112,9 @@ export default function ProductPageClient({
 
     const offer3 = product.offers.find(
       (o) => o.pieces === 3
-    )!;
+    );
+
+    if (!offer3) return;
 
     trackViewContent(
       {
@@ -132,7 +136,9 @@ export default function ProductPageClient({
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setIsSticky(!entry.isIntersecting),
+      ([entry]) => {
+        setIsSticky(!entry.isIntersecting);
+      },
       {
         threshold: 0.1,
       }
@@ -153,27 +159,29 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId = generateFreshEventId(
-      "addToCart"
-    );
+    try {
+      const eventId = generateFreshEventId("addToCart");
 
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
 
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch (error) {
+      console.error("AddToCart tracking error:", error);
+    }
 
     openDrawer();
   };
@@ -186,29 +194,36 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId = generateFreshEventId(
-      "addToCart"
-    );
-
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
-
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
-
+    // فتح checkout مباشرة
     openCheckout();
+
+    // Tracking من بعد، باش ما يعطلش زر الشراء
+    try {
+      const eventId = generateFreshEventId("addToCart");
+
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
+
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch (error) {
+      console.error(
+        "AddToCart tracking error:",
+        error
+      );
+    }
   };
 
   const selectedOffer = getOfferByPieces(
@@ -219,7 +234,7 @@ export default function ProductPageClient({
   return (
     <div className="min-h-screen">
 
-      {/* Hero / Above the fold */}
+      {/* Hero */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
 
@@ -314,7 +329,6 @@ export default function ProductPageClient({
             {/* CTA */}
             <div className="flex flex-col gap-3">
 
-              {/* BUY NOW */}
               <button
                 onClick={handleBuyNow}
                 className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
@@ -328,7 +342,6 @@ export default function ProductPageClient({
                 {formatPrice(selectedOffer.price)}
               </button>
 
-              {/* ADD TO CART */}
               <Button
                 onClick={handleAddToCart}
                 fullWidth
@@ -370,7 +383,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Pain mirror */}
+      {/* Pain */}
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
@@ -417,7 +430,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Mechanism & Science */}
+      {/* Science */}
       <section className="bg-brand-cream py-16">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
@@ -427,7 +440,8 @@ export default function ProductPageClient({
             </span>
 
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              كيف يشتغل {product.shortHeading.split(":")[0]}؟
+              كيف يشتغل{" "}
+              {product.shortHeading.split(":")[0]}؟
             </h2>
 
             <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
@@ -484,30 +498,28 @@ export default function ProductPageClient({
             </p>
 
             <div className="flex flex-col gap-4">
-              {product.ingredients.map(
-                (ing) => (
-                  <div
-                    key={ing.name}
-                    className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-                      <span className="text-brand-primary font-bold text-xl">
-                        ✦
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-bold text-brand-espresso text-lg mb-1">
-                        {ing.name}
-                      </h3>
-
-                      <p className="text-base text-brand-espresso/70 leading-relaxed">
-                        {ing.benefit}
-                      </p>
-                    </div>
+              {product.ingredients.map((ing) => (
+                <div
+                  key={ing.name}
+                  className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
+                >
+                  <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
+                    <span className="text-brand-primary font-bold text-xl">
+                      ✦
+                    </span>
                   </div>
-                )
-              )}
+
+                  <div>
+                    <h3 className="font-bold text-brand-espresso text-lg mb-1">
+                      {ing.name}
+                    </h3>
+
+                    <p className="text-base text-brand-espresso/70 leading-relaxed">
+                      {ing.benefit}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -566,6 +578,7 @@ export default function ProductPageClient({
                 className="text-brand-gold"
                 fill="currentColor"
               />
+
               تقييمات موثّقة
             </span>
 
@@ -645,7 +658,6 @@ export default function ProductPageClient({
                 </div>
               )
             )}
-
           </div>
         ) : (
           <p className="text-center text-brand-espresso/55 text-sm">
@@ -654,7 +666,7 @@ export default function ProductPageClient({
         )}
       </section>
 
-      {/* Offer stack CTA */}
+      {/* Offer CTA */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
 
@@ -670,7 +682,6 @@ export default function ProductPageClient({
               onChange={setSelectedPieces}
             />
 
-            {/* BUY NOW */}
             <button
               onClick={handleBuyNow}
               className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
@@ -700,7 +711,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Cross-sells */}
+      {/* Cross sells */}
       {crossSells.length > 0 && (
         <section className="max-w-content mx-auto px-4 py-12">
 
@@ -740,7 +751,6 @@ export default function ProductPageClient({
                 a={faq.answer}
               />
             ))}
-
           </div>
         </div>
       </section>
@@ -767,7 +777,6 @@ export default function ProductPageClient({
               />
             </div>
 
-            {/* STICKY BUY NOW */}
             <button
               onClick={handleBuyNow}
               className="shrink-0 py-2.5 px-5 rounded-xl bg-[#2E822B] text-white font-bold text-sm flex items-center gap-2 hover:bg-[#20671E] active:bg-[#20671E] active:scale-95 transition-all shadow-md"
