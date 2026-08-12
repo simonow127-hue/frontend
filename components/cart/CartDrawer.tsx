@@ -106,7 +106,12 @@ export default function CartDrawer() {
               <span className="font-bold text-brand-espresso">المجموع</span>
               <span className="font-bold text-brand-primary text-xl">{formatPrice(total)}</span>
             </div>
-            <Button onClick={handleCheckout} fullWidth size="lg">
+            <Button
+              onClick={handleCheckout}
+              fullWidth
+              size="lg"
+              className="bg-[#2E822B] text-white hover:bg-[#20671E] active:bg-[#20671E]"
+            >
               أكمل الطلب الحين
             </Button>
             <p className="text-center text-xs text-brand-espresso/50 mt-2">
