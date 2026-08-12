@@ -178,18 +178,7 @@ export default function CheckoutPopup() {
           },
         });
 
-      trackPurchase(
-        response.order_code,
-        total,
-        items.map((item) => ({
-          id: item.productId,
-          name: item.name,
-          quantity: item.offerPieces,
-          price: item.total,
-        })),
-        eventId
-      );
-
+      // Persist first so thank-you page can re-fire even if redirect is fast
       savePendingPurchase({
         orderCode: response.order_code,
         total,
@@ -202,14 +191,26 @@ export default function CheckoutPopup() {
         })),
       });
 
+      trackPurchase(
+        response.order_code,
+        total,
+        items.map((item) => ({
+          id: item.productId,
+          name: item.name,
+          quantity: item.offerPieces,
+          price: item.total,
+        })),
+        eventId
+      );
+
       clearCart();
       closeCheckout();
 
-      // Give Meta Pixel a moment to flush before hard navigation
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Give Meta Pixel time to flush before hard navigation
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
       window.location.href =
-        `/thank-you?order=${response.order_code}`;
+        `/thank-you?order=${encodeURIComponent(response.order_code)}`;
     } catch (err: unknown) {
       const detail =
         (
