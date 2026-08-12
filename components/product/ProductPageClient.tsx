@@ -96,7 +96,6 @@ export default function ProductPageClient({
   const offerRef = useRef<HTMLDivElement>(null);
 
   const crossSells = getCrossSells(product);
-
   const productLabel = product.shortHeading.split(":")[0];
 
   const displayedReviews = [
@@ -113,7 +112,9 @@ export default function ProductPageClient({
 
     const offer3 = product.offers.find(
       (o) => o.pieces === 3
-    )!;
+    );
+
+    if (!offer3) return;
 
     trackViewContent(
       {
@@ -124,13 +125,17 @@ export default function ProductPageClient({
       eventId
     );
 
-    trackEvent({
-      event_name: "ViewContent",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-      },
-    });
+    try {
+      trackEvent({
+        event_name: "ViewContent",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+        },
+      });
+    } catch (error) {
+      console.error("ViewContent tracking error:", error);
+    }
   }, [product]);
 
   useEffect(() => {
@@ -158,34 +163,39 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId = generateFreshEventId(
-      "addToCart"
-    );
+    try {
+      const eventId = generateFreshEventId("addToCart");
 
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
 
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch (error) {
+      console.error("AddToCart tracking error:", error);
+    }
 
     openDrawer();
   };
 
   /*
    * BUY NOW
-   * يضيف المنتج للسلة ثم يفتح Checkout مباشرة
+   *
+   * مهم:
+   * كنفتحو Checkout مباشرة بعد addItem.
+   * Tracking ما يقدرش يوقف فتح Checkout.
    */
   const handleBuyNow = () => {
     const offer = getOfferByPieces(
@@ -195,31 +205,36 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    const eventId = generateFreshEventId(
-      "addToCart"
-    );
+    // فتح Checkout مباشرة
+    openCheckout();
 
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
+    // Tracking بوحدو، وإذا وقع فيه error ما يمنعش Checkout
+    try {
+      const eventId = generateFreshEventId("addToCart");
 
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
 
-    setTimeout(() => {
-      openCheckout();
-    }, 100);
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch (error) {
+      console.error(
+        "Buy Now tracking error:",
+        error
+      );
+    }
   };
 
   const selectedOffer = getOfferByPieces(
@@ -230,11 +245,11 @@ export default function ProductPageClient({
   return (
     <div className="min-h-screen">
 
-      {/* Hero / Above the fold */}
+      {/* Hero */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
 
-          {/* Product gallery */}
+          {/* Gallery */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
 
             {product.videoUrl && (
@@ -292,9 +307,9 @@ export default function ProductPageClient({
 
             {/* Pain bullets */}
             <ul className="flex flex-col gap-2">
-              {product.painBullets.map((b) => (
+              {product.painBullets.map((bullet) => (
                 <li
-                  key={b}
+                  key={bullet}
                   className="flex items-start gap-2"
                 >
                   <CheckCircle2
@@ -303,7 +318,7 @@ export default function ProductPageClient({
                   />
 
                   <span className="text-sm text-brand-espresso/80">
-                    {b}
+                    {bullet}
                   </span>
                 </li>
               ))}
@@ -325,7 +340,6 @@ export default function ProductPageClient({
             {/* CTA */}
             <div className="flex flex-col gap-3">
 
-              {/* BUY NOW */}
               <button
                 type="button"
                 onClick={handleBuyNow}
@@ -340,7 +354,6 @@ export default function ProductPageClient({
                 {formatPrice(selectedOffer.price)}
               </button>
 
-              {/* ADD TO CART */}
               <Button
                 onClick={handleAddToCart}
                 fullWidth
@@ -429,7 +442,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Mechanism & Science */}
+      {/* Science */}
       <section className="bg-brand-cream py-16">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
@@ -439,7 +452,8 @@ export default function ProductPageClient({
             </span>
 
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              كيف يشتغل {product.shortHeading.split(":")[0]}؟
+              كيف يشتغل{" "}
+              {product.shortHeading.split(":")[0]}؟
             </h2>
 
             <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
@@ -496,28 +510,30 @@ export default function ProductPageClient({
             </p>
 
             <div className="flex flex-col gap-4">
-              {product.ingredients.map((ing) => (
-                <div
-                  key={ing.name}
-                  className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
-                >
-                  <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-brand-primary font-bold text-xl">
-                      ✦
-                    </span>
-                  </div>
+              {product.ingredients.map(
+                (ingredient) => (
+                  <div
+                    key={ingredient.name}
+                    className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
+                      <span className="text-brand-primary font-bold text-xl">
+                        ✦
+                      </span>
+                    </div>
 
-                  <div>
-                    <h3 className="font-bold text-brand-espresso text-lg mb-1">
-                      {ing.name}
-                    </h3>
+                    <div>
+                      <h3 className="font-bold text-brand-espresso text-lg mb-1">
+                        {ingredient.name}
+                      </h3>
 
-                    <p className="text-base text-brand-espresso/70 leading-relaxed">
-                      {ing.benefit}
-                    </p>
+                      <p className="text-base text-brand-espresso/70 leading-relaxed">
+                        {ingredient.benefit}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>
@@ -534,13 +550,13 @@ export default function ProductPageClient({
 
             <div className="flex flex-col gap-6">
               {product.usageSteps.map(
-                (step, i) => (
+                (step, index) => (
                   <div
-                    key={i}
+                    key={index}
                     className="flex items-start gap-4"
                   >
                     <div className="w-10 h-10 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
-                      {i + 1}
+                      {index + 1}
                     </div>
 
                     <p className="text-brand-espresso/80 text-lg pt-1.5 leading-relaxed">
@@ -576,6 +592,7 @@ export default function ProductPageClient({
                 className="text-brand-gold"
                 fill="currentColor"
               />
+
               تقييمات موثّقة
             </span>
 
@@ -602,9 +619,9 @@ export default function ProductPageClient({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
             {displayedReviews.map(
-              (review, i) => (
+              (review, index) => (
                 <div
-                  key={`${review.name}-${review.date}-${i}`}
+                  key={`${review.name}-${review.date}-${index}`}
                   className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
                 >
 
@@ -616,13 +633,10 @@ export default function ProductPageClient({
                     />
 
                     <div className="flex flex-col items-end gap-0.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-bold text-brand-espresso text-sm">
-                          {review.name}
-                        </span>
-                      </div>
+                      <span className="font-bold text-brand-espresso text-sm">
+                        {review.name}
+                      </span>
                     </div>
-
                   </div>
 
                   <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
@@ -653,21 +667,20 @@ export default function ProductPageClient({
                         تقييم جديد
                       </span>
                     )}
-
                   </div>
                 </div>
               )
             )}
-
           </div>
         ) : (
           <p className="text-center text-brand-espresso/55 text-sm">
-            كن أول من يشارك تجربته مع {productLabel}.
+            كن أول من يشارك تجربته مع{" "}
+            {productLabel}.
           </p>
         )}
       </section>
 
-      {/* Offer stack CTA */}
+      {/* Offer stack */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
 
@@ -683,7 +696,6 @@ export default function ProductPageClient({
               onChange={setSelectedPieces}
             />
 
-            {/* BUY NOW SECOND */}
             <button
               type="button"
               onClick={handleBuyNow}
@@ -710,7 +722,6 @@ export default function ProductPageClient({
             <p className="text-center text-xs text-brand-espresso/50">
               الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
             </p>
-
           </div>
         </div>
       </section>
@@ -728,14 +739,13 @@ export default function ProductPageClient({
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {crossSells.map((p) => (
+            {crossSells.map((crossSell) => (
               <ProductCard
-                key={p.id}
-                product={p}
+                key={crossSell.id}
+                product={crossSell}
               />
             ))}
           </div>
-
         </section>
       )}
 
@@ -756,7 +766,6 @@ export default function ProductPageClient({
                 a={faq.answer}
               />
             ))}
-
           </div>
         </div>
       </section>
@@ -781,7 +790,6 @@ export default function ProductPageClient({
                 size="sm"
                 className="items-start"
               />
-
             </div>
 
             <button
@@ -805,11 +813,9 @@ export default function ProductPageClient({
             >
               السلة
             </Button>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }
