@@ -1,73 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import Script from "next/script";
 
-type PendingPurchase = {
-  orderCode: string;
-  total: number;
-  eventId: string;
-  items: { id: string; name: string; quantity: number; price: number }[];
-};
-
-const STORAGE_KEY = "riads_pending_purchase";
-
-export function savePendingPurchase(payload: PendingPurchase) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  } catch {
-    // ignore
-  }
-}
-
-function readPending(): PendingPurchase | null {
-  try {
-    const raw =
-      localStorage.getItem(STORAGE_KEY) ||
-      sessionStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as PendingPurchase;
-  } catch {
-    return null;
-  }
-}
-
-function clearPending() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-    sessionStorage.removeItem(STORAGE_KEY);
-  } catch {
-    // ignore
-  }
-}
-
-function firePurchase(args: {
-  orderCode: string;
-  total: number;
-  eventId: string;
-  items?: PendingPurchase["items"];
-}) {
-  const fbq = (window as Window & { fbq?: (...a: unknown[]) => void }).fbq;
-  if (!fbq) return false;
-
-  const payload: Record<string, unknown> = {
-    value: args.total,
-    currency: "SAR",
-    content_type: "product",
-    order_id: args.orderCode,
-  };
-
-  if (args.items?.length) {
-    payload.contents = args.items.map((i) => ({
-      id: i.id,
-      quantity: i.quantity,
-      item_price: i.price,
-    }));
-  }
-
-  fbq("track", "Purchase", payload, { eventID: args.eventId });
-  return true;
-}
+const PIXEL_ID = "1449870366149258";
 
 type Props = {
   orderCode?: string;
@@ -75,44 +10,81 @@ type Props = {
   eventId?: string;
 };
 
-/** Fires Meta Purchase on thank-you using URL props + local storage backup. */
+/**
+ * Self-contained Meta Purchase on thank-you.
+ * Loads fbq here (does not depend on ClientShell timing) and fires Purchase once.
+ */
 export default function ThankYouPurchase({
   orderCode,
-  total: totalProp,
-  eventId: eventIdProp,
+  total = 0,
+  eventId,
 }: Props) {
-  useEffect(() => {
-    if (!orderCode) return;
+  if (!orderCode) return null;
 
-    const pending = readPending();
-    const matched =
-      pending && pending.orderCode === orderCode ? pending : null;
+  const eid = eventId || `ty-${orderCode}`;
+  const value = Number.isFinite(total) ? total : 0;
 
-    const total = matched?.total || totalProp || 0;
-    const eventId = matched?.eventId || eventIdProp || `ty-${orderCode}`;
-    const items = matched?.items;
+  const js = `
+    (function(){
+      var PIXEL_ID = ${JSON.stringify(PIXEL_ID)};
+      var orderCode = ${JSON.stringify(orderCode)};
+      var value = ${JSON.stringify(value)};
+      var eventId = ${JSON.stringify(eid)};
 
-    let tries = 0;
-    const maxTries = 40;
-
-    const tick = () => {
-      tries += 1;
-      if (
-        firePurchase({
-          orderCode,
-          total,
-          eventId,
-          items,
-        })
-      ) {
-        clearPending();
-        return;
+      function ensureFbq(cb) {
+        if (window.fbq && window.fbq.loaded) { cb(); return; }
+        !function(f,b,e,v,n,t,s){
+          if(f.fbq) return;
+          n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)
+        }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        window.fbq('init', PIXEL_ID);
+        cb();
       }
-      if (tries < maxTries) window.setTimeout(tick, 200);
-    };
 
-    tick();
-  }, [orderCode, totalProp, eventIdProp]);
+      function fire() {
+        try {
+          window.fbq('track', 'Purchase', {
+            value: value,
+            currency: 'SAR',
+            content_type: 'product',
+            order_id: orderCode
+          }, { eventID: eventId });
+        } catch (e) {}
+      }
 
-  return null;
+      ensureFbq(function(){
+        fire();
+        setTimeout(fire, 300);
+        setTimeout(fire, 1000);
+      });
+    })();
+  `;
+
+  return (
+    <Script
+      id={`meta-purchase-${orderCode}`}
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: js }}
+    />
+  );
+}
+
+export function savePendingPurchase(payload: {
+  orderCode: string;
+  total: number;
+  eventId: string;
+  items: { id: string; name: string; quantity: number; price: number }[];
+}) {
+  try {
+    const raw = JSON.stringify(payload);
+    localStorage.setItem("riads_pending_purchase", raw);
+    sessionStorage.setItem("riads_pending_purchase", raw);
+  } catch {
+    // ignore
+  }
 }
