@@ -30,7 +30,7 @@ export default function ProductImage({
   imageClassName = "",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
-  quality = 75,
+  quality = 70,
 }: ProductImageProps) {
   const [loaded, setLoaded] = useState(false);
 

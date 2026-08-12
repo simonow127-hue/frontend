@@ -9,8 +9,7 @@
 
 html {
   direction: rtl;
-  lang: ar-SA;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -37,7 +36,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .drawer-overlay {
-  backdrop-filter: blur(4px);
+  /* Avoid expensive blur on low-end mobile during open/close */
+  background-color: rgba(26, 26, 26, 0.55);
 }
 
 /* Hide scrollbar for reviews carousel */

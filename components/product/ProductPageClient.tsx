@@ -16,14 +16,11 @@ import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
 import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
-import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
-import ProductVideo from "@/components/ui/ProductVideo";
-import AddReviewForm from "./AddReviewForm";
-import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+import dynamic from "next/dynamic";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -33,6 +30,13 @@ import {
   Star,
 } from "lucide-react";
 import Stars from "@/components/ui/Stars";
+import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+
+const ProductVideo = dynamic(() => import("@/components/ui/ProductVideo"), {
+  ssr: false,
+});
+const ProductCard = dynamic(() => import("./ProductCard"));
+const AddReviewForm = dynamic(() => import("./AddReviewForm"));
 
 interface FAQItemProps {
   q: string;
@@ -90,27 +94,45 @@ export default function ProductPageClient({
     setUserReviews(loadUserReviews(product.id));
   }, [product.id]);
 
+  // Warm checkout chunk so Buy Now feels instant
   useEffect(() => {
-    const eventId = getOrCreateEventId("viewContent");
+    const warm = () => {
+      void import("@/components/checkout/CheckoutPopup");
+      void import("@/components/cart/CartDrawer");
+    };
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(warm, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(warm, 1200);
+    return () => clearTimeout(t);
+  }, []);
 
-    const offer3 = product.offers.find((o) => o.pieces === 3)!;
+  useEffect(() => {
+    const run = () => {
+      const eventId = getOrCreateEventId("viewContent");
+      const offer3 = product.offers.find((o) => o.pieces === 3)!;
+      trackViewContent(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer3.price,
+        },
+        eventId
+      );
+      trackEvent({
+        event_name: "ViewContent",
+        event_id: eventId,
+        payload: { product_id: product.id },
+      });
+    };
 
-    trackViewContent(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer3.price,
-      },
-      eventId
-    );
-
-    trackEvent({
-      event_name: "ViewContent",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-      },
-    });
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(run, { timeout: 3000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(run, 800);
+    return () => clearTimeout(t);
   }, [product]);
 
   useEffect(() => {
@@ -208,16 +230,8 @@ export default function ProductPageClient({
       {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Product gallery */}
+          {/* Product gallery — image first for faster LCP (video deferred below) */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
-            {product.videoUrl && (
-              <ProductVideo
-                src={product.videoUrl}
-                poster={product.imagePlaceholder}
-                title={product.arabicName}
-              />
-            )}
-
             <ProductGallery
               images={[
                 product.imagePlaceholder,
@@ -335,6 +349,19 @@ export default function ProductPageClient({
           <TrustBadges />
         </div>
       </section>
+
+      {/* Product video — below fold so hero image wins LCP */}
+      {product.videoUrl && (
+        <section className="max-w-content mx-auto px-4 pt-10">
+          <div className="max-w-lg mx-auto">
+            <ProductVideo
+              src={product.videoUrl}
+              poster={product.imagePlaceholder}
+              title={product.arabicName}
+            />
+          </div>
+        </section>
+      )}
 
       {/* Pain mirror */}
       <section className="max-w-content mx-auto px-4 py-16">

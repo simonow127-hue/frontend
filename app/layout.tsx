@@ -16,12 +16,13 @@ const tajawal = Tajawal({
   preload: true,
 });
 
+// Headings only — don't preload so body text paints faster on mobile
 const notoKufiArabic = Noto_Kufi_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "700"],
+  weight: ["700"],
   variable: "--font-noto-kufi",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 const siteUrl = getSiteUrl();
