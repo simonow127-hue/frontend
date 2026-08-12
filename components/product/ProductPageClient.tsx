@@ -406,4 +406,4 @@ export default function ProductPageClient({
                     key={index}
                     className="flex items-start gap-3"
                   >
-                    <span className="text-status
+                    <span className="text-status-error font-bold mt-1 text-lg">
