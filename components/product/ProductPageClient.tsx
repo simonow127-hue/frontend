@@ -96,7 +96,9 @@ export default function ProductPageClient({
   const offerRef = useRef<HTMLDivElement>(null);
 
   const crossSells = getCrossSells(product);
-  const productLabel = product.shortHeading.split(":")[0];
+
+  const productLabel = product.shortHeading
+    .split(":")[0];
 
   const displayedReviews = [
     ...userReviews,
@@ -125,17 +127,13 @@ export default function ProductPageClient({
       eventId
     );
 
-    try {
-      trackEvent({
-        event_name: "ViewContent",
-        event_id: eventId,
-        payload: {
-          product_id: product.id,
-        },
-      });
-    } catch (error) {
-      console.error("ViewContent tracking error:", error);
-    }
+    trackEvent({
+      event_name: "ViewContent",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+      },
+    });
   }, [product]);
 
   useEffect(() => {
@@ -163,40 +161,30 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    try {
-      const eventId = generateFreshEventId("addToCart");
+    const eventId =
+      generateFreshEventId("addToCart");
 
-      trackAddToCart(
-        {
-          id: product.id,
-          name: product.arabicName,
-          price: offer.price,
-        },
-        eventId
-      );
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
 
-      trackEvent({
-        event_name: "AddToCart",
-        event_id: eventId,
-        payload: {
-          product_id: product.id,
-          pieces: selectedPieces,
-        },
-      });
-    } catch (error) {
-      console.error("AddToCart tracking error:", error);
-    }
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
 
     openDrawer();
   };
 
-  /*
-   * BUY NOW
-   *
-   * مهم:
-   * كنفتحو Checkout مباشرة بعد addItem.
-   * Tracking ما يقدرش يوقف فتح Checkout.
-   */
   const handleBuyNow = () => {
     const offer = getOfferByPieces(
       product,
@@ -205,36 +193,28 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    // فتح Checkout مباشرة
+    const eventId =
+      generateFreshEventId("addToCart");
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
     openCheckout();
-
-    // Tracking بوحدو، وإذا وقع فيه error ما يمنعش Checkout
-    try {
-      const eventId = generateFreshEventId("addToCart");
-
-      trackAddToCart(
-        {
-          id: product.id,
-          name: product.arabicName,
-          price: offer.price,
-        },
-        eventId
-      );
-
-      trackEvent({
-        event_name: "AddToCart",
-        event_id: eventId,
-        payload: {
-          product_id: product.id,
-          pieces: selectedPieces,
-        },
-      });
-    } catch (error) {
-      console.error(
-        "Buy Now tracking error:",
-        error
-      );
-    }
   };
 
   const selectedOffer = getOfferByPieces(
@@ -245,11 +225,11 @@ export default function ProductPageClient({
   return (
     <div className="min-h-screen">
 
-      {/* Hero */}
+      {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
 
-          {/* Gallery */}
+          {/* Product gallery */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
 
             {product.videoUrl && (
@@ -340,10 +320,11 @@ export default function ProductPageClient({
             {/* CTA */}
             <div className="flex flex-col gap-3">
 
+              {/* BUY NOW */}
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
+                className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:scale-[0.98] transition-all"
               >
                 <Zap
                   size={20}
@@ -354,7 +335,9 @@ export default function ProductPageClient({
                 {formatPrice(selectedOffer.price)}
               </button>
 
+              {/* ADD TO CART */}
               <Button
+                type="button"
                 onClick={handleAddToCart}
                 fullWidth
                 size="lg"
@@ -418,404 +401,9 @@ export default function ProductPageClient({
 
             <ul className="flex flex-col gap-4 mb-6">
               {product.painBullets.map(
-                (bullet, idx) => (
+                (bullet, index) => (
                   <li
-                    key={idx}
+                    key={index}
                     className="flex items-start gap-3"
                   >
-                    <span className="text-status-error font-bold mt-1 text-lg">
-                      ✕
-                    </span>
-
-                    <span className="text-brand-espresso/80 text-lg leading-relaxed">
-                      {bullet}
-                    </span>
-                  </li>
-                )
-              )}
-            </ul>
-
-            <p className="text-brand-primary font-bold text-xl leading-relaxed">
-              {product.shortHeading} هو الحل المناسب لهالمشاكل.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Science */}
-      <section className="bg-brand-cream py-16">
-        <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
-          <div className="text-right">
-            <span className="inline-block bg-brand-primary/10 text-brand-primary text-sm font-bold px-4 py-1.5 rounded-full mb-4">
-              تفاصيل المنتج
-            </span>
-
-            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              كيف يشتغل{" "}
-              {product.shortHeading.split(":")[0]}؟
-            </h2>
-
-            <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
-              {product.mechanism}
-            </p>
-
-            <div className="flex items-center gap-3 bg-brand-ivory p-4 rounded-xl border border-brand-border">
-              <ShieldCheck
-                className="text-status-success shrink-0"
-                size={24}
-              />
-
-              <p className="text-sm text-brand-espresso/80 font-bold">
-                تم تطويره بعناية لضمان فعالية حقيقية دون ادعاءات مبالغ فيها.
-              </p>
-            </div>
-          </div>
-
-          <ProductImage
-            src={getProductSectionImage(
-              product,
-              "science"
-            )}
-            alt={`${product.shortHeading.split(":")[0]} — المنتج`}
-            aspect="square"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
-      </section>
-
-      {/* Ingredients */}
-      <section className="max-w-content mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
-          <div className="order-2 md:order-1">
-            <ProductImage
-              src={getProductSectionImage(
-                product,
-                "ingredients"
-              )}
-              alt="المكونات الطبيعية"
-              aspect="square"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-
-          <div className="order-1 md:order-2 text-right">
-            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              المميزات اللي تفرق
-            </h2>
-
-            <p className="text-brand-espresso/70 mb-8 text-lg">
-              اخترنا لك أفضل المواصفات عشان تجربة استخدام مريحة ونتيجة تليق فيك.
-            </p>
-
-            <div className="flex flex-col gap-4">
-              {product.ingredients.map(
-                (ingredient) => (
-                  <div
-                    key={ingredient.name}
-                    className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
-                      <span className="text-brand-primary font-bold text-xl">
-                        ✦
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-bold text-brand-espresso text-lg mb-1">
-                        {ingredient.name}
-                      </h3>
-
-                      <p className="text-base text-brand-espresso/70 leading-relaxed">
-                        {ingredient.benefit}
-                      </p>
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Usage */}
-      <section className="bg-brand-cream py-16">
-        <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-
-          <div className="text-right">
-            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              طريقة الاستعمال (روتين سهل)
-            </h2>
-
-            <div className="flex flex-col gap-6">
-              {product.usageSteps.map(
-                (step, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
-                      {index + 1}
-                    </div>
-
-                    <p className="text-brand-espresso/80 text-lg pt-1.5 leading-relaxed">
-                      {step}
-                    </p>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-
-          <ProductImage
-            src={getProductSectionImage(
-              product,
-              "usage"
-            )}
-            alt="طريقة الاستعمال"
-            aspect="square"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="max-w-content mx-auto px-4 py-12">
-
-        <div className="text-center mb-8">
-          <div className="inline-flex flex-col items-center gap-4 max-w-xl mx-auto px-4 py-5 rounded-2xl bg-brand-cream/80 border border-brand-gold/20 w-full">
-
-            <span className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/25 text-brand-accent text-xs font-bold px-4 py-1.5 rounded-full">
-              <Star
-                size={12}
-                className="text-brand-gold"
-                fill="currentColor"
-              />
-
-              تقييمات موثّقة
-            </span>
-
-            <p className="text-brand-espresso/75 text-sm md:text-base leading-relaxed">
-              تقييمات ومراجعات حقيقية مجمعة من مستخدمين حول العالم لنفس المنتج.
-            </p>
-
-            <AddReviewForm
-              productId={product.id}
-              productName={productLabel}
-              onSubmitted={(review) => {
-                const next = saveUserReview(
-                  product.id,
-                  review
-                );
-
-                setUserReviews(next);
-              }}
-            />
-          </div>
-        </div>
-
-        {displayedReviews.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-            {displayedReviews.map(
-              (review, index) => (
-                <div
-                  key={`${review.name}-${review.date}-${index}`}
-                  className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
-                >
-
-                  <div className="flex items-center justify-between">
-
-                    <Stars
-                      rating={review.rating}
-                      size="sm"
-                    />
-
-                    <div className="flex flex-col items-end gap-0.5">
-                      <span className="font-bold text-brand-espresso text-sm">
-                        {review.name}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
-                    {review.text}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
-
-                    {review.date && (
-                      <span className="text-xs text-brand-espresso/40">
-                        {review.date}
-                      </span>
-                    )}
-
-                    {review.verified ? (
-                      <div className="flex items-center gap-1">
-                        <ShieldCheck
-                          size={11}
-                          className="text-status-success"
-                        />
-
-                        <span className="text-xs text-status-success font-medium">
-                          مشتري موثّق
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-brand-espresso/45">
-                        تقييم جديد
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        ) : (
-          <p className="text-center text-brand-espresso/55 text-sm">
-            كن أول من يشارك تجربته مع{" "}
-            {productLabel}.
-          </p>
-        )}
-      </section>
-
-      {/* Offer stack */}
-      <section className="bg-brand-cream py-12">
-        <div className="max-w-content mx-auto px-4">
-
-          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-6">
-            اختر عرضك الحين
-          </h2>
-
-          <div className="max-w-md mx-auto flex flex-col gap-4">
-
-            <OfferSelector
-              offers={product.offers}
-              selected={selectedPieces}
-              onChange={setSelectedPieces}
-            />
-
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
-            >
-              <Zap
-                size={20}
-                fill="currentColor"
-              />
-
-              اشتري الحين —{" "}
-              {formatPrice(selectedOffer.price)}
-            </button>
-
-            <Button
-              onClick={handleAddToCart}
-              fullWidth
-              size="lg"
-              variant="secondary"
-            >
-              أضف للسلة فقط
-            </Button>
-
-            <p className="text-center text-xs text-brand-espresso/50">
-              الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Cross sells */}
-      {crossSells.length > 0 && (
-        <section className="max-w-content mx-auto px-4 py-12">
-
-          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-2">
-            قد يعجبك كمان
-          </h2>
-
-          <p className="text-center text-brand-espresso/60 mb-8">
-            منتجات مختارة تكمل طلبك — من رياض
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {crossSells.map((crossSell) => (
-              <ProductCard
-                key={crossSell.id}
-                product={crossSell}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* FAQ */}
-      <section className="bg-brand-cream py-12">
-        <div className="max-w-content mx-auto px-4">
-
-          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-8">
-            الأسئلة الشائعة
-          </h2>
-
-          <div className="max-w-2xl mx-auto bg-brand-ivory rounded-2xl px-6 divide-y divide-brand-border">
-
-            {product.faqs.map((faq) => (
-              <FAQItem
-                key={faq.question}
-                q={faq.question}
-                a={faq.answer}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Sticky CTA */}
-      {isSticky && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
-
-          <div className="max-w-content mx-auto flex items-center gap-3">
-
-            <div className="text-right flex-1 min-w-0">
-
-              <p className="font-bold text-brand-espresso text-sm truncate">
-                {product.shortHeading.split(":")[0]}
-              </p>
-
-              <PriceDisplay
-                price={selectedOffer.price}
-                compareAtPrice={
-                  selectedOffer.compareAtPrice
-                }
-                size="sm"
-                className="items-start"
-              />
-            </div>
-
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="shrink-0 py-2.5 px-5 rounded-xl bg-[#2E822B] text-white font-bold text-sm flex items-center gap-2 hover:bg-[#20671E] active:bg-[#20671E] active:scale-95 transition-all shadow-md"
-            >
-              <Zap
-                size={15}
-                fill="currentColor"
-              />
-
-              اشتري الحين
-            </button>
-
-            <Button
-              onClick={handleAddToCart}
-              size="sm"
-              variant="secondary"
-              className="shrink-0 border"
-            >
-              السلة
-            </Button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+                    <span className="text-status
