@@ -41,55 +41,78 @@ function clearPending() {
   }
 }
 
-function firePurchase(pending: PendingPurchase) {
-  const fbq = window.fbq;
+function firePurchase(args: {
+  orderCode: string;
+  total: number;
+  eventId: string;
+  items?: PendingPurchase["items"];
+}) {
+  const fbq = (window as Window & { fbq?: (...a: unknown[]) => void }).fbq;
   if (!fbq) return false;
 
-  const contents = pending.items.map((i) => ({
-    id: i.id,
-    quantity: i.quantity,
-    item_price: i.price,
-  }));
+  const payload: Record<string, unknown> = {
+    value: args.total,
+    currency: "SAR",
+    content_type: "product",
+    order_id: args.orderCode,
+  };
 
-  fbq(
-    "track",
-    "Purchase",
-    {
-      value: pending.total,
-      currency: "SAR",
-      content_type: "product",
-      contents,
-      order_id: pending.orderCode,
-    },
-    { eventID: pending.eventId }
-  );
+  if (args.items?.length) {
+    payload.contents = args.items.map((i) => ({
+      id: i.id,
+      quantity: i.quantity,
+      item_price: i.price,
+    }));
+  }
 
+  fbq("track", "Purchase", payload, { eventID: args.eventId });
   return true;
 }
 
-export default function ThankYouPurchase({ orderCode }: { orderCode?: string }) {
+type Props = {
+  orderCode?: string;
+  total?: number;
+  eventId?: string;
+};
+
+/** Fires Meta Purchase on thank-you using URL props + local storage backup. */
+export default function ThankYouPurchase({
+  orderCode,
+  total: totalProp,
+  eventId: eventIdProp,
+}: Props) {
   useEffect(() => {
     if (!orderCode) return;
 
     const pending = readPending();
-    if (!pending || pending.orderCode !== orderCode) return;
+    const matched =
+      pending && pending.orderCode === orderCode ? pending : null;
+
+    const total = matched?.total || totalProp || 0;
+    const eventId = matched?.eventId || eventIdProp || `ty-${orderCode}`;
+    const items = matched?.items;
 
     let tries = 0;
-    const maxTries = 20;
+    const maxTries = 40;
 
     const tick = () => {
       tries += 1;
-      if (firePurchase(pending)) {
+      if (
+        firePurchase({
+          orderCode,
+          total,
+          eventId,
+          items,
+        })
+      ) {
         clearPending();
         return;
       }
-      if (tries < maxTries) {
-        window.setTimeout(tick, 250);
-      }
+      if (tries < maxTries) window.setTimeout(tick, 200);
     };
 
     tick();
-  }, [orderCode]);
+  }, [orderCode, totalProp, eventIdProp]);
 
   return null;
 }

@@ -13,14 +13,20 @@ export const metadata: Metadata = {
 export default async function ThankYouPage({
   searchParams,
 }: {
-  searchParams: Promise<{ order?: string }>;
+  searchParams: Promise<{ order?: string; v?: string; eid?: string }>;
 }) {
   const params = await searchParams;
   const orderCode = params?.order;
+  const total = params?.v ? Number(params.v) : undefined;
+  const eventId = params?.eid;
 
   return (
     <div className="min-h-screen bg-brand-cream flex items-center justify-center px-4 py-16">
-      <ThankYouPurchase orderCode={orderCode} />
+      <ThankYouPurchase
+        orderCode={orderCode}
+        total={Number.isFinite(total) ? total : undefined}
+        eventId={eventId}
+      />
       <div className="max-w-md w-full bg-brand-ivory rounded-2xl border border-brand-border shadow-lg p-8 text-right">
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 rounded-full bg-status-success/10 border-2 border-status-success/30 flex items-center justify-center">
@@ -37,7 +43,8 @@ export default async function ThankYouPage({
 
         {orderCode && (
           <p className="text-center text-sm text-brand-espresso/50 mb-6">
-            رقم الطلب: <span className="font-bold text-brand-espresso ltr-text">{orderCode}</span>
+            رقم الطلب:{" "}
+            <span className="font-bold text-brand-espresso ltr-text">{orderCode}</span>
           </p>
         )}
 

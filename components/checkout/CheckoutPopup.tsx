@@ -210,7 +210,7 @@ export default function CheckoutPopup() {
       await new Promise((resolve) => setTimeout(resolve, 800));
 
       window.location.href =
-        `/thank-you?order=${encodeURIComponent(response.order_code)}`;
+        `/thank-you?order=${encodeURIComponent(response.order_code)}&v=${encodeURIComponent(String(total))}&eid=${encodeURIComponent(eventId)}`;
     } catch (err: unknown) {
       const detail =
         (
