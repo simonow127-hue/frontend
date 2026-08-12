@@ -20,11 +20,17 @@ export default function OfferSelector({
       {offers.map((offer) => {
         const isSelected = selected === offer.pieces;
 
+        const handleSelect = () => {
+          if (offer.pieces === 1 || offer.pieces === 2 || offer.pieces === 3) {
+            onChange(offer.pieces);
+          }
+        };
+
         return (
           <button
             key={offer.pieces}
             type="button"
-            onClick={() => onChange(offer.pieces)}
+            onClick={handleSelect}
             aria-pressed={isSelected}
             className={[
               "w-full rounded-2xl border-2 p-4 text-right transition-all duration-200",
