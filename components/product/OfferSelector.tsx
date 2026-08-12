@@ -1,21 +1,24 @@
 "use client";
-import { Offer } from "@/lib/products";
-import PriceDisplay from "@/components/ui/PriceDisplay";
-import { clsx } from "clsx";
-import { Check } from "lucide-react";
 
-interface OfferSelectorProps {
+import type { Offer } from "@/lib/products";
+import { Check } from "lucide-react";
+import { formatPrice } from "@/lib/currency";
+
+type OfferSelectorProps = {
   offers: Offer[];
   selected: 1 | 2 | 3;
   onChange: (pieces: 1 | 2 | 3) => void;
-}
+};
 
-export default function OfferSelector({ offers, selected, onChange }: OfferSelectorProps) {
+export default function OfferSelector({
+  offers,
+  selected,
+  onChange,
+}: OfferSelectorProps) {
   return (
-    <div className="flex flex-col gap-3" role="group" aria-label="اختر الكمية">
+    <div className="flex flex-col gap-3">
       {offers.map((offer) => {
         const isSelected = selected === offer.pieces;
-        const is3Pieces = offer.pieces === 3;
 
         return (
           <button
@@ -23,48 +26,66 @@ export default function OfferSelector({ offers, selected, onChange }: OfferSelec
             type="button"
             onClick={() => onChange(offer.pieces)}
             aria-pressed={isSelected}
-            className={clsx(
-              "relative flex items-center justify-between rounded-offer border-2 p-4 text-right transition-all duration-200 cursor-pointer",
+            className={[
+              "w-full rounded-2xl border-2 p-4 text-right transition-all duration-200",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary",
               isSelected
-                ? "border-brand-primary bg-brand-cream shadow-md shadow-brand-primary/20"
+                ? "border-brand-primary bg-brand-primary/10 shadow-md"
                 : "border-brand-border bg-brand-ivory hover:border-brand-primary/50",
-              is3Pieces && !isSelected && "border-brand-gold/50 bg-brand-cream/50"
-            )}
+            ].join(" ")}
           >
-            {/* Badge */}
-            {offer.badge && (
-              <span className="absolute -top-3 right-4 bg-brand-primary text-brand-ivory text-xs font-bold px-3 py-0.5 rounded-full">
-                {offer.badge}
-              </span>
-            )}
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span
+                  className={[
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all",
+                    isSelected
+                      ? "border-brand-primary bg-brand-primary text-white"
+                      : "border-brand-border bg-brand-ivory text-transparent",
+                  ].join(" ")}
+                >
+                  <Check size={15} strokeWidth={3} />
+                </span>
 
-            {/* Left: checkmark + price */}
-            <div className="flex items-center gap-3">
-              <div
-                className={clsx(
-                  "w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors",
-                  isSelected ? "border-brand-primary bg-brand-primary" : "border-brand-border"
-                )}
-              >
-                {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}
-              </div>
-              <div className="text-right">
-                <PriceDisplay
-                  price={offer.price}
-                  compareAtPrice={offer.compareAtPrice}
-                  size="sm"
-                />
-                <div className="text-xs text-brand-espresso/60 mt-0.5">{offer.sublabel}</div>
-              </div>
-            </div>
+                <div>
+                  <p className="font-bold text-brand-espresso">
+                    {offer.pieces === 1
+                      ? "عبوة واحدة"
+                      : `${offer.pieces} عبوات`}
+                  </p>
 
-            {/* Right: label + pieces */}
-            <div className="text-right">
-              <div className={clsx("font-bold text-base", is3Pieces ? "text-brand-primary" : "text-brand-espresso")}>
-                {offer.label}
+                  {offer.pieces === 2 && (
+                    <p className="text-xs text-brand-primary font-bold mt-1">
+                      عرض التوفير
+                    </p>
+                  )}
+
+                  {offer.pieces === 3 && (
+                    <p className="text-xs text-brand-primary font-bold mt-1">
+                      أفضل قيمة
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="text-xs text-brand-espresso/50">
-                {offer.pieces === 1 ? "١ قطعة" : offer.pieces === 2 ? "قطعتان" : "ثلاث قطع"}
+
+              <div className="text-left shrink-0">
+                <p
+                  className={[
+                    "font-bold text-lg",
+                    isSelected
+                      ? "text-brand-primary"
+                      : "text-brand-espresso",
+                  ].join(" ")}
+                >
+                  {formatPrice(offer.price)}
+                </p>
+
+                {offer.compareAtPrice &&
+                  offer.compareAtPrice > offer.price && (
+                    <p className="text-xs text-brand-espresso/40 line-through">
+                      {formatPrice(offer.compareAtPrice)}
+                    </p>
+                  )}
               </div>
             </div>
           </button>
