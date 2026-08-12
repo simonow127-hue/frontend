@@ -132,56 +132,73 @@ export default function ProductPageClient({
     const offer = getOfferByPieces(product, selectedPieces);
 
     addItem(product, offer);
-
-    const eventId = generateFreshEventId("addToCart");
-
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
-
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
-
     openDrawer();
+
+    try {
+      const eventId = generateFreshEventId("addToCart");
+
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
+
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch {
+      // Tracking must never block cart UX
+    }
   };
 
   const handleBuyNow = () => {
     const offer = getOfferByPieces(product, selectedPieces);
 
     addItem(product, offer);
-
-    const eventId = generateFreshEventId("addToCart");
-
-    trackAddToCart(
-      {
-        id: product.id,
-        name: product.arabicName,
-        price: offer.price,
-      },
-      eventId
-    );
-
-    trackEvent({
-      event_name: "AddToCart",
-      event_id: eventId,
-      payload: {
-        product_id: product.id,
-        pieces: selectedPieces,
-      },
-    });
-
     openCheckout();
+
+    try {
+      const eventId = generateFreshEventId("addToCart");
+
+      trackAddToCart(
+        {
+          id: product.id,
+          name: product.arabicName,
+          price: offer.price,
+        },
+        eventId
+      );
+
+      trackEvent({
+        event_name: "AddToCart",
+        event_id: eventId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+
+      const checkoutId = generateFreshEventId("checkout");
+
+      trackEvent({
+        event_name: "InitiateCheckout",
+        event_id: checkoutId,
+        payload: {
+          product_id: product.id,
+          pieces: selectedPieces,
+        },
+      });
+    } catch {
+      // Tracking must never block checkout UX
+    }
   };
 
   const selectedOffer = getOfferByPieces(product, selectedPieces);

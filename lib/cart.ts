@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create, type StoreApi, type UseBoundStore } from "zustand";
 import { persist } from "zustand/middleware";
 import { Product, Offer } from "./products";
 
@@ -32,103 +32,122 @@ type CartState = {
   getTotalItems: () => number;
 };
 
-export const useCartStore = create<CartState>()(
-  persist(
-    (set, get) => ({
-      items: [],
-      isDrawerOpen: false,
-      isCheckoutOpen: false,
+type CartStore = UseBoundStore<StoreApi<CartState>>;
 
-      addItem: (product, offer) => {
-        set((state) => {
-          const existing = state.items.find(
-            (i) => i.productId === product.id
-          );
+const GLOBAL_KEY = "__riads_cart_store__" as const;
 
-          if (existing) {
+type GlobalCart = typeof globalThis & {
+  [GLOBAL_KEY]?: CartStore;
+};
+
+function createCartStore(): CartStore {
+  return create<CartState>()(
+    persist(
+      (set, get) => ({
+        items: [],
+        isDrawerOpen: false,
+        isCheckoutOpen: false,
+
+        addItem: (product, offer) => {
+          set((state) => {
+            const existing = state.items.find(
+              (i) => i.productId === product.id
+            );
+
+            if (existing) {
+              return {
+                items: state.items.map((i) =>
+                  i.productId === product.id
+                    ? {
+                        ...i,
+                        offerPieces: offer.pieces,
+                        unitBundlePrice: offer.price,
+                        total: offer.price * i.quantity,
+                      }
+                    : i
+                ),
+              };
+            }
+
             return {
-              items: state.items.map((i) =>
-                i.productId === product.id
-                  ? {
-                      ...i,
-                      offerPieces: offer.pieces,
-                      unitBundlePrice: offer.price,
-                      total: offer.price * i.quantity,
-                    }
-                  : i
-              ),
+              items: [
+                ...state.items,
+                {
+                  productId: product.id,
+                  slug: product.slug,
+                  name: product.arabicName,
+                  offerPieces: offer.pieces,
+                  quantity: 1,
+                  unitBundlePrice: offer.price,
+                  total: offer.price,
+                },
+              ],
             };
-          }
+          });
+        },
 
-          return {
-            items: [
-              ...state.items,
-              {
-                productId: product.id,
-                slug: product.slug,
-                name: product.arabicName,
-                offerPieces: offer.pieces,
-                quantity: 1,
-                unitBundlePrice: offer.price,
-                total: offer.price,
-              },
-            ],
-          };
-        });
-      },
+        removeItem: (productId) =>
+          set((state) => ({
+            items: state.items.filter((i) => i.productId !== productId),
+          })),
 
-      removeItem: (productId) =>
-        set((state) => ({
-          items: state.items.filter((i) => i.productId !== productId),
-        })),
+        updateQuantity: (productId, quantity) =>
+          set((state) => ({
+            items: state.items.map((i) =>
+              i.productId === productId
+                ? {
+                    ...i,
+                    quantity,
+                    total: i.unitBundlePrice * quantity,
+                  }
+                : i
+            ),
+          })),
 
-      updateQuantity: (productId, quantity) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.productId === productId
-              ? {
-                  ...i,
-                  quantity,
-                  total: i.unitBundlePrice * quantity,
-                }
-              : i
-          ),
-        })),
+        clearCart: () => set({ items: [] }),
 
-      clearCart: () => set({ items: [] }),
+        openDrawer: () =>
+          set({
+            isDrawerOpen: true,
+            isCheckoutOpen: false,
+          }),
 
-      openDrawer: () =>
-        set({
-          isDrawerOpen: true,
-          isCheckoutOpen: false,
-        }),
+        closeDrawer: () =>
+          set({
+            isDrawerOpen: false,
+          }),
 
-      closeDrawer: () =>
-        set({
-          isDrawerOpen: false,
-        }),
+        openCheckout: () =>
+          set({
+            isCheckoutOpen: true,
+            isDrawerOpen: false,
+          }),
 
-      openCheckout: () =>
-        set({
-          isCheckoutOpen: true,
-          isDrawerOpen: false,
-        }),
+        closeCheckout: () =>
+          set({
+            isCheckoutOpen: false,
+          }),
 
-      closeCheckout: () =>
-        set({
-          isCheckoutOpen: false,
-        }),
+        getTotalPrice: () =>
+          get().items.reduce((sum, item) => sum + item.total, 0),
 
-      getTotalPrice: () =>
-        get().items.reduce((sum, item) => sum + item.total, 0),
-
-      getTotalItems: () => get().items.length,
-    }),
-    {
-      name: "riads-cart",
-      partialize: (state) => ({
-        items: state.items,
+        getTotalItems: () => get().items.length,
       }),
-    }
-  )
-);
+      {
+        name: "riads-cart",
+        partialize: (state) => ({
+          items: state.items,
+        }),
+      }
+    )
+  );
+}
+
+/**
+ * Next.js can emit duplicate copies of this module across client chunks
+ * (product page vs dynamically-loaded checkout). Without a global singleton,
+ * Buy Now updates one store while CheckoutPopup listens to another — popup never opens.
+ */
+const g = globalThis as GlobalCart;
+export const useCartStore: CartStore =
+  g[GLOBAL_KEY] ?? (g[GLOBAL_KEY] = createCartStore());

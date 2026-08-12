@@ -1,39 +1,32 @@
 "use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useCartStore, CartItem } from "@/lib/cart";
-import type { Product } from "@/lib/products";
+import { PRODUCTS, getProductById, Product } from "@/lib/products";
 import { X, Trash2, ShieldCheck, Clock } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { generateFreshEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
-import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
-
-type ProductCatalog = typeof import("@/lib/products");
 
 export default function CartDrawer() {
   const { items, isDrawerOpen, closeDrawer, removeItem, addItem, openCheckout, getTotalPrice } =
     useCartStore();
-  const [catalog, setCatalog] = useState<ProductCatalog | null>(null);
 
   const total = getTotalPrice();
 
-  useEffect(() => {
-    if (!isDrawerOpen || catalog) return;
-    import("@/lib/products").then(setCatalog);
-  }, [isDrawerOpen, catalog]);
-
   const cartProductIds = new Set(items.map((i) => i.productId));
-  const crossSells =
-    catalog?.PRODUCTS.filter((p) => !cartProductIds.has(p.id)).slice(0, 2) ?? [];
+  const crossSells = PRODUCTS.filter((p) => !cartProductIds.has(p.id)).slice(0, 2);
 
   const handleCheckout = () => {
-    const eventId = generateFreshEventId("checkout");
-    trackInitiateCheckout(total, eventId);
-    trackEvent({ event_name: "InitiateCheckout", event_id: eventId, payload: { total } });
     openCheckout();
+    try {
+      const eventId = generateFreshEventId("checkout");
+      trackInitiateCheckout(total, eventId);
+      trackEvent({ event_name: "InitiateCheckout", event_id: eventId, payload: { total } });
+    } catch {
+      // Tracking must never block checkout UX
+    }
   };
 
   if (!isDrawerOpen) return null;
@@ -71,12 +64,7 @@ export default function CartDrawer() {
             <>
               <div className="flex flex-col gap-3">
                 {items.map((item) => (
-                  <CartItemRow
-                    key={item.productId}
-                    item={item}
-                    getProductById={catalog?.getProductById}
-                    onRemove={removeItem}
-                  />
+                  <CartItemRow key={item.productId} item={item} onRemove={removeItem} />
                 ))}
               </div>
 
@@ -100,9 +88,9 @@ export default function CartDrawer() {
                   {crossSells.map((p) => (
                     <CrossSellCard
                       key={p.id}
-                      product={p}
+                      product={p as Product}
                       onAdd={() => {
-                        addItem(p, p.offers.find((o) => o.pieces === 1)!);
+                        addItem(p as Product, (p as Product).offers.find((o) => o.pieces === 1)!);
                       }}
                     />
                   ))}
@@ -131,16 +119,8 @@ export default function CartDrawer() {
   );
 }
 
-function CartItemRow({
-  item,
-  getProductById,
-  onRemove,
-}: {
-  item: CartItem;
-  getProductById?: ProductCatalog["getProductById"];
-  onRemove: (id: string) => void;
-}) {
-  const product = getProductById?.(item.productId);
+function CartItemRow({ item, onRemove }: { item: CartItem; onRemove: (id: string) => void }) {
+  const product = getProductById(item.productId);
 
   return (
     <div className="flex items-center gap-3 bg-brand-cream rounded-xl p-3">
@@ -182,7 +162,7 @@ function CrossSellCard({
   product: Product;
   onAdd: () => void;
 }) {
-  const fromOffer = product.offers.find((o) => o.pieces === 1)!;
+  const fromPrice = product.offers.find((o) => o.pieces === 1)!.price;
 
   return (
     <div className="flex items-center gap-3 bg-brand-cream rounded-xl p-3 border border-brand-border">
@@ -197,12 +177,7 @@ function CrossSellCard({
       </div>
       <div className="flex-1 text-right">
         <p className="font-bold text-sm text-brand-espresso">{product.shortHeading}</p>
-        <PriceDisplay
-          price={fromOffer.price}
-          compareAtPrice={fromOffer.compareAtPrice}
-          size="sm"
-          className="mt-0.5"
-        />
+        <p className="text-xs text-brand-espresso/60">من {formatPrice(fromPrice)}</p>
       </div>
       <button
         onClick={onAdd}

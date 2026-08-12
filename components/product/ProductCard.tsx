@@ -19,10 +19,14 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleBuyNow = () => {
     addItem(product, offer1);
-    const eventId = generateFreshEventId("addToCart");
-    trackAddToCart({ id: product.id, name: product.arabicName, price: offer1.price }, eventId);
-    trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id } });
     openCheckout();
+    try {
+      const eventId = generateFreshEventId("addToCart");
+      trackAddToCart({ id: product.id, name: product.arabicName, price: offer1.price }, eventId);
+      trackEvent({ event_name: "AddToCart", event_id: eventId, payload: { product_id: product.id } });
+    } catch {
+      // Tracking must never block checkout UX
+    }
   };
 
   return (
