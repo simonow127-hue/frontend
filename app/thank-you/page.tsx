@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2, Phone, Clock } from "lucide-react";
 import Button from "@/components/ui/Button";
+import ThankYouPurchase from "@/components/tracking/ThankYouPurchase";
 
 export const metadata: Metadata = {
   title: "شكراً — تم تسجيل طلبك",
@@ -9,9 +10,17 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function ThankYouPage() {
+export default async function ThankYouPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ order?: string }> | { order?: string };
+}) {
+  const params = await Promise.resolve(searchParams);
+  const orderCode = params?.order;
+
   return (
     <div className="min-h-screen bg-brand-cream flex items-center justify-center px-4 py-16">
+      <ThankYouPurchase orderCode={orderCode} />
       <div className="max-w-md w-full bg-brand-ivory rounded-2xl border border-brand-border shadow-lg p-8 text-right">
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 rounded-full bg-status-success/10 border-2 border-status-success/30 flex items-center justify-center">
@@ -25,6 +34,12 @@ export default function ThankYouPage() {
         <p className="text-brand-espresso/70 text-center mb-8">
           فريق رياض بيتواصل معك قريب عشان يأكد التفاصيل.
         </p>
+
+        {orderCode && (
+          <p className="text-center text-sm text-brand-espresso/50 mb-6">
+            رقم الطلب: <span className="font-bold text-brand-espresso ltr-text">{orderCode}</span>
+          </p>
+        )}
 
         <div className="flex flex-col gap-4 mb-8">
           <div className="flex items-start gap-3 bg-brand-cream rounded-xl p-4">

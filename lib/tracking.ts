@@ -28,16 +28,23 @@ export function fireMetaEvent(
   data: Record<string, unknown> = {},
   eventId?: string
 ) {
-  if (!window.fbq) {
-    log("Meta pixel not loaded, queuing", eventName);
-    return;
-  }
-  if (eventId) {
-    window.fbq("track", eventName, data, { eventID: eventId });
-  } else {
-    window.fbq("track", eventName, data);
-  }
-  log("Meta:", eventName, data, "event_id:", eventId);
+  const send = () => {
+    if (!window.fbq) return false;
+    if (eventId) {
+      window.fbq("track", eventName, data, { eventID: eventId });
+    } else {
+      window.fbq("track", eventName, data);
+    }
+    log("Meta:", eventName, data, "event_id:", eventId);
+    return true;
+  };
+
+  if (send()) return;
+
+  log("Meta pixel not loaded, retrying", eventName);
+  window.setTimeout(() => {
+    if (!send()) log("Meta pixel still missing, dropped", eventName);
+  }, 800);
 }
 
 // --- TikTok Pixel ---

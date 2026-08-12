@@ -19,6 +19,7 @@ import {
   generateFreshEventId,
 } from "@/lib/events";
 import { trackPurchase } from "@/lib/tracking";
+import { savePendingPurchase } from "@/components/tracking/ThankYouPurchase";
 import {
   X,
   ShieldCheck,
@@ -181,23 +182,31 @@ export default function CheckoutPopup() {
         response.order_code,
         total,
         items.map((item) => ({
-          id:
-            item.productId,
-
-          name:
-            item.name,
-
-          quantity:
-            item.offerPieces,
-
-          price:
-            item.total,
+          id: item.productId,
+          name: item.name,
+          quantity: item.offerPieces,
+          price: item.total,
         })),
         eventId
       );
 
+      savePendingPurchase({
+        orderCode: response.order_code,
+        total,
+        eventId,
+        items: items.map((item) => ({
+          id: item.productId,
+          name: item.name,
+          quantity: item.offerPieces,
+          price: item.total,
+        })),
+      });
+
       clearCart();
       closeCheckout();
+
+      // Give Meta Pixel a moment to flush before hard navigation
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       window.location.href =
         `/thank-you?order=${response.order_code}`;
