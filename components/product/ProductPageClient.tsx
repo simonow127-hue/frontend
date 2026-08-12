@@ -1,18 +1,24 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Product,
   Review,
-  getOfferByPieces,
   getCrossSells,
+  getOfferByPieces,
   getProductSectionImage,
 } from "@/lib/products";
 import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
 import { useCartStore } from "@/lib/cart";
-import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
-import { trackViewContent, trackAddToCart } from "@/lib/tracking";
+import {
+  generateFreshEventId,
+  getOrCreateEventId,
+} from "@/lib/events";
+import {
+  trackAddToCart,
+  trackViewContent,
+} from "@/lib/tracking";
 import { trackEvent } from "@/lib/api";
 import OfferSelector from "./OfferSelector";
 import Button from "@/components/ui/Button";
@@ -23,7 +29,10 @@ import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductVideo from "@/components/ui/ProductVideo";
 import AddReviewForm from "./AddReviewForm";
-import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+import {
+  loadUserReviews,
+  saveUserReview,
+} from "@/lib/user-reviews";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -45,8 +54,9 @@ function FAQItem({ q, a }: FAQItemProps) {
   return (
     <div className="border-b border-brand-border last:border-0">
       <button
+        type="button"
         className="w-full flex items-center justify-between py-4 text-right font-bold text-brand-espresso hover:text-brand-primary transition-colors"
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
       >
         <span>
@@ -79,4 +89,319 @@ export default function ProductPageClient({
   const [isSticky, setIsSticky] = useState(false);
   const [userReviews, setUserReviews] = useState<Review[]>([]);
 
- 
+  const offerRef = useRef<HTMLDivElement>(null);
+
+  const crossSells = getCrossSells(product);
+  const productLabel = product.shortHeading.split(":")[0];
+
+  const displayedReviews = [
+    ...userReviews,
+    ...product.reviews,
+  ];
+
+  useEffect(() => {
+    setUserReviews(loadUserReviews(product.id));
+  }, [product.id]);
+
+  useEffect(() => {
+    const eventId = getOrCreateEventId("viewContent");
+
+    const offer3 = product.offers.find(
+      (offer) => offer.pieces === 3
+    );
+
+    const price = offer3?.price ?? product.offers[0]?.price ?? 0;
+
+    trackViewContent(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "ViewContent",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+      },
+    });
+  }, [product]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSticky(!entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (offerRef.current) {
+      observer.observe(offerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleAddToCart = () => {
+    const offer = getOfferByPieces(
+      product,
+      selectedPieces
+    );
+
+    addItem(product, offer);
+
+    const eventId = generateFreshEventId("addToCart");
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
+    openDrawer();
+  };
+
+  const handleBuyNow = () => {
+    const offer = getOfferByPieces(
+      product,
+      selectedPieces
+    );
+
+    addItem(product, offer);
+
+    const eventId = generateFreshEventId("addToCart");
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
+    openCheckout();
+  };
+
+  const selectedOffer = getOfferByPieces(
+    product,
+    selectedPieces
+  );
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="max-w-content mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+          {/* Gallery */}
+          <div className="order-1 md:order-2 flex flex-col gap-4">
+            {product.videoUrl && (
+              <ProductVideo
+                src={product.videoUrl}
+                poster={product.imagePlaceholder}
+                title={product.arabicName}
+              />
+            )}
+
+            <ProductGallery
+              images={[
+                product.imagePlaceholder,
+                ...(product.painImage
+                  ? [product.painImage]
+                  : []),
+                ...(product.scienceImage
+                  ? [product.scienceImage]
+                  : []),
+                ...(product.usageImage
+                  ? [product.usageImage]
+                  : []),
+                ...(product.ingredientsImage
+                  ? [product.ingredientsImage]
+                  : []),
+              ]}
+              alt={product.arabicName}
+              priority
+            />
+          </div>
+
+          {/* Product Info */}
+          <div className="order-2 md:order-1 flex flex-col gap-5">
+            <div>
+              <h1 className="font-arabic font-bold text-brand-espresso text-2xl md:text-3xl leading-snug">
+                {product.emotionalHeadline}
+              </h1>
+
+              <p className="text-brand-espresso/70 mt-2 text-base">
+                {product.subheading}
+              </p>
+
+              <div className="mt-4">
+                <PriceDisplay
+                  price={selectedOffer.price}
+                  compareAtPrice={selectedOffer.compareAtPrice}
+                  size="lg"
+                  showBadge
+                />
+              </div>
+            </div>
+
+            {/* Pain bullets */}
+            <ul className="flex flex-col gap-2">
+              {product.painBullets.map((bullet) => (
+                <li
+                  key={bullet}
+                  className="flex items-start gap-2"
+                >
+                  <CheckCircle2
+                    size={18}
+                    className="text-brand-primary shrink-0 mt-0.5"
+                  />
+
+                  <span className="text-sm text-brand-espresso/80">
+                    {bullet}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Offer Selector */}
+            <div ref={offerRef}>
+              <h2 className="font-bold text-brand-espresso mb-3">
+                اختر العرض
+              </h2>
+
+              <OfferSelector
+                offers={product.offers}
+                selected={selectedPieces}
+                onChange={setSelectedPieces}
+              />
+            </div>
+
+            {/* CTA */}
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={handleBuyNow}
+                className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:scale-[0.98] transition-all"
+              >
+                <Zap size={20} fill="currentColor" />
+                اشتري الحين — {formatPrice(selectedOffer.price)}
+              </button>
+
+              <Button
+                onClick={handleAddToCart}
+                fullWidth
+                size="lg"
+                variant="secondary"
+                className="text-base"
+              >
+                أضف للسلة
+              </Button>
+            </div>
+
+            {/* Trust */}
+            <div className="flex items-center gap-2 justify-center">
+              <ShieldCheck
+                size={16}
+                className="text-status-success"
+              />
+
+              <span className="text-sm text-brand-espresso/70">
+                الدفع عند الاستلام · توصيل لكل المملكة
+              </span>
+            </div>
+
+            {/* Payment */}
+            <div className="flex justify-center pt-1">
+              <PaymentLogos
+                size="sm"
+                className="opacity-70"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="bg-brand-cream border-y border-brand-border py-8">
+        <div className="max-w-content mx-auto px-4">
+          <TrustBadges />
+        </div>
+      </section>
+
+      {/* Pain Mirror */}
+      <section className="max-w-content mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="order-2 md:order-1">
+            <ProductImage
+              src={
+                product.painImage ||
+                product.imagePlaceholder
+              }
+              alt={`${product.shortHeading.split(":")[0]} — المنتج`}
+              aspect="square"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+
+          <div className="order-1 md:order-2 text-right">
+            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
+              تعاني من نفس المشكلة؟
+            </h2>
+
+            <ul className="flex flex-col gap-4 mb-6">
+              {product.painBullets.map(
+                (bullet, index) => (
+                  <li
+                    key={`${bullet}-${index}`}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="text-status-error font-bold mt-1 text-lg">
+                      ✕
+                    </span>
+
+                    <span className="text-brand-espresso/80 text-lg leading-relaxed">
+                      {bullet}
+                    </span>
+                  </li>
+                )
+              )}
+            </ul>
+
+            <p className="text-brand-primary font-bold text-xl leading-relaxed">
+              {product.shortHeading} هو الحل المناسب
+              لهالمشاكل.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Mechanism */}
+      <section className="bg-brand-cream py-16">
+        <div className="max-w-content mx-auto px-4 grid grid-cols-
