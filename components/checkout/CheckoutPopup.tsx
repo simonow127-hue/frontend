@@ -432,7 +432,7 @@ export default function CheckoutPopup() {
               fullWidth
               size="lg"
               loading={loading}
-              className="mt-2"
+              className="mt-2 bg-[#2E822B] text-white hover:bg-[#20671E] active:bg-[#20671E]"
             >
               تأكيد الطلب —{" "}
               {formatPrice(total)}
