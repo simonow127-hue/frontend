@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface ProductVideoProps {
   src: string;
@@ -9,57 +9,45 @@ interface ProductVideoProps {
 }
 
 export default function ProductVideo({ src, poster, title }: ProductVideoProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el || shouldLoad) return;
+    const video = videoRef.current;
+    if (!video) return;
 
-    if (!("IntersectionObserver" in window)) {
-      setShouldLoad(true);
+    const tryPlay = () => {
+      void video.play().catch(() => {
+        // Browser may block autoplay until interaction — controls stay available
+      });
+    };
+
+    if (video.readyState >= 2) {
+      tryPlay();
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [shouldLoad]);
+    video.addEventListener("loadeddata", tryPlay, { once: true });
+    return () => video.removeEventListener("loadeddata", tryPlay);
+  }, [src]);
 
   return (
-    <div className="flex flex-col gap-2" ref={ref}>
+    <div className="flex flex-col gap-2">
       <span className="text-xs font-bold text-brand-gold tracking-wide text-right">فيديو المنتج</span>
       <div className="relative aspect-square rounded-2xl overflow-hidden border border-brand-border bg-black">
-        {shouldLoad ? (
-          <video
-            className="w-full h-full object-contain"
-            controls
-            playsInline
-            preload="none"
-            poster={poster}
-            aria-label={title}
-          >
-            <source src={src} type="video/mp4" />
-          </video>
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={poster || ""}
-            alt={title}
-            className="w-full h-full object-contain bg-black"
-            loading="lazy"
-            decoding="async"
-          />
-        )}
+        <video
+          ref={videoRef}
+          className="w-full h-full object-contain"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+          preload="metadata"
+          poster={poster}
+          aria-label={title}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
       </div>
     </div>
   );
