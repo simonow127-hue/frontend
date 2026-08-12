@@ -1,21 +1,30 @@
-"use client";
+const handleBuyNow = () => {
+  const offer = getOfferByPieces(product, selectedPieces);
 
-import dynamic from "next/dynamic";
+  addItem(product, offer);
 
-const CartDrawer = dynamic(() => import("@/components/cart/CartDrawer"), { ssr: false });
-const CheckoutPopup = dynamic(() => import("@/components/checkout/CheckoutPopup"), { ssr: false });
-const WhatsAppButton = dynamic(() => import("@/components/ui/WhatsAppButton"), { ssr: false });
-const PixelManager = dynamic(() => import("@/components/tracking/PixelManager"), { ssr: false });
-const SessionInit = dynamic(() => import("@/components/tracking/SessionInit"), { ssr: false });
+  const eventId = generateFreshEventId("addToCart");
 
-export default function ClientShell() {
-  return (
-    <>
-      <SessionInit />
-      <PixelManager />
-      <CartDrawer />
-      <CheckoutPopup />
-      <WhatsAppButton />
-    </>
+  trackAddToCart(
+    {
+      id: product.id,
+      name: product.arabicName,
+      price: offer.price,
+    },
+    eventId
   );
-}
+
+  trackEvent({
+    event_name: "AddToCart",
+    event_id: eventId,
+    payload: {
+      product_id: product.id,
+      pieces: selectedPieces,
+    },
+  });
+
+  // فتح Checkout مباشرة
+  setTimeout(() => {
+    openCheckout();
+  }, 50);
+};
