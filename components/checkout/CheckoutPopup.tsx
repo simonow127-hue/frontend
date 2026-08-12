@@ -449,16 +449,15 @@ export default function CheckoutPopup() {
             )}
 
             {/* Submit */}
-            <Button
-              type="submit"
-              fullWidth
-              size="lg"
-              loading={loading}
-              className="mt-2 bg-[#2E822B] hover:bg-[#20671E]"
-            >
-              تأكيد الطلب —{" "}
-              {formatPrice(total)}
-            </Button>
+           <Button
+  type="submit"
+  fullWidth
+  size="lg"
+  loading={loading}
+  className="mt-2 bg-[#2E822B] hover:bg-[#20671E] text-white"
+>
+  تأكيد الطلب — {formatPrice(total)}
+</Button>
 
           </form>
 
