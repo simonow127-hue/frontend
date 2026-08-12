@@ -3,7 +3,6 @@ import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
 import { PRODUCTS } from "@/lib/products";
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
-import PaymentLogos from "@/components/ui/PaymentLogos";
 
 export default function Footer() {
   return (
@@ -16,7 +15,10 @@ export default function Footer() {
             { icon: Phone, text: "دعم عبر الإيميل" },
             { icon: MapPin, text: "توصيل لكل المملكة" },
           ].map((item) => (
-            <div key={item.text} className="flex items-center gap-2 text-sm text-brand-cream/70">
+            <div
+              key={item.text}
+              className="flex items-center gap-2 text-sm text-brand-cream/70"
+            >
               <item.icon size={16} className="text-brand-gold" />
               <span>{item.text}</span>
             </div>
@@ -30,19 +32,19 @@ export default function Footer() {
           {/* Brand column */}
           <div className="flex flex-col gap-4 md:col-span-1">
             <BrandWordmark asLink size="sm" />
+
             <p className="text-sm text-brand-cream/65 leading-relaxed">
               متجر سعودي يجمع منتجات مختارة بجودة عالية.
               توصيل سريع، دفع عند الاستلام، وخدمة عملاء تهمّك.
             </p>
-            {/* Payment logos */}
-            <div className="mt-1 opacity-80">
-              <PaymentLogos size="sm" />
-            </div>
           </div>
 
           {/* Categories */}
           <div>
-            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">التصنيفات</h4>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">
+              التصنيفات
+            </h4>
+
             <ul className="flex flex-col gap-2.5">
               {CATEGORIES.map((c) => (
                 <li key={c.id}>
@@ -59,7 +61,10 @@ export default function Footer() {
 
           {/* Featured products */}
           <div>
-            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">منتجات مميزة</h4>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">
+              منتجات مميزة
+            </h4>
+
             <ul className="flex flex-col gap-2.5">
               {PRODUCTS.slice(0, 5).map((p) => (
                 <li key={p.id}>
@@ -76,17 +81,22 @@ export default function Footer() {
 
           {/* Help links */}
           <div>
-            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">المساعدة</h4>
+            <h4 className="font-bold text-brand-gold mb-4 text-sm tracking-wide">
+              المساعدة
+            </h4>
+
             <ul className="flex flex-col gap-2.5">
               {[
                 { href: "/shipping", label: "سياسة التوصيل" },
                 { href: "/contact", label: "تواصل معنا" },
                 { href: "/privacy", label: "سياسة الخصوصية" },
                 { href: "/terms", label: "الشروط والأحكام" },
-                { href: "/contact", label: "تواصل معنا" },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors">
+                  <Link
+                    href={l.href}
+                    className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -97,7 +107,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-brand-cream/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-brand-cream/35">
-          <p>المملكة العربية السعودية · الدفع عند الاستلام متاح في كل المناطق</p>
+          <p>
+            المملكة العربية السعودية · الدفع عند الاستلام متاح في كل المناطق
+          </p>
+
           <p>© {new Date().getFullYear()} رياض. جميع الحقوق محفوظة.</p>
         </div>
       </div>
