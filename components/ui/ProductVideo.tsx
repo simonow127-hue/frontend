@@ -15,21 +15,22 @@ export default function ProductVideo({ src, poster, title }: ProductVideoProps) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Required for reliable mobile/desktop autoplay
     video.muted = true;
     video.defaultMuted = true;
     video.loop = true;
     video.playsInline = true;
+    video.controls = false;
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
     video.setAttribute("webkit-playsinline", "");
+    video.removeAttribute("controls");
 
     const tryPlay = () => {
       video.muted = true;
+      video.controls = false;
       const playPromise = video.play();
       if (playPromise && typeof playPromise.then === "function") {
         playPromise.catch(() => {
-          // Retry once after a short delay (some browsers need it)
           window.setTimeout(() => {
             video.muted = true;
             void video.play().catch(() => {});
@@ -55,7 +56,6 @@ export default function ProductVideo({ src, poster, title }: ProductVideoProps) 
     video.addEventListener("ended", onEnded);
     document.addEventListener("visibilitychange", onVisibility);
 
-    // Warm start: nudge play after first paint
     const t1 = window.setTimeout(tryPlay, 100);
     const t2 = window.setTimeout(tryPlay, 600);
 
@@ -70,25 +70,21 @@ export default function ProductVideo({ src, poster, title }: ProductVideoProps) 
   }, [src]);
 
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-xs font-bold text-brand-gold tracking-wide text-right">
-        فيديو المنتج
-      </span>
-      <div className="relative aspect-square rounded-2xl overflow-hidden border border-brand-border bg-black">
-        <video
-          ref={videoRef}
-          className="w-full h-full object-contain"
-          src={src}
-          poster={poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          controls
-          aria-label={title}
-        />
-      </div>
+    <div className="relative aspect-square rounded-2xl overflow-hidden border border-brand-border bg-black">
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain pointer-events-none"
+        src={src}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback"
+        aria-label={title}
+      />
     </div>
   );
 }
