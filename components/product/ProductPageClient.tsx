@@ -1,781 +1,700 @@
 "use client";
 
-import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
-  Check,
+  Product,
+  Review,
+  getOfferByPieces,
+  getCrossSells,
+  getProductSectionImage,
+} from "@/lib/products";
+import PriceDisplay from "@/components/ui/PriceDisplay";
+import { formatPrice } from "@/lib/currency";
+import { useCartStore } from "@/lib/cart";
+import { generateFreshEventId, getOrCreateEventId } from "@/lib/events";
+import { trackViewContent, trackAddToCart } from "@/lib/tracking";
+import { trackEvent } from "@/lib/api";
+import OfferSelector from "./OfferSelector";
+import Button from "@/components/ui/Button";
+import ProductCard from "./ProductCard";
+import TrustBadges from "@/components/ui/TrustBadges";
+import ProductImage from "@/components/ui/ProductImage";
+import PaymentLogos from "@/components/ui/PaymentLogos";
+import ProductGallery from "@/components/ui/ProductGallery";
+import ProductVideo from "@/components/ui/ProductVideo";
+import AddReviewForm from "./AddReviewForm";
+import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+import {
+  ShieldCheck,
+  CheckCircle2,
   ChevronDown,
   ChevronUp,
-  Play,
-  ShieldCheck,
-  ShoppingCart,
-  Star,
-  Truck,
   Zap,
+  Star,
 } from "lucide-react";
+import Stars from "@/components/ui/Stars";
 
-import type { Offer, Product, Review } from "@/lib/products";
-import { useCartStore } from "@/lib/cart";
-import { formatPrice } from "@/lib/currency";
-import Button from "@/components/ui/Button";
+interface FAQItemProps {
+  q: string;
+  a: string;
+}
 
-type ProductPageClientProps = {
-  product: Product;
-};
+function FAQItem({ q, a }: FAQItemProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-brand-border last:border-0">
+      <button
+        className="w-full flex items-center justify-between py-4 text-right font-bold text-brand-espresso hover:text-brand-primary transition-colors"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <span>
+          {open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </span>
+
+        <span>{q}</span>
+      </button>
+
+      {open && (
+        <p className="pb-4 text-brand-espresso/70 text-sm leading-relaxed text-right">
+          {a}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function ProductPageClient({
   product,
-}: ProductPageClientProps) {
-  const { addItem, openDrawer, openCheckout } = useCartStore();
-
+}: {
+  product: Product;
+}) {
   const [selectedPieces, setSelectedPieces] = useState<1 | 2 | 3>(
     product.defaultOffer
   );
 
-  const [activeImage, setActiveImage] = useState(product.imagePlaceholder);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { addItem, openDrawer, openCheckout } = useCartStore();
 
-  const selectedOffer = useMemo<Offer>(() => {
-    return (
-      product.offers.find((offer) => offer.pieces === selectedPieces) ??
-      product.offers[0]
+  const [isSticky, setIsSticky] = useState(false);
+  const [userReviews, setUserReviews] = useState<Review[]>([]);
+
+  const offerRef = useRef<HTMLDivElement>(null);
+
+  const crossSells = getCrossSells(product);
+  const productLabel = product.shortHeading.split(":")[0];
+
+  const displayedReviews = [...userReviews, ...product.reviews];
+
+  useEffect(() => {
+    setUserReviews(loadUserReviews(product.id));
+  }, [product.id]);
+
+  useEffect(() => {
+    const eventId = getOrCreateEventId("viewContent");
+
+    const offer3 = product.offers.find((o) => o.pieces === 3)!;
+
+    trackViewContent(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer3.price,
+      },
+      eventId
     );
-  }, [product.offers, selectedPieces]);
 
-  const handleSelectOffer = (offer: Offer) => {
-    setSelectedPieces(offer.pieces);
-  };
+    trackEvent({
+      event_name: "ViewContent",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+      },
+    });
+  }, [product]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSticky(!entry.isIntersecting),
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (offerRef.current) {
+      observer.observe(offerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleAddToCart = () => {
-    if (!selectedOffer) return;
+    const offer = getOfferByPieces(product, selectedPieces);
 
-    addItem(product, selectedOffer);
+    addItem(product, offer);
+
+    const eventId = generateFreshEventId("addToCart");
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
     openDrawer();
   };
 
   const handleBuyNow = () => {
-    if (!selectedOffer) return;
+    const offer = getOfferByPieces(product, selectedPieces);
 
-    addItem(product, selectedOffer);
+    addItem(product, offer);
+
+    const eventId = generateFreshEventId("addToCart");
+
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
+
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
+
     openCheckout();
   };
 
-  const galleryImages = [
-    product.imagePlaceholder,
-    product.painImage,
-    product.ingredientsImage,
-    product.usageImage,
-    product.scienceImage,
-  ].filter(
-    (image, index, array): image is string =>
-      Boolean(image) && array.indexOf(image) === index
-  );
-
-  const reviews: Review[] = product.reviews ?? [];
+  const selectedOffer = getOfferByPieces(product, selectedPieces);
 
   return (
-    <main
-      dir="rtl"
-      className="min-h-screen bg-brand-ivory text-brand-espresso"
-    >
-      {/* =========================
-          HERO / PRODUCT TOP
-      ========================== */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
-          {/* =========================
-              PRODUCT IMAGES
-          ========================== */}
-          <div className="order-1">
-            <div className="overflow-hidden rounded-3xl border border-brand-border bg-white shadow-sm">
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image
-                  src={activeImage}
-                  alt={product.arabicName}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-
-                {product.isNew && (
-                  <div className="absolute right-4 top-4 rounded-full bg-[#2E822B] px-4 py-2 text-sm font-bold text-white shadow-lg">
-                    جديد
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {galleryImages.length > 1 && (
-              <div className="mt-4 grid grid-cols-5 gap-2">
-                {galleryImages.map((image, index) => {
-                  const isActive = activeImage === image;
-
-                  return (
-                    <button
-                      key={`${image}-${index}`}
-                      type="button"
-                      onClick={() => setActiveImage(image)}
-                      aria-label={`عرض الصورة ${index + 1}`}
-                      aria-pressed={isActive}
-                      className={[
-                        "relative aspect-square overflow-hidden rounded-xl border-2 bg-white transition-all",
-                        isActive
-                          ? "border-[#2E822B] ring-2 ring-[#2E822B]/20"
-                          : "border-brand-border hover:border-[#2E822B]",
-                      ].join(" ")}
-                    >
-                      <Image
-                        src={image}
-                        alt={`${product.arabicName} - صورة ${index + 1}`}
-                        fill
-                        sizes="100px"
-                        className="object-cover"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
+    <div className="min-h-screen">
+      {/* Hero / Above the fold */}
+      <section className="max-w-content mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+          {/* Product gallery */}
+          <div className="order-1 md:order-2 flex flex-col gap-4">
             {product.videoUrl && (
-              <div className="mt-4 overflow-hidden rounded-2xl border border-brand-border bg-black">
-                <video
-                  src={product.videoUrl}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  className="h-auto max-h-[500px] w-full"
-                >
-                  المتصفح ديالك ما كيدعمش تشغيل الفيديو.
-                </video>
-              </div>
+              <ProductVideo
+                src={product.videoUrl}
+                poster={product.imagePlaceholder}
+                title={product.arabicName}
+              />
             )}
+
+            <ProductGallery
+              images={[
+                product.imagePlaceholder,
+                ...(product.painImage ? [product.painImage] : []),
+                ...(product.scienceImage ? [product.scienceImage] : []),
+                ...(product.usageImage ? [product.usageImage] : []),
+                ...(product.ingredientsImage
+                  ? [product.ingredientsImage]
+                  : []),
+              ]}
+              alt={product.arabicName}
+              priority
+            />
           </div>
 
-          {/* =========================
-              PRODUCT INFO
-          ========================== */}
-          <div className="order-2 flex flex-col gap-5">
-            {/* Rating */}
-            {product.rating > 0 && (
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      size={18}
-                      className="fill-[#F5B301] text-[#F5B301]"
-                    />
-                  ))}
-                </div>
-
-                <span className="text-sm font-bold text-brand-espresso">
-                  {product.rating.toFixed(1)}
-                </span>
-
-                <span className="text-sm text-brand-espresso/60">
-                  ({product.reviewCount} تقييم)
-                </span>
-              </div>
-            )}
-
-            {/* Heading */}
+          {/* Product info */}
+          <div className="order-2 md:order-1 flex flex-col gap-5">
             <div>
-              <h1 className="font-arabic text-2xl font-bold leading-tight text-brand-espresso sm:text-3xl lg:text-4xl">
-                {product.arabicName}
+              <h1 className="font-arabic font-bold text-brand-espresso text-2xl md:text-3xl leading-snug">
+                {product.emotionalHeadline}
               </h1>
 
-              <p className="mt-3 text-base leading-7 text-brand-espresso/70 sm:text-lg">
+              <p className="text-brand-espresso/70 mt-2 text-base">
                 {product.subheading}
               </p>
-            </div>
 
-            {/* Emotional headline */}
-            {product.emotionalHeadline && (
-              <div className="rounded-2xl border border-[#2E822B]/20 bg-[#2E822B]/5 px-4 py-3">
-                <p className="font-bold leading-7 text-[#2E822B]">
-                  {product.emotionalHeadline}
-                </p>
-              </div>
-            )}
-
-            {/* Pain points */}
-            {product.painBullets.length > 0 && (
-              <div className="rounded-2xl bg-brand-cream p-5">
-                <h2 className="mb-3 text-base font-bold text-brand-espresso">
-                  علاش غادي يعجبك؟
-                </h2>
-
-                <div className="flex flex-col gap-3">
-                  {product.painBullets.map((bullet, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3"
-                    >
-                      <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#2E822B] text-white">
-                        <Check size={15} strokeWidth={3} />
-                      </span>
-
-                      <p className="text-sm leading-6 text-brand-espresso/80">
-                        {bullet}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* =========================
-                OFFERS
-            ========================== */}
-            <div>
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-brand-espresso">
-                  اختار العرض ديالك
-                </h2>
-
-                <span className="text-xs font-bold text-[#2E822B]">
-                  الدفع عند الاستلام
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                {product.offers.map((offer) => {
-                  const isSelected =
-                    selectedPieces === offer.pieces;
-
-                  return (
-                    <button
-                      key={offer.pieces}
-                      type="button"
-                      onClick={() => handleSelectOffer(offer)}
-                      aria-pressed={isSelected}
-                      className={[
-                        "relative w-full rounded-2xl border-2 p-4 text-right transition-all duration-200",
-                        "focus:outline-none focus:ring-2 focus:ring-[#2E822B]/30",
-                        isSelected
-                          ? "border-[#2E822B] bg-[#2E822B]/5 shadow-md"
-                          : "border-brand-border bg-white hover:border-[#2E822B]/50",
-                      ].join(" ")}
-                    >
-                      {offer.badge && (
-                        <span className="absolute -top-3 right-4 rounded-full bg-[#2E822B] px-3 py-1 text-xs font-bold text-white shadow-sm">
-                          {offer.badge}
-                        </span>
-                      )}
-
-                      <div className="flex items-center gap-3">
-                        {/* Custom radio */}
-                        <span
-                          className={[
-                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2",
-                            isSelected
-                              ? "border-[#2E822B] bg-[#2E822B]"
-                              : "border-brand-border bg-white",
-                          ].join(" ")}
-                        >
-                          {isSelected && (
-                            <Check
-                              size={14}
-                              strokeWidth={3}
-                              className="text-white"
-                            />
-                          )}
-                        </span>
-
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p
-                                className={[
-                                  "font-bold",
-                                  isSelected
-                                    ? "text-[#2E822B]"
-                                    : "text-brand-espresso",
-                                ].join(" ")}
-                              >
-                                {offer.label}
-                              </p>
-
-                              <p className="mt-1 text-xs text-brand-espresso/60">
-                                {offer.sublabel}
-                              </p>
-                            </div>
-
-                            <div className="text-left">
-                              <p
-                                className={[
-                                  "text-lg font-bold",
-                                  isSelected
-                                    ? "text-[#2E822B]"
-                                    : "text-brand-espresso",
-                                ].join(" ")}
-                              >
-                                {formatPrice(offer.price)}
-                              </p>
-
-                              {offer.compareAtPrice > offer.price && (
-                                <p className="text-xs text-brand-espresso/40 line-through">
-                                  {formatPrice(offer.compareAtPrice)}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
+              <div className="mt-4">
+                <PriceDisplay
+                  price={selectedOffer.price}
+                  compareAtPrice={selectedOffer.compareAtPrice}
+                  size="lg"
+                  showBadge
+                />
               </div>
             </div>
 
-            {/* =========================
-                SELECTED OFFER SUMMARY
-            ========================== */}
-            <div className="rounded-2xl border border-[#2E822B]/20 bg-[#2E822B]/5 p-4">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm text-brand-espresso/60">
-                    العرض المختار
-                  </p>
+            {/* Pain bullets */}
+            <ul className="flex flex-col gap-2">
+              {product.painBullets.map((b) => (
+                <li key={b} className="flex items-start gap-2">
+                  <CheckCircle2
+                    size={18}
+                    className="text-brand-primary shrink-0 mt-0.5"
+                  />
 
-                  <p className="mt-1 font-bold text-brand-espresso">
-                    {selectedOffer.label}
-                  </p>
-                </div>
+                  <span className="text-sm text-brand-espresso/80">
+                    {b}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-                <p className="text-xl font-bold text-[#2E822B]">
-                  {formatPrice(selectedOffer.price)}
-                </p>
-              </div>
+            {/* Offer selector */}
+            <div ref={offerRef}>
+              <h2 className="font-bold text-brand-espresso mb-3">
+                اختر العرض
+              </h2>
+
+              <OfferSelector
+                offers={product.offers}
+                selected={selectedPieces}
+                onChange={setSelectedPieces}
+              />
             </div>
 
-            {/* =========================
-                BUY BUTTONS
-            ========================== */}
+            {/* CTA */}
             <div className="flex flex-col gap-3">
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#2E822B] px-6 py-4 text-lg font-bold text-white shadow-lg transition-all duration-200 hover:bg-[#20671E] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#2E822B]/40 focus:ring-offset-2"
+                className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
               >
-                <Zap size={20} />
-                اشترِ الآن — {formatPrice(selectedOffer.price)}
+                <Zap size={20} fill="currentColor" />
+
+                اشتري الحين — {formatPrice(selectedOffer.price)}
               </button>
 
-              <button
-                type="button"
+              <Button
                 onClick={handleAddToCart}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#2E822B] bg-white px-6 py-3 text-base font-bold text-[#2E822B] transition-all duration-200 hover:bg-[#2E822B]/5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#2E822B]/30"
+                fullWidth
+                size="lg"
+                variant="secondary"
+                className="text-base"
               >
-                <ShoppingCart size={19} />
                 أضف للسلة
-              </button>
+              </Button>
             </div>
 
-            {/* =========================
-                TRUST
-            ========================== */}
-            <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col items-center gap-2 rounded-xl bg-brand-cream px-2 py-3 text-center">
-                <ShieldCheck
-                  size={21}
-                  className="text-[#2E822B]"
-                />
-                <span className="text-xs font-bold text-brand-espresso">
-                  الدفع عند الاستلام
-                </span>
-              </div>
+            {/* Trust */}
+            <div className="flex items-center gap-2 justify-center">
+              <ShieldCheck
+                size={16}
+                className="text-status-success"
+              />
 
-              <div className="flex flex-col items-center gap-2 rounded-xl bg-brand-cream px-2 py-3 text-center">
-                <Truck
-                  size={21}
-                  className="text-[#2E822B]"
-                />
-                <span className="text-xs font-bold text-brand-espresso">
-                  توصيل للباب
-                </span>
-              </div>
-
-              <div className="flex flex-col items-center gap-2 rounded-xl bg-brand-cream px-2 py-3 text-center">
-                <Check
-                  size={21}
-                  className="text-[#2E822B]"
-                />
-                <span className="text-xs font-bold text-brand-espresso">
-                  تأكيد قبل الإرسال
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================
-          MECHANISM
-      ========================== */}
-      {product.mechanism && (
-        <section className="border-y border-brand-border bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="text-sm font-bold text-[#2E822B]">
-                كيفاش كيخدم؟
+              <span className="text-sm text-brand-espresso/70">
+                الدفع عند الاستلام · توصيل لكل المملكة
               </span>
-
-              <h2 className="mt-2 text-2xl font-bold text-brand-espresso sm:text-3xl">
-                حل بسيط وعملي للمشكل
-              </h2>
-
-              <p className="mt-5 text-base leading-8 text-brand-espresso/70">
-                {product.mechanism}
-              </p>
             </div>
-          </div>
-        </section>
-      )}
 
-      {/* =========================
-          INGREDIENTS / FEATURES
-      ========================== */}
-      {product.ingredients.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
-            {product.ingredientsImage ? (
-              <div className="relative aspect-square overflow-hidden rounded-3xl bg-brand-cream">
-                <Image
-                  src={product.ingredientsImage}
-                  alt={`${product.arabicName} - المميزات`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="rounded-3xl bg-brand-cream p-8">
-                <div className="flex min-h-[300px] items-center justify-center">
-                  <ShieldCheck
-                    size={80}
-                    className="text-[#2E822B]"
-                  />
-                </div>
-              </div>
-            )}
-
-            <div>
-              <span className="text-sm font-bold text-[#2E822B]">
-                المميزات
-              </span>
-
-              <h2 className="mt-2 text-2xl font-bold text-brand-espresso sm:text-3xl">
-                علاش تختار هاد المنتج؟
-              </h2>
-
-              <div className="mt-6 flex flex-col gap-4">
-                {product.ingredients.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 rounded-2xl border border-brand-border bg-white p-4"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2E822B]/10">
-                      <Check
-                        size={20}
-                        className="text-[#2E822B]"
-                        strokeWidth={3}
-                      />
-                    </span>
-
-                    <div>
-                      <h3 className="font-bold text-brand-espresso">
-                        {item.name}
-                      </h3>
-
-                      <p className="mt-1 text-sm leading-6 text-brand-espresso/60">
-                        {item.benefit}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* =========================
-          USAGE
-      ========================== */}
-      {product.usageSteps.length > 0 && (
-        <section className="bg-brand-cream">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
-              <div>
-                <span className="text-sm font-bold text-[#2E822B]">
-                  طريقة الاستخدام
-                </span>
-
-                <h2 className="mt-2 text-2xl font-bold text-brand-espresso sm:text-3xl">
-                  ساهل فالاستعمال
-                </h2>
-
-                <div className="mt-6 flex flex-col gap-4">
-                  {product.usageSteps.map((step, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-4"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2E822B] text-sm font-bold text-white">
-                        {index + 1}
-                      </span>
-
-                      <p className="pt-1 text-base leading-7 text-brand-espresso/80">
-                        {step}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {product.usageImage ? (
-                <div className="relative aspect-square overflow-hidden rounded-3xl bg-white">
-                  <Image
-                    src={product.usageImage}
-                    alt={`${product.arabicName} - طريقة الاستخدام`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* =========================
-          SCIENCE
-      ========================== */}
-      {product.scienceImage && (
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
-            <div className="relative aspect-[16/8] w-full">
-              <Image
-                src={product.scienceImage}
-                alt={`${product.arabicName} - التفاصيل`}
-                fill
-                sizes="100vw"
-                className="object-cover"
+            {/* Payment logos */}
+            <div className="flex justify-center pt-1">
+              <PaymentLogos
+                size="sm"
+                className="opacity-70"
               />
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* =========================
-          REVIEWS
-      ========================== */}
-      <section className="border-y border-brand-border bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="text-sm font-bold text-[#2E822B]">
-              آراء العملاء
-            </span>
+      {/* Trust badges */}
+      <section className="bg-brand-cream border-y border-brand-border py-8">
+        <div className="max-w-content mx-auto px-4">
+          <TrustBadges />
+        </div>
+      </section>
 
-            <h2 className="mt-2 text-2xl font-bold text-brand-espresso sm:text-3xl">
-              شنو قالو الناس اللي جربوه؟
-            </h2>
-
-            {product.rating > 0 && (
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      size={18}
-                      className="fill-[#F5B301] text-[#F5B301]"
-                    />
-                  ))}
-                </div>
-
-                <span className="font-bold">
-                  {product.rating.toFixed(1)} / 5
-                </span>
-              </div>
-            )}
+      {/* Pain mirror */}
+      <section className="max-w-content mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="order-2 md:order-1">
+            <ProductImage
+              src={product.painImage || product.imagePlaceholder}
+              alt={`${product.shortHeading.split(":")[0]} — المنتج`}
+              aspect="square"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
 
-          {reviews.length > 0 ? (
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {reviews.map((review, index) => (
-                <article
-                  key={`${review.name}-${index}`}
-                  className="rounded-2xl border border-brand-border bg-brand-ivory p-5"
+          <div className="order-1 md:order-2 text-right">
+            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
+              تعاني من نفس المشكلة؟
+            </h2>
+
+            <ul className="flex flex-col gap-4 mb-6">
+              {product.painBullets.map((bullet, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-start gap-3"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="font-bold text-brand-espresso">
-                        {review.name}
-                      </p>
+                  <span className="text-status-error font-bold mt-1 text-lg">
+                    ✕
+                  </span>
 
-                      {review.date && (
-                        <p className="mt-1 text-xs text-brand-espresso/40">
-                          {review.date}
-                        </p>
-                      )}
-                    </div>
+                  <span className="text-brand-espresso/80 text-lg leading-relaxed">
+                    {bullet}
+                  </span>
+                </li>
+              ))}
+            </ul>
 
-                    {review.verified && (
-                      <span className="rounded-full bg-[#2E822B]/10 px-2 py-1 text-[10px] font-bold text-[#2E822B]">
-                        تم التحقق
-                      </span>
-                    )}
+            <p className="text-brand-primary font-bold text-xl leading-relaxed">
+              {product.shortHeading} هو الحل المناسب لهالمشاكل.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Mechanism & Science */}
+      <section className="bg-brand-cream py-16">
+        <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="text-right">
+            <span className="inline-block bg-brand-primary/10 text-brand-primary text-sm font-bold px-4 py-1.5 rounded-full mb-4">
+              تفاصيل المنتج
+            </span>
+
+            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
+              كيف يشتغل {product.shortHeading.split(":")[0]}؟
+            </h2>
+
+            <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
+              {product.mechanism}
+            </p>
+
+            <div className="flex items-center gap-3 bg-brand-ivory p-4 rounded-xl border border-brand-border">
+              <ShieldCheck
+                className="text-status-success shrink-0"
+                size={24}
+              />
+
+              <p className="text-sm text-brand-espresso/80 font-bold">
+                تم تطويره بعناية لضمان فعالية حقيقية دون ادعاءات مبالغ فيها.
+              </p>
+            </div>
+          </div>
+
+          <ProductImage
+            src={getProductSectionImage(product, "science")}
+            alt={`${product.shortHeading.split(":")[0]} — المنتج`}
+            aspect="square"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      </section>
+
+      {/* Ingredients */}
+      <section className="max-w-content mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="order-2 md:order-1">
+            <ProductImage
+              src={getProductSectionImage(product, "ingredients")}
+              alt="المكونات الطبيعية"
+              aspect="square"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+
+          <div className="order-1 md:order-2 text-right">
+            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
+              المميزات اللي تفرق
+            </h2>
+
+            <p className="text-brand-espresso/70 mb-8 text-lg">
+              اخترنا لك أفضل المواصفات عشان تجربة استخدام مريحة ونتيجة تليق فيك.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              {product.ingredients.map((ing) => (
+                <div
+                  key={ing.name}
+                  className="bg-brand-cream rounded-2xl p-5 flex items-start gap-4 border border-brand-border"
+                >
+                  <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
+                    <span className="text-brand-primary font-bold text-xl">
+                      ✦
+                    </span>
                   </div>
 
-                  <div className="mt-3 flex items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, starIndex) => (
-                      <Star
-                        key={starIndex}
-                        size={15}
-                        className={
-                          starIndex < review.rating
-                            ? "fill-[#F5B301] text-[#F5B301]"
-                            : "text-brand-border"
-                        }
-                      />
-                    ))}
-                  </div>
+                  <div>
+                    <h3 className="font-bold text-brand-espresso text-lg mb-1">
+                      {ing.name}
+                    </h3>
 
-                  <p className="mt-4 text-sm leading-7 text-brand-espresso/70">
-                    {review.text}
-                  </p>
-                </article>
+                    <p className="text-base text-brand-espresso/70 leading-relaxed">
+                      {ing.benefit}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          ) : (
-            <div className="mx-auto mt-8 max-w-xl rounded-2xl bg-brand-cream p-6 text-center">
-              <p className="font-bold text-brand-espresso">
-                كنّا أول تجربة ديالك؟ ❤️
-              </p>
-
-              <p className="mt-2 text-sm text-brand-espresso/60">
-                جرّب المنتج وشاركنا رأيك من بعد.
-              </p>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
-      {/* =========================
-          FAQ
-      ========================== */}
-      {product.faqs.length > 0 && (
-        <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="text-sm font-bold text-[#2E822B]">
-              الأسئلة الشائعة
-            </span>
-
-            <h2 className="mt-2 text-2xl font-bold text-brand-espresso sm:text-3xl">
-              عندك شي سؤال؟
+      {/* Usage */}
+      <section className="bg-brand-cream py-16">
+        <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="text-right">
+            <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
+              طريقة الاستعمال (روتين سهل)
             </h2>
+
+            <div className="flex flex-col gap-6">
+              {product.usageSteps.map((step, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-4"
+                >
+                  <div className="w-10 h-10 rounded-full bg-brand-primary text-brand-ivory flex items-center justify-center font-bold text-lg shrink-0 shadow-md">
+                    {i + 1}
+                  </div>
+
+                  <p className="text-brand-espresso/80 text-lg pt-1.5 leading-relaxed">
+                    {step}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3">
-            {product.faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
+          <ProductImage
+            src={getProductSectionImage(product, "usage")}
+            alt="طريقة الاستعمال"
+            aspect="square"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      </section>
 
-              return (
-                <div
-                  key={index}
-                  className="overflow-hidden rounded-2xl border border-brand-border bg-white"
-                >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenFaq(isOpen ? null : index)
-                    }
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-right"
-                  >
-                    <span className="font-bold text-brand-espresso">
-                      {faq.question}
-                    </span>
+      {/* Reviews */}
+      <section className="max-w-content mx-auto px-4 py-12">
+        <div className="text-center mb-8">
+          <div className="inline-flex flex-col items-center gap-4 max-w-xl mx-auto px-4 py-5 rounded-2xl bg-brand-cream/80 border border-brand-gold/20 w-full">
+            <span className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/25 text-brand-accent text-xs font-bold px-4 py-1.5 rounded-full">
+              <Star
+                size={12}
+                className="text-brand-gold"
+                fill="currentColor"
+              />
 
-                    {isOpen ? (
-                      <ChevronUp
-                        size={20}
-                        className="shrink-0 text-[#2E822B]"
-                      />
-                    ) : (
-                      <ChevronDown
-                        size={20}
-                        className="shrink-0 text-brand-espresso/50"
-                      />
-                    )}
-                  </button>
+              تقييمات موثّقة
+            </span>
 
-                  {isOpen && (
-                    <div className="border-t border-brand-border px-5 py-4">
-                      <p className="text-sm leading-7 text-brand-espresso/70">
-                        {faq.answer}
-                      </p>
+            <p className="text-brand-espresso/75 text-sm md:text-base leading-relaxed">
+              تقييمات ومراجعات حقيقية مجمعة من مستخدمين حول العالم لنفس المنتج.
+            </p>
+
+            <AddReviewForm
+              productId={product.id}
+              productName={productLabel}
+              onSubmitted={(review) => {
+                const next = saveUserReview(product.id, review);
+                setUserReviews(next);
+              }}
+            />
+          </div>
+        </div>
+
+        {displayedReviews.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {displayedReviews.map((review, i) => (
+              <div
+                key={`${review.name}-${review.date}-${i}`}
+                className="bg-brand-ivory rounded-2xl p-5 flex flex-col gap-3 border border-brand-border text-right shadow-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <Stars
+                    rating={review.rating}
+                    size="sm"
+                  />
+
+                  <div className="flex flex-col items-end gap-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-brand-espresso text-sm">
+                        {review.name}
+                      </span>
                     </div>
+                  </div>
+                </div>
+
+                <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
+                  {review.text}
+                </p>
+
+                <div className="flex items-center justify-between pt-1 border-t border-brand-border/60">
+                  {review.date && (
+                    <span className="text-xs text-brand-espresso/40">
+                      {review.date}
+                    </span>
+                  )}
+
+                  {review.verified ? (
+                    <div className="flex items-center gap-1">
+                      <ShieldCheck
+                        size={11}
+                        className="text-status-success"
+                      />
+
+                      <span className="text-xs text-status-success font-medium">
+                        مشتري موثّق
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-brand-espresso/45">
+                      تقييم جديد
+                    </span>
                   )}
                 </div>
-              );
-            })}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-brand-espresso/55 text-sm">
+            كن أول من يشارك تجربته مع {productLabel}.
+          </p>
+        )}
+      </section>
+
+      {/* Offer stack CTA */}
+      <section className="bg-brand-cream py-12">
+        <div className="max-w-content mx-auto px-4">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-6">
+            اختر عرضك الحين
+          </h2>
+
+          <div className="max-w-md mx-auto flex flex-col gap-4">
+            <OfferSelector
+              offers={product.offers}
+              selected={selectedPieces}
+              onChange={setSelectedPieces}
+            />
+
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
+            >
+              <Zap
+                size={20}
+                fill="currentColor"
+              />
+
+              اشتري الحين — {formatPrice(selectedOffer.price)}
+            </button>
+
+            <Button
+              onClick={handleAddToCart}
+              fullWidth
+              size="lg"
+              variant="secondary"
+            >
+              أضف للسلة فقط
+            </Button>
+
+            <p className="text-center text-xs text-brand-espresso/50">
+              الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-sells */}
+      {crossSells.length > 0 && (
+        <section className="max-w-content mx-auto px-4 py-12">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-2">
+            قد يعجبك كمان
+          </h2>
+
+          <p className="text-center text-brand-espresso/60 mb-8">
+            منتجات مختارة تكمل طلبك — من رياض
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {crossSells.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+              />
+            ))}
           </div>
         </section>
       )}
 
-      {/* =========================
-          FINAL CTA
-      ========================== */}
-      <section className="bg-[#2E822B]">
-        <div className="mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl">
-            جاهز تطلب؟
+      {/* FAQ */}
+      <section className="bg-brand-cream py-12">
+        <div className="max-w-content mx-auto px-4">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso text-center mb-8">
+            الأسئلة الشائعة
           </h2>
 
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-white/85 sm:text-base">
-            اختار العرض اللي مناسب ليك وكمّل الطلب بسهولة. الدفع عند الاستلام.
-          </p>
-
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="mx-auto mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-[#2E822B] shadow-lg transition-all hover:bg-[#F5F5F5] active:scale-[0.98]"
-          >
-            <ShoppingCart size={20} />
-            اطلب الآن — {formatPrice(selectedOffer.price)}
-          </button>
+          <div className="max-w-2xl mx-auto bg-brand-ivory rounded-2xl px-6 divide-y divide-brand-border">
+            {product.faqs.map((faq) => (
+              <FAQItem
+                key={faq.question}
+                q={faq.question}
+                a={faq.answer}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* =========================
-          MOBILE STICKY BUY BUTTON
-      ========================== */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-border bg-white/95 p-3 shadow-2xl backdrop-blur md:hidden">
-        <div className="mx-auto flex max-w-lg items-center gap-2">
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            aria-label="أضف للسلة"
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-[#2E822B] bg-white text-[#2E822B]"
-          >
-            <ShoppingCart size={20} />
-          </button>
+      {/* Sticky CTA */}
+      {isSticky && (
+        <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
+          <div className="max-w-content mx-auto flex items-center gap-3">
+            <div className="text-right flex-1 min-w-0">
+              <p className="font-bold text-brand-espresso text-sm truncate">
+                {product.shortHeading.split(":")[0]}
+              </p>
 
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#2E822B] px-4 py-3 font-bold text-white shadow-md hover:bg-[#20671E] active:scale-[0.98]"
-          >
-            <Zap size={18} />
-            اشترِ الآن — {formatPrice(selectedOffer.price)}
-          </button>
+              <PriceDisplay
+                price={selectedOffer.price}
+                compareAtPrice={selectedOffer.compareAtPrice}
+                size="sm"
+                className="items-start"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="shrink-0 py-2.5 px-5 rounded-xl bg-[#2E822B] text-white font-bold text-sm flex items-center gap-2 hover:bg-[#20671E] active:bg-[#20671E] active:scale-95 transition-all shadow-md"
+            >
+              <Zap
+                size={15}
+                fill="currentColor"
+              />
+
+              اشتري الحين
+            </button>
+
+            <Button
+              onClick={handleAddToCart}
+              size="sm"
+              variant="secondary"
+              className="shrink-0 border"
+            >
+              السلة
+            </Button>
+          </div>
         </div>
-      </div>
-    </main>
+      )}
+    </div>
   );
 }
