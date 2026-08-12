@@ -25,6 +25,7 @@ import Button from "@/components/ui/Button";
 import ProductCard from "./ProductCard";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
+import PaymentLogos from "@/components/ui/PaymentLogos";
 import ProductGallery from "@/components/ui/ProductGallery";
 import ProductVideo from "@/components/ui/ProductVideo";
 import AddReviewForm from "./AddReviewForm";
@@ -41,7 +42,6 @@ import {
   Star,
 } from "lucide-react";
 import Stars from "@/components/ui/Stars";
-import PaymentLogos from "@/components/ui/PaymentLogos";
 
 interface FAQItemProps {
   q: string;
@@ -54,6 +54,7 @@ function FAQItem({ q, a }: FAQItemProps) {
   return (
     <div className="border-b border-brand-border last:border-0">
       <button
+        type="button"
         className="w-full flex items-center justify-between py-4 text-right font-bold text-brand-espresso hover:text-brand-primary transition-colors"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
@@ -112,9 +113,7 @@ export default function ProductPageClient({
 
     const offer3 = product.offers.find(
       (o) => o.pieces === 3
-    );
-
-    if (!offer3) return;
+    )!;
 
     trackViewContent(
       {
@@ -159,33 +158,35 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    try {
-      const eventId = generateFreshEventId("addToCart");
+    const eventId = generateFreshEventId(
+      "addToCart"
+    );
 
-      trackAddToCart(
-        {
-          id: product.id,
-          name: product.arabicName,
-          price: offer.price,
-        },
-        eventId
-      );
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
 
-      trackEvent({
-        event_name: "AddToCart",
-        event_id: eventId,
-        payload: {
-          product_id: product.id,
-          pieces: selectedPieces,
-        },
-      });
-    } catch (error) {
-      console.error("AddToCart tracking error:", error);
-    }
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
 
     openDrawer();
   };
 
+  /*
+   * BUY NOW
+   * يضيف المنتج للسلة ثم يفتح Checkout مباشرة
+   */
   const handleBuyNow = () => {
     const offer = getOfferByPieces(
       product,
@@ -194,36 +195,31 @@ export default function ProductPageClient({
 
     addItem(product, offer);
 
-    // فتح checkout مباشرة
-    openCheckout();
+    const eventId = generateFreshEventId(
+      "addToCart"
+    );
 
-    // Tracking من بعد، باش ما يعطلش زر الشراء
-    try {
-      const eventId = generateFreshEventId("addToCart");
+    trackAddToCart(
+      {
+        id: product.id,
+        name: product.arabicName,
+        price: offer.price,
+      },
+      eventId
+    );
 
-      trackAddToCart(
-        {
-          id: product.id,
-          name: product.arabicName,
-          price: offer.price,
-        },
-        eventId
-      );
+    trackEvent({
+      event_name: "AddToCart",
+      event_id: eventId,
+      payload: {
+        product_id: product.id,
+        pieces: selectedPieces,
+      },
+    });
 
-      trackEvent({
-        event_name: "AddToCart",
-        event_id: eventId,
-        payload: {
-          product_id: product.id,
-          pieces: selectedPieces,
-        },
-      });
-    } catch (error) {
-      console.error(
-        "AddToCart tracking error:",
-        error
-      );
-    }
+    setTimeout(() => {
+      openCheckout();
+    }, 100);
   };
 
   const selectedOffer = getOfferByPieces(
@@ -234,7 +230,7 @@ export default function ProductPageClient({
   return (
     <div className="min-h-screen">
 
-      {/* Hero */}
+      {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
 
@@ -329,7 +325,9 @@ export default function ProductPageClient({
             {/* CTA */}
             <div className="flex flex-col gap-3">
 
+              {/* BUY NOW */}
               <button
+                type="button"
                 onClick={handleBuyNow}
                 className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
               >
@@ -342,6 +340,7 @@ export default function ProductPageClient({
                 {formatPrice(selectedOffer.price)}
               </button>
 
+              {/* ADD TO CART */}
               <Button
                 onClick={handleAddToCart}
                 fullWidth
@@ -383,7 +382,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Pain */}
+      {/* Pain mirror */}
       <section className="max-w-content mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
@@ -430,7 +429,7 @@ export default function ProductPageClient({
         </div>
       </section>
 
-      {/* Science */}
+      {/* Mechanism & Science */}
       <section className="bg-brand-cream py-16">
         <div className="max-w-content mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
@@ -440,8 +439,7 @@ export default function ProductPageClient({
             </span>
 
             <h2 className="font-arabic font-bold text-3xl text-brand-espresso mb-6">
-              كيف يشتغل{" "}
-              {product.shortHeading.split(":")[0]}؟
+              كيف يشتغل {product.shortHeading.split(":")[0]}؟
             </h2>
 
             <p className="text-brand-espresso/80 text-lg leading-loose mb-6">
@@ -578,7 +576,6 @@ export default function ProductPageClient({
                 className="text-brand-gold"
                 fill="currentColor"
               />
-
               تقييمات موثّقة
             </span>
 
@@ -612,6 +609,7 @@ export default function ProductPageClient({
                 >
 
                   <div className="flex items-center justify-between">
+
                     <Stars
                       rating={review.rating}
                       size="sm"
@@ -624,6 +622,7 @@ export default function ProductPageClient({
                         </span>
                       </div>
                     </div>
+
                   </div>
 
                   <p className="text-brand-espresso/80 text-sm leading-relaxed flex-1">
@@ -654,10 +653,12 @@ export default function ProductPageClient({
                         تقييم جديد
                       </span>
                     )}
+
                   </div>
                 </div>
               )
             )}
+
           </div>
         ) : (
           <p className="text-center text-brand-espresso/55 text-sm">
@@ -666,7 +667,7 @@ export default function ProductPageClient({
         )}
       </section>
 
-      {/* Offer CTA */}
+      {/* Offer stack CTA */}
       <section className="bg-brand-cream py-12">
         <div className="max-w-content mx-auto px-4">
 
@@ -682,7 +683,9 @@ export default function ProductPageClient({
               onChange={setSelectedPieces}
             />
 
+            {/* BUY NOW SECOND */}
             <button
+              type="button"
               onClick={handleBuyNow}
               className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
             >
@@ -707,6 +710,7 @@ export default function ProductPageClient({
             <p className="text-center text-xs text-brand-espresso/50">
               الدفع عند الاستلام · تأكيد بالجوال · توصيل لكل المملكة
             </p>
+
           </div>
         </div>
       </section>
@@ -731,6 +735,7 @@ export default function ProductPageClient({
               />
             ))}
           </div>
+
         </section>
       )}
 
@@ -751,6 +756,7 @@ export default function ProductPageClient({
                 a={faq.answer}
               />
             ))}
+
           </div>
         </div>
       </section>
@@ -775,9 +781,11 @@ export default function ProductPageClient({
                 size="sm"
                 className="items-start"
               />
+
             </div>
 
             <button
+              type="button"
               onClick={handleBuyNow}
               className="shrink-0 py-2.5 px-5 rounded-xl bg-[#2E822B] text-white font-bold text-sm flex items-center gap-2 hover:bg-[#20671E] active:bg-[#20671E] active:scale-95 transition-all shadow-md"
             >
@@ -801,6 +809,7 @@ export default function ProductPageClient({
           </div>
         </div>
       )}
+
     </div>
   );
 }
