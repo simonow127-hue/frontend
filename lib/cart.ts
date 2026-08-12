@@ -43,129 +43,128 @@ type CartState = {
   getTotalItems: () => number;
 };
 
-export const useCartStore =
-  create<CartState>()(
-    persist(
-      (set, get) => ({
-        items: [],
+export const useCartStore = create<CartState>()(
+  persist(
+    (set, get) => ({
+      items: [],
 
-        isDrawerOpen: false,
+      isDrawerOpen: false,
+      isCheckoutOpen: false,
 
-        isCheckoutOpen: false,
+      addItem: (product, offer) => {
+        set((state) => {
+          const existing = state.items.find(
+            (item) =>
+              item.productId === product.id
+          );
 
-        addItem: (product, offer) => {
-          set((state) => {
-            const existing =
-              state.items.find(
-                (i) =>
-                  i.productId === product.id
-              );
-
-            if (existing) {
-              return {
-                items: state.items.map((i) =>
-                  i.productId === product.id
-                    ? {
-                        ...i,
-                        offerPieces:
-                          offer.pieces,
-                        unitBundlePrice:
-                          offer.price,
-                        total:
-                          offer.price *
-                          i.quantity,
-                      }
-                    : i
-                ),
-              };
-            }
-
+          if (existing) {
             return {
-              items: [
-                ...state.items,
-                {
-                  productId: product.id,
-                  slug: product.slug,
-                  name: product.arabicName,
-                  offerPieces: offer.pieces,
-                  quantity: 1,
-                  unitBundlePrice: offer.price,
-                  total: offer.price,
-                },
-              ],
+              items: state.items.map((item) =>
+                item.productId === product.id
+                  ? {
+                      ...item,
+                      offerPieces: offer.pieces,
+                      unitBundlePrice: offer.price,
+                      total:
+                        offer.price *
+                        item.quantity,
+                    }
+                  : item
+              ),
             };
-          });
-        },
+          }
 
-        removeItem: (productId) =>
-          set((state) => ({
-            items: state.items.filter(
-              (i) =>
-                i.productId !== productId
-            ),
-          })),
+          return {
+            items: [
+              ...state.items,
+              {
+                productId: product.id,
+                slug: product.slug,
+                name: product.arabicName,
+                offerPieces: offer.pieces,
+                quantity: 1,
+                unitBundlePrice: offer.price,
+                total: offer.price,
+              },
+            ],
+          };
+        });
+      },
 
-        updateQuantity: (
-          productId,
-          quantity
-        ) =>
-          set((state) => ({
-            items: state.items.map((i) =>
-              i.productId === productId
-                ? {
-                    ...i,
-                    quantity,
-                    total:
-                      i.unitBundlePrice *
-                      quantity,
-                  }
-                : i
-            ),
-          })),
-
-        clearCart: () =>
-          set({
-            items: [],
-          }),
-
-        openDrawer: () =>
-          set({
-            isDrawerOpen: true,
-          }),
-
-        closeDrawer: () =>
-          set({
-            isDrawerOpen: false,
-          }),
-
-        openCheckout: () =>
-          set({
-            isCheckoutOpen: true,
-            isDrawerOpen: false,
-          }),
-
-        closeCheckout: () =>
-          set({
-            isCheckoutOpen: false,
-          }),
-
-        getTotalPrice: () =>
-          get().items.reduce(
-            (sum, i) =>
-              sum + i.total,
-            0
+      removeItem: (productId) =>
+        set((state) => ({
+          items: state.items.filter(
+            (item) =>
+              item.productId !== productId
           ),
+        })),
 
-        getTotalItems: () =>
-          get().items.length,
-      }),
+      updateQuantity: (
+        productId,
+        quantity
+      ) =>
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.productId === productId
+              ? {
+                  ...item,
+                  quantity,
+                  total:
+                    item.unitBundlePrice *
+                    quantity,
+                }
+              : item
+          ),
+        })),
 
-      {
-        name: "riads-cart",
-
-        partialize: (state) => ({
-          items: state.items,
+      clearCart: () =>
+        set({
+          items: [],
         }),
-      }
-    )
-  );
+
+      openDrawer: () =>
+        set({
+          isDrawerOpen: true,
+          isCheckoutOpen: false,
+        }),
+
+      closeDrawer: () =>
+        set({
+          isDrawerOpen: false,
+        }),
+
+      openCheckout: () =>
+        set({
+          isCheckoutOpen: true,
+          isDrawerOpen: false,
+        }),
+
+      closeCheckout: () =>
+        set({
+          isCheckoutOpen: false,
+        }),
+
+      getTotalPrice: () =>
+        get().items.reduce(
+          (sum, item) =>
+            sum + item.total,
+          0
+        ),
+
+      getTotalItems: () =>
+        get().items.reduce(
+          (sum, item) =>
+            sum + item.quantity,
+          0
+        ),
+    }),
+    {
+      name: "riads-cart",
+
+      partialize: (state) => ({
+        items: state.items,
+      }),
+    }
+  )
+);
