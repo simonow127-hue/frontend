@@ -17,20 +17,9 @@ type CartState = {
   isDrawerOpen: boolean;
   isCheckoutOpen: boolean;
 
-  addItem: (
-    product: Product,
-    offer: Offer
-  ) => void;
-
-  removeItem: (
-    productId: string
-  ) => void;
-
-  updateQuantity: (
-    productId: string,
-    quantity: number
-  ) => void;
-
+  addItem: (product: Product, offer: Offer) => void;
+  removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
 
   openDrawer: () => void;
@@ -47,30 +36,26 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
-
       isDrawerOpen: false,
       isCheckoutOpen: false,
 
       addItem: (product, offer) => {
         set((state) => {
           const existing = state.items.find(
-            (item) =>
-              item.productId === product.id
+            (i) => i.productId === product.id
           );
 
           if (existing) {
             return {
-              items: state.items.map((item) =>
-                item.productId === product.id
+              items: state.items.map((i) =>
+                i.productId === product.id
                   ? {
-                      ...item,
+                      ...i,
                       offerPieces: offer.pieces,
                       unitBundlePrice: offer.price,
-                      total:
-                        offer.price *
-                        item.quantity,
+                      total: offer.price * i.quantity,
                     }
-                  : item
+                  : i
               ),
             };
           }
@@ -94,34 +79,23 @@ export const useCartStore = create<CartState>()(
 
       removeItem: (productId) =>
         set((state) => ({
-          items: state.items.filter(
-            (item) =>
-              item.productId !== productId
-          ),
+          items: state.items.filter((i) => i.productId !== productId),
         })),
 
-      updateQuantity: (
-        productId,
-        quantity
-      ) =>
+      updateQuantity: (productId, quantity) =>
         set((state) => ({
-          items: state.items.map((item) =>
-            item.productId === productId
+          items: state.items.map((i) =>
+            i.productId === productId
               ? {
-                  ...item,
+                  ...i,
                   quantity,
-                  total:
-                    item.unitBundlePrice *
-                    quantity,
+                  total: i.unitBundlePrice * quantity,
                 }
-              : item
+              : i
           ),
         })),
 
-      clearCart: () =>
-        set({
-          items: [],
-        }),
+      clearCart: () => set({ items: [] }),
 
       openDrawer: () =>
         set({
@@ -146,22 +120,12 @@ export const useCartStore = create<CartState>()(
         }),
 
       getTotalPrice: () =>
-        get().items.reduce(
-          (sum, item) =>
-            sum + item.total,
-          0
-        ),
+        get().items.reduce((sum, item) => sum + item.total, 0),
 
-      getTotalItems: () =>
-        get().items.reduce(
-          (sum, item) =>
-            sum + item.quantity,
-          0
-        ),
+      getTotalItems: () => get().items.length,
     }),
     {
       name: "riads-cart",
-
       partialize: (state) => ({
         items: state.items,
       }),
