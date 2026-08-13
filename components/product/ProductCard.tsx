@@ -95,7 +95,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="w-full py-2.5 px-4 rounded-xl bg-brand-primary text-white font-bold text-sm flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all"
         >
           <Zap size={15} fill="currentColor" />
-          اشتري الحين
+          اطلب الحين
         </button>
       </div>
     </div>

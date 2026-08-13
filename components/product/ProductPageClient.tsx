@@ -312,7 +312,7 @@ export default function ProductPageClient({
               >
                 <Zap size={20} fill="currentColor" />
 
-                اشتري الحين — {formatPrice(selectedOffer.price)}
+                اطلب الحين — {formatPrice(selectedOffer.price)}
               </button>
 
               <Button
@@ -631,7 +631,7 @@ export default function ProductPageClient({
                 fill="currentColor"
               />
 
-              اشتري الحين — {formatPrice(selectedOffer.price)}
+              اطلب الحين — {formatPrice(selectedOffer.price)}
             </button>
 
             <Button
@@ -718,7 +718,7 @@ export default function ProductPageClient({
                 fill="currentColor"
               />
 
-              اشتري الحين
+              اطلب الحين
             </button>
 
             <Button
