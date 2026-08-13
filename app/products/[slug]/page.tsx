@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const path = `/products/${slug}`;
   return {
     title: `${product.arabicName} | الدفع عند الاستلام`,
-    description: `${product.subheading} اطلب الحين بالدفع عند الاستلام. من ${product.offers[0].price} ر.س.`,
+    description: `${product.subheading} اطلب الحين بالدفع عند الاستلام. من ${product.offers[0].price} ريال.`,
     alternates: { canonical: path },
     openGraph: {
       title: product.arabicName,

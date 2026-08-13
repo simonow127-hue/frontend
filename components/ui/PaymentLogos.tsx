@@ -36,11 +36,11 @@ export function CodLogo({ className = "" }: LogoProps) {
         dominantBaseline="middle"
         textAnchor="middle"
         fill="white"
-        fontSize="7"
+        fontSize="6"
         fontWeight="bold"
         fontFamily="Arial"
       >
-        SAR
+        ريال
       </text>
 
       <text

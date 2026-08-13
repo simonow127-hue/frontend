@@ -39,6 +39,7 @@ export default function PriceDisplay({
 }: PriceDisplayProps) {
   const styles = sizeStyles[size];
   const discount = getDiscountPercent(price, compareAtPrice);
+  const showCompare = compareAtPrice > price;
 
   return (
     <div className={clsx("flex flex-col items-end gap-0.5", className)}>
@@ -63,15 +64,17 @@ export default function PriceDisplay({
         >
           {formatPrice(price)}
         </span>
-        <span
-          className={clsx(
-            "line-through font-medium",
-            styles.compare,
-            inverted ? "text-brand-champagne/50" : "text-brand-espresso/40"
-          )}
-        >
-          {formatPrice(compareAtPrice)}
-        </span>
+        {showCompare && (
+          <span
+            className={clsx(
+              "line-through font-medium",
+              styles.compare,
+              inverted ? "text-brand-champagne/50" : "text-brand-espresso/40"
+            )}
+          >
+            {formatPrice(compareAtPrice)}
+          </span>
+        )}
       </div>
     </div>
   );

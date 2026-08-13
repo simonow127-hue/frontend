@@ -93,12 +93,11 @@ export default function OfferSelector({
                   {formatPrice(offer.price)}
                 </p>
 
-                {offer.compareAtPrice &&
-                  offer.compareAtPrice > offer.price && (
-                    <p className="text-xs text-brand-espresso/40 line-through">
-                      {formatPrice(offer.compareAtPrice)}
-                    </p>
-                  )}
+                {offer.compareAtPrice > offer.price && (
+                  <p className="text-xs text-brand-espresso/40 line-through">
+                    {formatPrice(offer.compareAtPrice)}
+                  </p>
+                )}
               </div>
             </div>
           </button>
