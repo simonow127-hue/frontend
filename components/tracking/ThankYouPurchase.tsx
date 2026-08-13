@@ -11,8 +11,8 @@ type Props = {
 };
 
 /**
- * Self-contained Meta Purchase on thank-you.
- * Loads fbq here (does not depend on ClientShell timing) and fires Purchase once.
+ * On thank-you: fire Meta Lead (for lead ads) + Purchase.
+ * Self-contained so it does not depend on ClientShell timing.
  */
 export default function ThankYouPurchase({
   orderCode,
@@ -48,6 +48,13 @@ export default function ThankYouPurchase({
 
       function fire() {
         try {
+          // Lead = conversion for your current Meta lead campaigns
+          window.fbq('track', 'Lead', {
+            value: value,
+            currency: 'SAR',
+            content_name: orderCode
+          }, { eventID: eventId + '-lead' });
+
           window.fbq('track', 'Purchase', {
             value: value,
             currency: 'SAR',
@@ -59,15 +66,15 @@ export default function ThankYouPurchase({
 
       ensureFbq(function(){
         fire();
-        setTimeout(fire, 300);
-        setTimeout(fire, 1000);
+        setTimeout(fire, 400);
+        setTimeout(fire, 1200);
       });
     })();
   `;
 
   return (
     <Script
-      id={`meta-purchase-${orderCode}`}
+      id={`meta-lead-purchase-${orderCode}`}
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: js }}
     />

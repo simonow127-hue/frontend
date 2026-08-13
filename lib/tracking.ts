@@ -165,6 +165,12 @@ export function trackPurchase(
   const metaContents = items.map((i) => ({ id: i.id, quantity: i.quantity, item_price: i.price }));
   const ttContents = items.map((i) => ({ content_id: i.id, content_name: i.name, quantity: i.quantity, price: i.price }));
 
+  fireMetaEvent("Lead", {
+    value: total,
+    currency: "SAR",
+    content_name: orderCode,
+  }, `${eventId}-lead`);
+
   fireMetaEvent("Purchase", {
     value: total,
     currency: "SAR",
