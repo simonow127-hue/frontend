@@ -2,22 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ArrowLeft, Shield, Truck, CreditCard,
+  ArrowLeft, Shield, Truck, RotateCcw, CreditCard,
   Zap, Package, CheckCircle2, ChevronLeft,
 } from "lucide-react";
 import ProductCard from "@/components/product/ProductCard";
 import Button from "@/components/ui/Button";
-import { Star, Users, MapPin, BadgeCheck } from "lucide-react";
 import { getLatestProducts, PRODUCTS } from "@/lib/products";
 import { CATEGORIES } from "@/lib/categories";
-import PriceDisplay from "@/components/ui/PriceDisplay";
-import PaymentLogos from "@/components/ui/PaymentLogos";
-import BrandMarquee from "@/components/home/BrandMarquee";
+import { formatPrice } from "@/lib/currency";
 
 export const metadata: Metadata = {
   title: "رياض | Riads — تسوق بثقة وتوصيل سريع",
   description:
-    "رياض — منتجات مختارة للسوق السعودي. دفع عند الاستلام، توصيل سريع، تقييمات حقيقية.",
+    "رياض — منتجات مختارة للسوق السعودي. دفع عند الاستلام، توصيل سريع، وسياسة استرجاع واضحة.",
 };
 
 const whyUs = [
@@ -31,30 +28,31 @@ const whyUs = [
   {
     icon: Truck,
     title: "توصيل لكل المملكة",
-    text: "٣–٥ أيام توصيل حسب المدينة.",
+    text: "نوصل الرياض، جدة، الدمام وكل مناطق السعودية في ٢–٤ أيام.",
     color: "from-blue-500/10 to-sky-500/5",
     iconBg: "bg-blue-500/10 text-blue-600",
   },
   {
     icon: Shield,
     title: "منتجات مختارة بعناية",
-    text: "نختار كل منتج بعناية — جودة حقيقية وأسعار عادلة.",
+    text: "نختار كل منتج بعناية — وإذا ما عجبك، تواصل معنا حسب سياسة الاسترجاع.",
     color: "from-green-500/10 to-emerald-500/5",
     iconBg: "bg-green-500/10 text-green-600",
   },
   {
-    icon: Package,
-    title: "تغليف محترم",
-    text: "كل طلب يوصلك بتغليف آمن ومرتب — مناسب كهدية أو استخدام شخصي.",
+    icon: RotateCcw,
+    title: "استرجاع خلال ٧ أيام",
+    text: "سياسة استرجاع واضحة وبدون تعقيد — راحتك أولاً.",
     color: "from-purple-500/10 to-violet-500/5",
     iconBg: "bg-purple-500/10 text-purple-600",
   },
 ];
 
-const heroPerks = [
-  { icon: CreditCard, label: "دفع عند الاستلام" },
-  { icon: Truck, label: "توصيل سريع" },
-  { icon: Shield, label: "منتجات مختارة" },
+const stats = [
+  { num: "COD", label: "دفع عند الاستلام" },
+  { num: "٢–٤", label: "أيام توصيل تقريبية" },
+  { num: "٧", label: "أيام سياسة الاسترجاع" },
+  { num: "إيميل", label: "دعم مباشر" },
 ];
 
 const faqs = [
@@ -64,11 +62,15 @@ const faqs = [
   },
   {
     q: "كم وقت التوصيل؟",
-    a: "٣–٥ أيام توصيل حسب المدينة.",
+    a: "من ٢ إلى ٤ أيام عمل على أغلب مناطق المملكة. الرياض وجدة والدمام عادة أسرع.",
   },
   {
     q: "هل الدفع عند الاستلام متاح؟",
     a: "نعم — ادفع للمندوب لما يوصلك الطلب بالباب، بدون أي تحويل مسبق.",
+  },
+  {
+    q: "كيف أرجع المنتج؟",
+    a: "تواصل معنا خلال ٧ أيام من الاستلام عبر الإيميل — نرتب لك الإرجاع بدون تعقيد.",
   },
   {
     q: "هل المنتجات أصلية؟",
@@ -83,6 +85,7 @@ const heroProducts = [
   { id: "car-phone-holder", src: "/images/products/car-phone-holder.jpg", label: "حامل الجوال" },
 ];
 
+const minPrice = Math.min(...PRODUCTS.map((p) => p.offers[0].price));
 const spotlightProduct = PRODUCTS.find((p) => p.id === "perfume-intense")!;
 
 export default function HomePage() {
@@ -92,14 +95,13 @@ export default function HomePage() {
     <div className="flex flex-col">
 
       {/* ── HERO ── */}
-      <section data-header-theme="dark" className="relative -mt-24 pt-24 bg-brand-primary text-brand-ivory overflow-hidden min-h-[min(85vh,900px)] flex flex-col">
+      <section className="relative bg-brand-primary text-brand-ivory overflow-hidden min-h-[85vh] flex items-center">
         {/* Background texture */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,#C9A45C18_0%,transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,#ffffff08_0%,transparent_50%)]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent" />
 
-        <div className="relative flex-1 flex items-center w-full">
-        <div className="max-w-content mx-auto px-4 py-12 md:py-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-content mx-auto px-4 py-16 md:py-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text side */}
           <div className="flex flex-col gap-7 text-right order-2 md:order-1">
             <span className="inline-flex items-center gap-2 self-end bg-brand-gold/15 border border-brand-gold/25 text-brand-champagne text-xs font-bold px-4 py-2 rounded-full">
@@ -121,7 +123,7 @@ export default function HomePage() {
 
             {/* Mini trust row */}
             <div className="flex flex-wrap gap-4 justify-end text-sm text-brand-champagne/70">
-              {["دفع عند الاستلام", "توصيل سريع", "منتجات مختارة"].map((t) => (
+              {["دفع عند الاستلام", "توصيل سريع", "استرجاع خلال ٧ أيام"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5">
                   <CheckCircle2 size={14} className="text-brand-gold" />
                   {t}
@@ -141,6 +143,8 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
+
+            <p className="text-xs text-brand-champagne/40">أسعار تبدأ من {formatPrice(minPrice)}</p>
           </div>
 
           {/* Product mosaic */}
@@ -169,36 +173,24 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-        </div>
+      </section>
 
-        {/* Hero perks — fills empty space on mobile */}
-        <div className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm">
-          <div className="max-w-content mx-auto px-4 py-4 grid grid-cols-3 gap-2.5">
-            {heroPerks.map((perk) => {
-              const Icon = perk.icon;
-              return (
-                <div
-                  key={perk.label}
-                  className="flex items-center gap-2.5 justify-end rounded-xl border border-white/10 bg-white/5 px-3 py-2.5"
-                >
-                  <span className="text-[11px] sm:text-xs font-bold text-brand-champagne/90 leading-snug text-right">
-                    {perk.label}
-                  </span>
-                  <span className="shrink-0 w-8 h-8 rounded-full bg-brand-gold/15 border border-brand-gold/25 flex items-center justify-center">
-                    <Icon size={15} className="text-brand-gold" strokeWidth={2.25} />
-                  </span>
-                </div>
-              );
-            })}
+      {/* ── STATS STRIP ── */}
+      <section className="bg-brand-gold text-brand-primary py-5">
+        <div className="max-w-content mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col items-center text-center">
+                <span className="font-arabic font-black text-xl md:text-2xl">{s.num}</span>
+                <span className="text-xs font-medium opacity-80 mt-0.5">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── MARQUEE STRIP ── */}
-      <BrandMarquee />
-
       {/* ── LATEST PRODUCTS ── */}
-      <section data-header-theme="light" className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
         <div className="flex items-center justify-between mb-10">
           <Link
             href="/collections"
@@ -215,7 +207,7 @@ export default function HomePage() {
             <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-espresso">
               أحدث المنتجات
             </h2>
-            <p className="text-brand-espresso/60 text-sm mt-1">وصل حديثاً — اكتشف الجديد</p>
+            <p className="text-brand-espresso/60 text-sm mt-1">وصل حديثاً — كميات محدودة</p>
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -226,7 +218,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SPOTLIGHT / FEATURED PRODUCT ── */}
-      <section data-header-theme="dark" className="bg-brand-primary text-brand-ivory overflow-hidden">
+      <section className="bg-brand-primary text-brand-ivory overflow-hidden">
         <div className="max-w-content mx-auto px-4 py-14 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div className="relative order-2 md:order-1">
             <div className="relative aspect-square max-w-sm mx-auto rounded-3xl overflow-hidden border border-white/10">
@@ -260,15 +252,11 @@ export default function HomePage() {
               ))}
             </ul>
             <div className="flex items-center gap-4 justify-end pt-2">
-              <PriceDisplay
-                price={spotlightProduct.offers[0].price}
-                compareAtPrice={spotlightProduct.offers[0].compareAtPrice}
-                size="lg"
-                inverted
-                showBadge
-              />
+              <span className="font-bold text-2xl text-brand-gold">
+                {formatPrice(spotlightProduct.offers[0].price)}
+              </span>
               <Link href={`/products/${spotlightProduct.slug}`}>
-                <Button size="lg" className="bg-brand-gold text-brand-primary hover:bg-brand-champagne font-bold">
+                <Button size="lg" variant="cta" className="font-bold">
                   اطلب الحين
                 </Button>
               </Link>
@@ -278,7 +266,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SHOP BY CATEGORY ── */}
-      <section data-header-theme="light" className="bg-brand-cream py-16 md:py-20">
+      <section className="bg-brand-cream py-16 md:py-20">
         <div className="max-w-content mx-auto px-4">
           <div className="text-center mb-10">
             <div className="flex items-center gap-2 justify-center mb-1">
@@ -319,7 +307,7 @@ export default function HomePage() {
       </section>
 
       {/* ── WHY CHOOSE US ── */}
-      <section data-header-theme="light" className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
+      <section className="max-w-content mx-auto px-4 py-16 md:py-20 w-full">
         <div className="text-center mb-12">
           <div className="flex items-center gap-2 justify-center mb-1">
             <span className="w-8 h-0.5 bg-brand-gold rounded-full" />
@@ -348,54 +336,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── WHY RIADS ── */}
-      <section data-header-theme="dark" className="bg-brand-espresso py-16 overflow-hidden">
-        <div className="max-w-content mx-auto px-4">
-          <div className="text-center mb-12">
-            <span className="inline-block bg-brand-gold/15 text-brand-gold text-xs font-bold px-4 py-1.5 rounded-full mb-3 tracking-widest uppercase">
-              ليش Riads؟
-            </span>
-            <h2 className="font-arabic font-bold text-2xl md:text-3xl text-brand-ivory">
-              تسوق بثقة — كل يوم
-            </h2>
-            <p className="text-brand-ivory/50 text-sm mt-2">نهتم بكل تفصيلة من لحظة طلبك حتى يوصلك</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 mb-10 max-w-sm mx-auto w-full">
-            {[
-              { icon: <CreditCard size={28} className="text-brand-gold" />, number: "١٠٠٪", label: "دفع عند الاستلام", sub: "ما تدفع قرش قبل ما يوصلك" },
-              { icon: <Truck size={28} className="text-brand-gold" />, number: "٣–٥", label: "أيام توصيل حسب المدينة", sub: "" },
-            ].map((item, i) => (
-              <div key={i} className="bg-white/5 border border-brand-gold/15 rounded-2xl p-5 text-center flex flex-col items-center gap-2 hover:bg-white/10 transition-colors">
-                <div className="mb-1">{item.icon}</div>
-                <div className="font-arabic font-black text-2xl text-brand-gold leading-none">{item.number}</div>
-                <div className="font-arabic font-bold text-brand-ivory text-sm">{item.label}</div>
-                <div className="text-brand-ivory/40 text-xs leading-snug">{item.sub}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 rounded-2xl overflow-hidden border border-brand-gold/20 max-w-2xl mx-auto">
-            <div className="bg-brand-gold/10 px-5 py-3 flex items-center gap-2">
-              <MapPin size={16} className="text-brand-gold shrink-0" />
-              <p className="text-brand-ivory/80 text-sm">
-                توصيل لـ <span className="text-brand-gold font-bold">جميع مناطق المملكة</span> — الرياض، جدة، الدمام وأكثر
-              </p>
-            </div>
-            <Image
-              src="/images/products/saudi-map.jpg"
-              alt="خريطة توصيل رياض — جميع مناطق المملكة العربية السعودية"
-              width={1200}
-              height={800}
-              className="w-full h-auto object-cover opacity-90"
-            />
-          </div>
+      {/* ── HONEST FEEDBACK ── */}
+      <section className="bg-brand-cream py-12">
+        <div className="max-w-md mx-auto px-4 text-center flex flex-col items-center gap-4">
+          <h2 className="font-arabic font-bold text-2xl text-brand-espresso">آراء الزبائن</h2>
+          <p className="text-sm text-brand-espresso/60 leading-relaxed">
+            ما نعرض تقييمات ولا آراء مختلقة. إذا طلبت منا وجرّبت منتجاً، شاركنا رأيك الحقيقي عبر الإيميل.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 bg-brand-primary text-brand-ivory text-sm font-bold px-5 py-2.5 rounded-full hover:bg-brand-gold hover:text-brand-primary transition-colors"
+          >
+            تواصل معنا
+          </Link>
         </div>
       </section>
 
-
       {/* ── FAQ ── */}
-      <section data-header-theme="light" className="py-16 md:py-20">
+      <section className="py-16 md:py-20">
         <div className="max-w-2xl mx-auto px-4">
           <div className="text-center mb-10">
             <div className="flex items-center gap-2 justify-center mb-1">
@@ -430,7 +388,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FINAL CTA ── */}
-      <section data-header-theme="dark" className="bg-brand-primary text-brand-ivory relative overflow-hidden py-20">
+      <section className="bg-brand-primary text-brand-ivory relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#C9A45C20_0%,transparent_60%)]" />
         <div className="relative max-w-content mx-auto px-4 text-center flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 justify-center">
@@ -458,9 +416,13 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
-          {/* Payment logos */}
-          <div className="mt-4 opacity-70">
-            <PaymentLogos size="sm" />
+          {/* Payment methods */}
+          <div className="flex items-center gap-3 mt-4 opacity-60">
+            {["الدفع نقداً", "Visa", "Mada", "STC Pay"].map((m) => (
+              <span key={m} className="text-[11px] border border-brand-cream/20 rounded-lg px-3 py-1.5 text-brand-cream/80">
+                {m}
+              </span>
+            ))}
           </div>
         </div>
       </section>

@@ -7,6 +7,7 @@ import {
   getOfferByPieces,
   getCrossSells,
   getProductSectionImage,
+  STICKY_CTA_PRODUCT_IDS,
 } from "@/lib/products";
 import PriceDisplay from "@/components/ui/PriceDisplay";
 import { formatPrice } from "@/lib/currency";
@@ -85,6 +86,9 @@ export default function ProductPageClient({
 
   const crossSells = getCrossSells(product);
   const productLabel = product.shortHeading.split(":")[0];
+  const showStickyBar = (STICKY_CTA_PRODUCT_IDS as readonly string[]).includes(
+    product.id
+  );
 
   const displayedReviews = [...userReviews, ...product.reviews];
 
@@ -308,7 +312,7 @@ export default function ProductPageClient({
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
+                className="w-full py-4 px-6 rounded-2xl bg-brand-cta text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all"
               >
                 <Zap size={20} fill="currentColor" />
 
@@ -624,7 +628,7 @@ export default function ProductPageClient({
             <button
               type="button"
               onClick={handleBuyNow}
-              className="w-full py-4 px-6 rounded-2xl bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all"
+              className="w-full py-4 px-6 rounded-2xl bg-brand-cta text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all"
             >
               <Zap
                 size={20}
@@ -692,8 +696,8 @@ export default function ProductPageClient({
       </section>
 
       {/* Sticky CTA */}
-      {isSticky && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
+      {showStickyBar && isSticky && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-brand-ivory border-t border-brand-border px-4 py-3 shadow-xl animate-fade-in">
           <div className="max-w-content mx-auto flex items-center gap-3">
             <div className="text-right flex-1 min-w-0">
               <p className="font-bold text-brand-espresso text-sm truncate">
@@ -711,7 +715,7 @@ export default function ProductPageClient({
             <button
               type="button"
               onClick={handleBuyNow}
-              className="shrink-0 py-2.5 px-5 rounded-xl bg-[#2E822B] text-white font-bold text-sm flex items-center gap-2 hover:bg-[#20671E] active:bg-[#20671E] active:scale-95 transition-all shadow-md"
+              className="shrink-0 py-2.5 px-5 rounded-xl bg-brand-cta text-white font-bold text-sm flex items-center gap-2 hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-95 transition-all shadow-md"
             >
               <Zap
                 size={15}

@@ -2,7 +2,7 @@
 import { clsx } from "clsx";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "cta";
 type Size = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -25,6 +25,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants: Record<Variant, string> = {
       primary: "bg-brand-primary text-brand-ivory hover:bg-opacity-90 active:scale-95",
+      cta: "bg-brand-cta text-white hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-95 shadow-md",
       secondary: "bg-brand-ivory text-brand-primary border-2 border-brand-primary hover:bg-brand-cream active:scale-95",
       ghost: "text-brand-espresso hover:text-brand-primary hover:bg-brand-cream",
     };

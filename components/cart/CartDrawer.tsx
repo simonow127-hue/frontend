@@ -110,7 +110,7 @@ export default function CartDrawer() {
               onClick={handleCheckout}
               fullWidth
               size="lg"
-              className="bg-[#2E822B] text-white hover:bg-[#20671E] active:bg-[#20671E]"
+              className="bg-brand-cta text-white hover:bg-brand-cta-hover active:bg-brand-cta-hover"
             >
               أكمل الطلب الحين
             </Button>
@@ -186,7 +186,7 @@ function CrossSellCard({
       </div>
       <button
         onClick={onAdd}
-        className="shrink-0 bg-brand-primary text-brand-ivory text-xs font-bold px-3 py-1.5 rounded-full hover:bg-opacity-90 transition-colors"
+        className="shrink-0 bg-brand-cta text-white text-xs font-bold px-3 py-1.5 rounded-full hover:bg-brand-cta-hover transition-colors"
       >
         أضف
       </button>

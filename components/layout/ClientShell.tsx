@@ -11,10 +11,6 @@ const CheckoutPopup = dynamic(() => import("@/components/checkout/CheckoutPopup"
   ssr: false,
 });
 
-const WhatsAppButton = dynamic(() => import("@/components/ui/WhatsAppButton"), {
-  ssr: false,
-});
-
 const PixelManager = dynamic(() => import("@/components/tracking/PixelManager"), {
   ssr: false,
 });
@@ -27,7 +23,6 @@ export default function ClientShell() {
   const [deferHeavy, setDeferHeavy] = useState(false);
 
   useEffect(() => {
-    // Meta mounts immediately; WhatsApp / session can wait a tick
     setDeferHeavy(true);
   }, []);
 
@@ -36,12 +31,7 @@ export default function ClientShell() {
       <PixelManager />
       <CartDrawer />
       <CheckoutPopup />
-      {deferHeavy && (
-        <>
-          <SessionInit />
-          <WhatsAppButton />
-        </>
-      )}
+      {deferHeavy && <SessionInit />}
     </>
   );
 }

@@ -439,7 +439,7 @@ export default function CheckoutPopup() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full py-4 px-6 rounded-full bg-[#2E822B] text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-[#20671E] active:bg-[#20671E] active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+              className="mt-2 w-full py-4 px-6 rounded-full bg-brand-cta text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? "جاري المعالجة..." : `تأكيد الطلب — ${formatPrice(total)}`}
             </button>

@@ -82,6 +82,13 @@ function buildOffers(unitPrice: number): Offer[] {
   ];
 }
 
+/** Sticky mobile bar — أول 3 منتجات في الكatalog */
+export const STICKY_CTA_PRODUCT_IDS = [
+  "car-gap-filler",
+  "car-phone-holder",
+  "neck-fan",
+] as const;
+
 export const PRODUCTS: Product[] = [
   {
     id: "car-gap-filler",

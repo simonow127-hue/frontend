@@ -19,6 +19,8 @@ const config: Config = {
           slate: "#4A4A4A",
           border: "#E5E0D8",
           accent: "#8B6914",
+          cta: "#2E822B",
+          "cta-hover": "#20671E",
         },
         status: {
           success: "#2F7D4F",

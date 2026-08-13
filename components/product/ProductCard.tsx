@@ -47,16 +47,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
         {/* Badges */}
-        <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
-          <span className="bg-status-error text-white text-[10px] font-black px-2.5 py-1 rounded-full leading-none">
-            عرض مؤقت
-          </span>
-          {product.isNew && (
+        {product.isNew && (
+          <div className="absolute top-2.5 right-2.5 z-10">
             <span className="bg-brand-gold text-brand-primary text-[10px] font-black px-2.5 py-1 rounded-full leading-none">
               جديد
             </span>
-          )}
-        </div>
+          </div>
+        )}
         <div className="absolute top-2.5 left-2.5 z-10">
           <span className="bg-white/90 backdrop-blur-sm text-status-success text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
             <ShieldCheck size={10} />
@@ -92,7 +89,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* CTA */}
         <button
           onClick={handleBuyNow}
-          className="w-full py-2.5 px-4 rounded-xl bg-brand-primary text-white font-bold text-sm flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all"
+          className="w-full py-2.5 px-4 rounded-xl bg-brand-cta text-white font-bold text-sm flex items-center justify-center gap-2 hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all shadow-md"
         >
           <Zap size={15} fill="currentColor" />
           اطلب الحين
