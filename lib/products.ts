@@ -769,37 +769,37 @@ export const PRODUCTS: Product[] = [
   {
     name: "A*******i",
     rating: 5,
-    comment: "جيد جدًا.",
+    text: "جيد جدًا.",
   },
   {
     name: "A****a",
     rating: 5,
-    comment: "جودة المنتج 10/10.",
+    text: "جودة المنتج 10/10.",
   },
   {
     name: "S****t",
     rating: 5,
-    comment: "جميل، مفيد ومريح للصلاة.",
+    text: "جميل، مفيد ومريح للصلاة.",
   },
   {
     name: "S*******n",
     rating: 5,
-    comment: "👍",
+    text: "👍",
   },
   {
     name: "S*******i",
     rating: 5,
-    comment: ".",
+    text: ".",
   },
   {
     name: "k*******l",
     rating: 5,
-    comment: "الجودة جيدة والتصميم جيد.",
+    text: "الجودة جيدة والتصميم جيد.",
   },
   {
     name: "S*****d",
     rating: 5,
-    comment: "المنتج كان جيدًا، ولا توجد أي شكوى.",
+    text: "المنتج كان جيدًا، ولا توجد أي شكوى.",
   },
 ],
     faqs: [
