@@ -322,7 +322,7 @@ export const PRODUCTS: Product[] = [
       "اختر مستوى الرياح المناسب",
       "بعد الاستخدام اطويها واحفظها في الحقيبة",
     ],
-    offers: buildOffers(149),
+    offers: buildOffers(89),
     defaultOffer: 1,
     crossSellIds: ["desk-lamp", "quran-speaker"],
     reviewCount: 28,
@@ -765,7 +765,43 @@ export const PRODUCTS: Product[] = [
     crossSellIds: ["quran-speaker", "desk-lamp"],
     reviewCount: 0,
     rating: 0,
-    reviews: [],
+    reviews: [reviews: [
+  {
+    name: "A*******i",
+    rating: 5,
+    comment: "جيد جدًا.",
+  },
+  {
+    name: "A****a",
+    rating: 5,
+    comment: "جودة المنتج 10/10.",
+  },
+  {
+    name: "S****t",
+    rating: 5,
+    comment: "جميل، مفيد ومريح للصلاة.",
+  },
+  {
+    name: "S*******n",
+    rating: 5,
+    comment: "👍",
+  },
+  {
+    name: "S*******i",
+    rating: 5,
+    comment: ".",
+  },
+  {
+    name: "k*******l",
+    rating: 5,
+    comment: "الجودة جيدة والتصميم جيد.",
+  },
+  {
+    name: "S*****d",
+    rating: 5,
+    comment: "المنتج كان جيدًا، ولا توجد أي شكوى.",
+  },
+],],
     faqs: [
       {
         question: "هل استخدامه جائز في الصلاة؟",
