@@ -1,6 +1,6 @@
 /** Compare-at price for temporary promo display (~40% off). */
 export function getCompareAtPrice(salePrice: number): number {
-  const raw = salePrice / 0.75;
+  const raw = salePrice / 0.6;
   return Math.ceil(raw / 5) * 5 - 1;
 }
 
