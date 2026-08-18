@@ -765,7 +765,7 @@ export const PRODUCTS: Product[] = [
     crossSellIds: ["quran-speaker", "desk-lamp"],
     reviewCount: 0,
     rating: 0,
-    reviews: [reviews: [
+    reviews:[
   {
     name: "A*******i",
     rating: 5,
