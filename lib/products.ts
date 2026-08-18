@@ -760,7 +760,7 @@ export const PRODUCTS: Product[] = [
       "عدّل وضعيتك حتى تشعر بالثبات والراحة",
       "اطوه أو احمله بسهولة بعد الصلاة",
     ],
-    offers: buildOffers(129),
+    offers: buildOffers(199),
     defaultOffer: 1,
     crossSellIds: ["quran-speaker", "desk-lamp"],
     reviewCount: 0,
