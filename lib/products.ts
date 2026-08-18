@@ -801,7 +801,7 @@ export const PRODUCTS: Product[] = [
     rating: 5,
     comment: "المنتج كان جيدًا، ولا توجد أي شكوى.",
   },
-],],
+],
     faqs: [
       {
         question: "هل استخدامه جائز في الصلاة؟",
