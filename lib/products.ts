@@ -736,7 +736,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "prostration-chair",
     slug: "prostration-chair",
-    sku: "MP-PRCHAIR4N8WX",
+    sku: "MP-5W1QBKIWM4SA",
     categoryId: "home",
     arabicName: "كرسي السجود — راحة في الصلاة بدون مشقة",
     shortHeading: "كرسي السجود: دعم للركبتين والقدمين أثناء الصلاة",
