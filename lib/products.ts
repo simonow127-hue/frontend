@@ -1038,6 +1038,61 @@ painImage: "/images/products/wall-night-light-pain.jpg",
   imageColor: "#E8E8E8",
   isNew: true,
 },
+  {
+  id: "automatic-foam-dispenser",
+  slug: "automatic-foam-dispenser",
+  sku: "MP-XPFILYWFPJI5",
+  categoryId: "electronics",
+  arabicName: "موزع الصابون الرغوي الأوتوماتيكي — نظافة بدون لمس",
+  shortHeading: "موزع الصابون: رغوة أوتوماتيكية بدون لمس",
+  subheading: "موزع ذكي يعمل بالحساس ويعطيك كمية مناسبة من الرغوة بدون الحاجة للمس الجهاز.",
+  emotionalHeadline: "خلي نظافة يديك أسهل وأذكى",
+  painBullets: [
+    "لمس موزع الصابون بيدين متسختين يزيد الفوضى",
+    "الموزعات التقليدية تحتاج ضغط أو لمس مستمر",
+    "تبغى حمام مرتب ونظيف بدون بقايا صابون",
+  ],
+  mechanism:
+    "موزع صابون رغوي أوتوماتيكي يعمل بحساس ذكي للحركة، يكتشف اليد تلقائياً ويخرج الرغوة بدون لمس. تصميم دائري أنيق بشاشة رقمية ولمسة فاخرة باللون الأسود والحواف الذهبية، مناسب للحمام والمطبخ.",
+  ingredients: [
+    { name: "حساس حركة ذكي", benefit: "تشغيل تلقائي بدون لمس الجهاز" },
+    { name: "مضخة رغوية", benefit: "توزيع رغوة ناعمة بكمية مناسبة" },
+    { name: "شاشة رقمية", benefit: "تصميم عصري يعطي الجهاز مظهراً فاخراً" },
+  ],
+  usageSteps: [
+    "املأ الخزان بالصابون المناسب",
+    "شغّل الجهاز وضع يدك أسفل الموزع",
+    "سيكتشف الحساس يدك تلقائياً",
+    "استعمل الرغوة واغسل يديك بكل سهولة",
+  ],
+  offers: buildOffers(179),
+  defaultOffer: 1,
+  crossSellIds: ["desk-lamp", "neck-fan"],
+  reviewCount: 0,
+  rating: 0,
+  reviews: [],
+  faqs: [
+    {
+      question: "هل يحتاج إلى لمس الجهاز؟",
+      answer: "لا، الحساس يكتشف اليد ويخرج الرغوة تلقائياً بدون لمس.",
+    },
+    {
+      question: "أين يمكن استخدامه؟",
+      answer: "مناسب للحمام والمطبخ والأماكن الداخلية التي تحتاج إلى موزع صابون عملي ونظيف.",
+    },
+    {
+      question: "هل يعطي رغوة مباشرة؟",
+      answer: "نعم، عند اكتشاف اليد أسفل الجهاز يقوم الموزع بإخراج الرغوة تلقائياً.",
+    },
+  ],
+  imagePlaceholder: "/images/products/automatic-foam-dispenser.jpg",
+  ingredientsImage: "/images/products/automatic-foam-dispenser-features.jpg",
+  usageImage: "/images/products/automatic-foam-dispenser-usage.jpg",
+  scienceImage: "/images/products/automatic-foam-dispenser-science.jpg",
+  painImage: "/images/products/automatic-foam-dispenser-pain.jpg",
+  imageColor: "#1A1A1A",
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
