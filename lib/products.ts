@@ -983,6 +983,61 @@ ingredientsImage: "/images/products/wireless-car-charger-features.jpg",
 imageColor: "#1A1A1A",
     isNew: true,
   },
+  {
+  id: "indoor-wall-night-light",
+  slug: "indoor-wall-night-light",
+  sku: "MP-NVBT8SWPQKG7",
+  categoryId: "electronics",
+  arabicName: "مصباح حائط ليلي خشبي — إضاءة دافئة وأنيقة",
+  shortHeading: "مصباح الحائط: إضاءة هادئة بدون أسلاك",
+  subheading: "مصباح LED خشبي قابل للشحن مع تثبيت مغناطيسي — مثالي لغرفة النوم والممرات.",
+  emotionalHeadline: "خلي بيتك أهدأ وأجمل بإضاءة دافئة",
+  painBullets: [
+    "الظلام في الممرات والغرف يزعجك بالليل",
+    "ما تبغى تمديدات وأسلاك على الحائط",
+    "تبغى إضاءة عملية وأنيقة في نفس الوقت",
+  ],
+  mechanism:
+    "مصباح حائط LED بتصميم خشبي أنيق، يعطي إضاءة دافئة ومريحة داخل المنزل. يتميز بتثبيت مغناطيسي يسهل تركيبه وإزالته، مع بطارية قابلة للشحن للاستخدام بدون أسلاك. مناسب لغرف النوم والممرات والسلالم والخزائن.",
+  ingredients: [
+    { name: "إضاءة LED دافئة", benefit: "ضوء ناعم ومريح للاستخدام الليلي" },
+    { name: "تصميم خشبي", benefit: "شكل أنيق يناسب ديكور المنزل" },
+    { name: "تثبيت مغناطيسي", benefit: "تركيب وإزالة بسهولة بدون تعقيد" },
+  ],
+  usageSteps: [
+    "اشحن المصباح قبل أول استخدام",
+    "ثبّت القاعدة في المكان المناسب",
+    "ركّب المصباح على التثبيت المغناطيسي",
+    "شغّله واستخدم الإضاءة وقت الحاجة",
+  ],
+  offers: buildOffers(179),
+  defaultOffer: 1,
+  crossSellIds: ["desk-lamp", "neck-fan"],
+  reviewCount: 0,
+  rating: 0,
+  reviews: [],
+  faqs: [
+    {
+      question: "هل يحتاج إلى أسلاك أو حفر؟",
+      answer: "لا، التصميم المغناطيسي يسمح بتركيبه بسهولة بدون الحاجة إلى تمديدات كهربائية معقدة.",
+    },
+    {
+      question: "هل يمكن شحنه؟",
+      answer: "نعم، يحتوي على بطارية داخلية قابلة للشحن.",
+    },
+    {
+      question: "أين يمكن استخدامه؟",
+      answer: "مناسب لغرف النوم والممرات والسلالم والخزائن والأماكن الداخلية التي تحتاج إضاءة إضافية.",
+    },
+  ],
+  imagePlaceholder: "/images/products/indoor-wall-night-light.jpg",
+  ingredientsImage: "/images/products/indoor-wall-night-light-features.jpg",
+  usageImage: "/images/products/indoor-wall-night-light-usage.jpg",
+  scienceImage: "/images/products/indoor-wall-night-light-science.jpg",
+  painImage: "/images/products/indoor-wall-night-light-pain.jpg",
+  imageColor: "#E8E8E8",
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
