@@ -20,8 +20,6 @@ import Button from "@/components/ui/Button";
 import TrustBadges from "@/components/ui/TrustBadges";
 import ProductImage from "@/components/ui/ProductImage";
 import PaymentLogos from "@/components/ui/PaymentLogos";
-import ProductGallery from "@/components/ui/ProductGallery";
-import ProductVideo from "@/components/ui/ProductVideo";
 import dynamic from "next/dynamic";
 import {
   ShieldCheck,
@@ -33,9 +31,17 @@ import {
 } from "lucide-react";
 import Stars from "@/components/ui/Stars";
 import { loadUserReviews, saveUserReview } from "@/lib/user-reviews";
+import LazyMount from "@/components/ui/LazyMount";
 
 const ProductCard = dynamic(() => import("./ProductCard"));
 const AddReviewForm = dynamic(() => import("./AddReviewForm"));
+const ProductGallery = dynamic(() => import("@/components/ui/ProductGallery"));
+const ProductVideo = dynamic(() => import("@/components/ui/ProductVideo"), {
+  ssr: false,
+  loading: () => (
+    <div className="relative aspect-square rounded-2xl overflow-hidden border border-brand-border bg-brand-cream animate-pulse" />
+  ),
+});
 
 interface FAQItemProps {
   q: string;
@@ -232,7 +238,7 @@ export default function ProductPageClient({
       {/* Hero / Above the fold */}
       <section className="max-w-content mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-          {/* Product media — video autoplays in hero; gallery lazy when video present */}
+          {/* Product media — video autoplays in hero; gallery deferred when video present */}
           <div className="order-1 md:order-2 flex flex-col gap-4">
             {product.videoUrl && (
               <ProductVideo
@@ -242,19 +248,37 @@ export default function ProductPageClient({
               />
             )}
 
-            <ProductGallery
-              images={[
-                product.imagePlaceholder,
-                ...(product.painImage ? [product.painImage] : []),
-                ...(product.scienceImage ? [product.scienceImage] : []),
-                ...(product.usageImage ? [product.usageImage] : []),
-                ...(product.ingredientsImage
-                  ? [product.ingredientsImage]
-                  : []),
-              ]}
-              alt={product.arabicName}
-              priority={!product.videoUrl}
-            />
+            {product.videoUrl ? (
+              <LazyMount rootMargin="280px" fallbackHeight="320px">
+                <ProductGallery
+                  images={[
+                    product.imagePlaceholder,
+                    ...(product.painImage ? [product.painImage] : []),
+                    ...(product.scienceImage ? [product.scienceImage] : []),
+                    ...(product.usageImage ? [product.usageImage] : []),
+                    ...(product.ingredientsImage
+                      ? [product.ingredientsImage]
+                      : []),
+                  ]}
+                  alt={product.arabicName}
+                  priority={false}
+                />
+              </LazyMount>
+            ) : (
+              <ProductGallery
+                images={[
+                  product.imagePlaceholder,
+                  ...(product.painImage ? [product.painImage] : []),
+                  ...(product.scienceImage ? [product.scienceImage] : []),
+                  ...(product.usageImage ? [product.usageImage] : []),
+                  ...(product.ingredientsImage
+                    ? [product.ingredientsImage]
+                    : []),
+                ]}
+                alt={product.arabicName}
+                priority
+              />
+            )}
           </div>
 
           {/* Product info */}

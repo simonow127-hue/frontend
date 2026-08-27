@@ -1,8 +1,15 @@
 import Link from "next/link";
 import BrandWordmark from "@/components/brand/BrandWordmark";
 import { CATEGORIES } from "@/lib/categories";
-import { PRODUCTS } from "@/lib/products";
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
+
+const FEATURED_FOOTER_LINKS = [
+  { href: "/products/perfume-intense", label: "عطر قصة" },
+  { href: "/products/neck-fan", label: "مروحة الرقبة" },
+  { href: "/products/desk-lamp", label: "مصباح ذكي" },
+  { href: "/products/car-phone-holder", label: "حامل الجوال" },
+  { href: "/products/MP-E33HQGSNW2SK", label: "شاحن لاسلكي" },
+];
 
 export default function Footer() {
   return (
@@ -66,13 +73,13 @@ export default function Footer() {
             </h4>
 
             <ul className="flex flex-col gap-2.5">
-              {PRODUCTS.slice(0, 5).map((p) => (
-                <li key={p.id}>
+              {FEATURED_FOOTER_LINKS.map((p) => (
+                <li key={p.href}>
                   <Link
-                    href={`/products/${p.slug}`}
+                    href={p.href}
                     className="text-sm text-brand-cream/65 hover:text-brand-gold transition-colors line-clamp-1"
                   >
-                    {p.shortHeading.split(":")[0].trim()}
+                    {p.label}
                   </Link>
                 </li>
               ))}

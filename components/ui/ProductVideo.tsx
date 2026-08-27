@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ProductVideoProps {
   src: string;
@@ -8,12 +8,20 @@ interface ProductVideoProps {
   title: string;
 }
 
+/** Autoplay muted hero video — attach src after mount so poster paints first. */
 export default function ProductVideo({ src, poster, title }: ProductVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [activeSrc, setActiveSrc] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Let poster paint one frame before starting the MP4 download
+    const t = window.setTimeout(() => setActiveSrc(src), 50);
+    return () => window.clearTimeout(t);
+  }, [src]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !activeSrc) return;
 
     video.muted = true;
     video.defaultMuted = true;
@@ -47,6 +55,8 @@ export default function ProductVideo({ src, poster, title }: ProductVideoProps) 
     const onVisibility = () => {
       if (document.visibilityState === "visible" && video.paused) {
         tryPlay();
+      } else if (document.visibilityState === "hidden") {
+        video.pause();
       }
     };
 
@@ -67,14 +77,14 @@ export default function ProductVideo({ src, poster, title }: ProductVideoProps) 
       video.removeEventListener("ended", onEnded);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [src]);
+  }, [activeSrc]);
 
   return (
     <div className="relative aspect-square rounded-2xl overflow-hidden border border-brand-border bg-black">
       <video
         ref={videoRef}
         className="w-full h-full object-contain pointer-events-none"
-        src={src}
+        src={activeSrc}
         poster={poster}
         autoPlay
         muted

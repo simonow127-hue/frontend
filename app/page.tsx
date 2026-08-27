@@ -154,7 +154,9 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    priority={i < 2}
+                    quality={70}
+                    priority={i === 0}
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <span className="absolute bottom-2 right-2 text-xs text-white font-bold bg-black/40 px-2 py-1 rounded-lg backdrop-blur-sm">
@@ -220,6 +222,8 @@ export default function HomePage() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 40vw"
+                quality={70}
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
@@ -284,6 +288,8 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                     sizes="(max-width: 768px) 50vw, 25vw"
+                    quality={65}
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>

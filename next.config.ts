@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   compress: true,
   allowedDevOrigins: ["10.32.250.173", "localhost"],
   experimental: {
-    optimizePackageImports: ["lucide-react", "clsx"],
+    optimizePackageImports: ["lucide-react", "clsx", "zod", "react-hook-form"],
   },
   images: {
     formats: ["image/avif", "image/webp"],

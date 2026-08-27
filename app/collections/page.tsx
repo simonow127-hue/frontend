@@ -24,7 +24,7 @@ function CollectionsContent() {
         <p className="text-brand-espresso/70 max-w-xl mx-auto">
           {activeCategory
             ? activeCategory.description
-            : "تشكيلة مختارة بجودة عالية — تسوق بثقة من رياض"}
+            : "تشكيلة مختارة بجودة عالية — تسوق بثقة من رياض ستور"}
         </p>
       </div>
 

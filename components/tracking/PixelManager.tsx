@@ -25,7 +25,7 @@ const GTAG_PRIMARY_ID = GA4_MEASUREMENT_ID || GOOGLE_ADS_ID;
 export default function PixelManager() {
   return (
     <>
-      {/* Meta Pixel — load early so ViewContent / Purchase reach Ads Manager */}
+      {/* Meta Pixel — ClientShell delays mount ~1.2s; afterInteractive once mounted */}
       {ENABLE_META && (
         <Script
           id="meta-pixel"
