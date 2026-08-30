@@ -928,7 +928,7 @@ painImage: "/images/products/prostration-chair-pain.jpg.jpeg.png",
   },
   {
     id: "wireless-car-charger",
-    slug: "MP-E33HQGSNW2SK",
+    slug:"wireless-car-charger" ,
     sku: "MP-E33HQGSNW2SK",
     categoryId: "electronics",
     arabicName: "شاحن سيارة لاسلكي — تثبيت وشحن بيد واحدة",
