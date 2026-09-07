@@ -1150,6 +1150,114 @@ painImage: "/images/products/wall-night-light-pain.jpg",
   imageColor: "#1A1A1A",
   isNew: true,
 },
+  {
+  id: "anti-snoring-device",
+  slug: "anti-snoring-device",
+  sku: "MP-ANSNORING7XK2",
+  categoryId: "electronics",
+
+  arabicName: "جهاز مضاد للشخير — نوم أهدأ وراحة أكثر",
+
+  shortHeading: "ودّع الشخير المزعج وخلك على نوم أهدأ",
+
+  subheading:
+    "جهاز صغير ومريح يساعد على تقليل الشخير أثناء النوم — سهل الاستخدام ومناسب للاستخدام اليومي.",
+
+  emotionalHeadline:
+    "نومك الهادئ يفرق عليك وعلى اللي حولك",
+
+  painBullets: [
+    "الشخير يزعج نومك أو نوم الشخص اللي معك",
+    "تستيقظ وأنت حاس إن نومك ما كان مريح",
+    "تبحث عن حل بسيط بدون أجهزة كبيرة أو معقدة",
+  ],
+
+  mechanism:
+    "جهاز مضاد للشخير بتصميم صغير وخفيف للاستخدام أثناء النوم. يساعد على تقليل الشخير من خلال وضعه بشكل مريح أثناء النوم، مع تصميم عملي يسهل استخدامه وتنظيفه.",
+
+  ingredients: [
+    {
+      name: "تصميم مريح",
+      benefit: "مصمم ليكون خفيفًا ومناسبًا للاستخدام أثناء النوم",
+    },
+    {
+      name: "حجم صغير",
+      benefit: "سهل الحمل والتخزين والاستخدام اليومي",
+    },
+    {
+      name: "خامة سهلة التنظيف",
+      benefit: "يمكن تنظيفه بسهولة بعد الاستخدام",
+    },
+  ],
+
+  usageSteps: [
+    "نظّف الجهاز جيدًا قبل الاستخدام",
+    "ضع الجهاز بالطريقة الصحيحة حسب تعليمات المنتج",
+    "استخدمه أثناء النوم في وضع مريح",
+    "نظّفه وجففه بعد الاستخدام واحفظه في مكان مناسب",
+  ],
+
+  offers: buildOffers(99),
+
+  defaultOffer: 1,
+
+  crossSellIds: [
+    "neck-fan",
+    "quran-speaker",
+  ],
+
+  reviewCount: 0,
+
+  rating: 0,
+
+  reviews: [],
+
+  faqs: [
+    {
+      question: "كيف أستخدم الجهاز؟",
+      answer:
+        "يُستخدم أثناء النوم بعد وضعه بالطريقة الصحيحة والمريحة حسب تعليمات المنتج.",
+    },
+    {
+      question: "هل الجهاز مريح أثناء النوم؟",
+      answer:
+        "تم تصميمه بحجم صغير وخفيف ليكون مناسبًا للاستخدام أثناء النوم، مع ضرورة اختيار الوضع المريح لك.",
+    },
+    {
+      question: "كيف أنظف الجهاز؟",
+      answer:
+        "نظّفه بعد الاستخدام بطريقة التنظيف المناسبة للخامة، ثم اتركه يجف تمامًا قبل تخزينه.",
+    },
+    {
+      question: "هل يعالج انقطاع النفس أثناء النوم؟",
+      answer:
+        "لا. هذا المنتج مخصص للمساعدة على تقليل الشخير، وليس جهازًا لعلاج انقطاع النفس أثناء النوم أو أي حالة طبية.",
+    },
+    {
+      question: "هل يناسب الجميع؟",
+      answer:
+        "قد تختلف الراحة والنتيجة من شخص لآخر. إذا كان لديك مشكلة صحية مرتبطة بالنوم أو التنفس، استشر مختصًا.",
+    },
+  ],
+  imagePlaceholder:
+    "/images/products/anti-snoring-device.jpg",
+
+  ingredientsImage:
+    "/images/products/anti-snoring-device-ingredients.jpg",
+
+  usageImage:
+    "/images/products/anti-snoring-device-usage.jpg",
+
+  scienceImage:
+    "/images/products/anti-snoring-device-science.jpg",
+
+  painImage:
+    "/images/products/anti-snoring-device-pain.jpg",
+
+  imageColor: "#2563EB",
+
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
