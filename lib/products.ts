@@ -991,6 +991,116 @@ imageColor: "#1A1A1A",
     isNew: true,
   },
   {
+  id: "electric-heating-scarf",
+  slug: "electric-heating-scarf",
+  sku: "MP-EHEATSCARF8LQ4",
+  categoryId: "electronics",
+
+  arabicName: "وشاح تدفئة كهربائي — دفء وراحة في الأجواء الباردة",
+
+  shortHeading: "دفء مريح حول رقبتك حتى في أبرد الأيام",
+
+  subheading:
+    "وشاح تدفئة كهربائي بتصميم ناعم ومريح، يساعدك على الاستمتاع بالدفء والراحة خلال الأجواء الباردة.",
+
+  emotionalHeadline:
+    "خلي البرد بعيد واستمتع بدفء مريح في كل وقت",
+
+  painBullets: [
+    "البرد يسبب لك إحساسًا مزعجًا خصوصًا حول الرقبة",
+    "تحتاج لدفء إضافي أثناء الخروج أو الجلوس في الأجواء الباردة",
+    "تبحث عن وسيلة تدفئة عملية بدون ملابس ثقيلة",
+  ],
+
+  mechanism:
+    "وشاح تدفئة كهربائي بتصميم ناعم يلتف حول الرقبة، مع منطقة تدفئة مدمجة تساعد على توفير إحساس بالدفء أثناء الاستخدام. تصميمه خفيف وعملي ويمكن استخدامه خلال الأجواء الباردة.",
+
+  ingredients: [
+    {
+      name: "تدفئة مدمجة",
+      benefit: "منطقة تدفئة مصممة للمساعدة على توفير إحساس بالدفء حول الرقبة",
+    },
+    {
+      name: "خامة ناعمة",
+      benefit: "ملمس مريح ومناسب للاستخدام خلال الأجواء الباردة",
+    },
+    {
+      name: "تصميم عملي",
+      benefit: "يمكن لفّه حول الرقبة بسهولة وحمله أثناء التنقل",
+    },
+  ],
+
+  usageSteps: [
+    "تأكد من توصيل مصدر الطاقة بالطريقة الصحيحة حسب تعليمات المنتج",
+    "ضع الوشاح حول الرقبة بطريقة مريحة",
+    "شغّل خاصية التدفئة واستخدم المستوى المناسب حسب تعليمات المنتج",
+    "أوقف التشغيل وافصل مصدر الطاقة بعد الانتهاء من الاستخدام",
+  ],
+
+  offers: buildOffers(99),
+
+  defaultOffer: 1,
+
+  crossSellIds: [
+    "neck-fan",
+    "desk-lamp",
+  ],
+
+  reviewCount: 0,
+
+  rating: 0,
+
+  reviews: [],
+
+  faqs: [
+    {
+      question: "كيف يعمل الوشاح؟",
+      answer:
+        "يحتوي الوشاح على منطقة تدفئة كهربائية مدمجة تساعد على توفير إحساس بالدفء حول الرقبة عند تشغيله.",
+    },
+    {
+      question: "هل الوشاح مريح؟",
+      answer:
+        "تم تصميمه بخامة ناعمة وتصميم يلتف حول الرقبة بشكل مريح، مع إمكانية ضبط وضعه حسب راحتك.",
+    },
+    {
+      question: "هل يمكن استخدامه أثناء الخروج؟",
+      answer:
+        "يمكن استخدامه في الأجواء الباردة حسب طريقة تشغيل وتوصيل المنتج وتعليمات الاستخدام المرفقة معه.",
+    },
+    {
+      question: "كيف أنظف الوشاح؟",
+      answer:
+        "اتبع تعليمات التنظيف الخاصة بالمنتج، وتأكد من فصل مصدر الطاقة وعدم تعريض الأجزاء الكهربائية للماء.",
+    },
+    {
+      question: "هل يمكن النوم به؟",
+      answer:
+        "لا يُنصح باستخدام أي منتج تدفئة كهربائي أثناء النوم إلا إذا كانت تعليمات الشركة المصنعة تنص صراحةً على ذلك.",
+    },
+  ],
+
+  // الصور الخمسة ديال Product Page
+  imagePlaceholder:
+    "/images/products/electric-heating-scarf.jpg",
+
+  ingredientsImage:
+    "/images/products/electric-heating-scarf-ingredients.jpg",
+
+  usageImage:
+    "/images/products/electric-heating-scarf-usage.jpg",
+
+  scienceImage:
+    "/images/products/electric-heating-scarf-science.jpg",
+
+  painImage:
+    "/images/products/electric-heating-scarf-pain.jpg",
+
+  imageColor: "#E5E7EB",
+
+  isNew: true,
+},
+  {
   id: "indoor-wall-night-light",
   slug: "indoor-wall-night-light",
   sku: "MP-NVBT8SWPQKG7",
