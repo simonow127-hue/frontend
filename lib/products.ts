@@ -633,56 +633,6 @@ export const PRODUCTS: Product[] = [
     isNew: true,
   },
   {
-    id: "black-sheila",
-    slug: "black-sheila",
-    sku: "MP-FMER4W5JZBAG",
-    categoryId: "style",
-    arabicName: "شيلة سوداء فاخرة — إطلالة أنيقة كل يوم",
-    shortHeading: "الشيلة السوداء: نعومة وفخامة بكل لفّة",
-    subheading: "قماش شيفون خفيف وناعم بقصة مريحة — للدوام والخروج والمناسبات.",
-    emotionalHeadline: "إطلالتك تبدأ من التفاصيل",
-    painBullets: [
-      "الشيلات الرخيصة ما تعطي شكل أنيق",
-      "القماش الخشن يضايقك بالحر",
-      "تبغى شيلة تخدمك كل يوم",
-    ],
-    mechanism:
-      "شيلة سوداء من قماش شيفون خفيف وشفاف بشكل أنيق. ناعمة على البشرة وما تسبب حرارة زائدة. قصة مريحة تثبت على الرأس بدون حاجة لتعديل مستمر.",
-    ingredients: [
-      { name: "شيفون فاخر", benefit: "خفة ونعومة طوال اليوم" },
-      { name: "لون أسود ثابت", benefit: "ما يبهت مع الغسيل المتكرر" },
-      { name: "قصة واسعة", benefit: "تغطية مريحة وأنيقة" },
-    ],
-    usageSteps: [
-      "لفّ الشيلة على رأسك بالطريقة اللي تفضلها",
-      "ثبّتها بدبوس أو بأطراف مريحة",
-      "للمناسبات، زيّنيها ببروش بسيط",
-      "اغسليها يدوياً أو على دورة خفيفة",
-    ],
-    offers: buildOffers(79),
-    defaultOffer: 1,
-    crossSellIds: ["perfume-intense", "electric-chopper"],
-    reviewCount: 0,
-    rating: 0,
-    reviews: [],
-    faqs: [
-      {
-        question: "هل القماش شفاف؟",
-        answer: "شفافية خفيفة أنيقة — مناسب للطبقات.",
-      },
-      {
-        question: "كم المقاس؟",
-        answer: "مقاس قياسي واسع يناسب أغلب الاستخدامات.",
-      },
-      {
-        question: "كيف أغسلها؟",
-        answer: "غسيل يدوي بماء بارد أو دورة خفيفة — تجفيف طبيعي.",
-      },
-    ],
-    imagePlaceholder: "/images/products/black-sheila.jpg",
-    imageColor: "#1A1A1A",
-  },
-  {
     id: "car-seat-cushion",
     slug: "car-seat-cushion",
     sku: "MP-CSCUSH7K2M9Q",
