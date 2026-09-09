@@ -4,11 +4,9 @@ import { CATEGORIES } from "@/lib/categories";
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
 
 const FEATURED_FOOTER_LINKS = [
-  { href: "/products/perfume-intense", label: "عطر قصة" },
-  { href: "/products/neck-fan", label: "مروحة الرقبة" },
-  { href: "/products/desk-lamp", label: "مصباح ذكي" },
-  { href: "/products/car-phone-holder", label: "حامل الجوال" },
   { href: "/products/MP-E33HQGSNW2SK", label: "شاحن لاسلكي" },
+  { href: "/products/automatic-foam-dispenser", label: "موزع الصابون" },
+  { href: "/products/indoor-wall-night-light", label: "مصباح الحائط" },
 ];
 
 export default function Footer() {

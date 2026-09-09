@@ -70,15 +70,21 @@ const faqs = [
   },
 ];
 
-const heroProducts = [
-  { id: "neck-fan", src: "/images/products/neck-fan.jpg", label: "مروحة الرقبة" },
-  { id: "perfume-intense", src: "/images/products/perfume-intense.jpg", label: "عطر قصة" },
-  { id: "desk-lamp", src: "/images/products/desk-lamp.jpg", label: "مصباح ذكي" },
-  { id: "car-phone-holder", src: "/images/products/car-phone-holder.jpg", label: "حامل الجوال" },
-];
+const HERO_PRODUCTS = [
+  { id: "wireless-car-charger", label: "شاحن لاسلكي" },
+  { id: "automatic-foam-dispenser", label: "موزع الصابون" },
+  { id: "indoor-wall-night-light", label: "مصباح الحائط" },
+] as const;
+
+const heroProducts = HERO_PRODUCTS.flatMap((item) => {
+  const product = PRODUCTS.find((p) => p.id === item.id);
+  if (!product) return [];
+  return [{ slug: product.slug, src: product.imagePlaceholder, label: item.label }];
+});
 
 const minPrice = Math.min(...PRODUCTS.map((p) => p.offers[0].price));
-const spotlightProduct = PRODUCTS.find((p) => p.id === "perfume-intense")!;
+const spotlightProduct =
+  PRODUCTS.find((p) => p.id === "wireless-car-charger") ?? PRODUCTS[0];
 
 export default function HomePage() {
   const latest = getLatestProducts(8);
@@ -140,31 +146,40 @@ export default function HomePage() {
           </div>
 
           {/* Product mosaic */}
-          <div className="order-1 md:order-2 grid grid-cols-2 gap-3">
-            {heroProducts.map((p, i) => (
-              <Link
-                key={p.id}
-                href={`/products/${p.id}`}
-                className={`group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-all duration-300 ${i === 0 ? "row-span-1" : ""}`}
-              >
-                <div className="relative aspect-square">
-                  <Image
-                    src={p.src}
-                    alt={p.label}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    quality={70}
-                    priority={i === 0}
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <span className="absolute bottom-2 right-2 text-xs text-white font-bold bg-black/40 px-2 py-1 rounded-lg backdrop-blur-sm">
-                    {p.label}
-                  </span>
-                </div>
-              </Link>
-            ))}
+          <div className="order-1 md:order-2 flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              {heroProducts.map((p, i) => (
+                <Link
+                  key={p.slug}
+                  href={`/products/${p.slug}`}
+                  className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-all duration-300"
+                >
+                  <div className="relative aspect-square">
+                    <Image
+                      src={p.src}
+                      alt={p.label}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      quality={70}
+                      priority={i === 0}
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <span className="absolute bottom-2 right-2 text-xs text-white font-bold bg-black/40 px-2 py-1 rounded-lg backdrop-blur-sm">
+                      {p.label}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/collections"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-brand-gold/40 bg-brand-gold text-brand-primary font-bold text-sm py-3 hover:bg-brand-champagne transition-colors"
+            >
+              عرض كل المنتجات
+              <ChevronLeft size={16} />
+            </Link>
           </div>
         </div>
       </section>
