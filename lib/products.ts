@@ -465,7 +465,18 @@ export const PRODUCTS: Product[] = [
       },
     ],
     imagePlaceholder: "/images/products/quran-speaker.jpg",
-    usageImage: "/images/products/quran-speaker-plug.jpg",
+
+ingredientsImage:
+  "/images/products/quran-speaker-ingredients.jpg",
+
+usageImage:
+  "/images/products/quran-speaker-plug.jpg",
+
+scienceImage:
+  "/images/products/quran-speaker-science.jpg",
+
+painImage:
+  "/images/products/quran-speaker-pain.jpg",
     imageColor: "#F5F0E8",
   },
   {
