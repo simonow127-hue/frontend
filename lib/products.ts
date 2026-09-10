@@ -821,7 +821,19 @@ painImage: "/images/products/prostration-chair-pain.jpg.jpeg.png",
         answer: "الفوم عالي الكثافة يرجع لشكله بعد كل استخدام.",
       },
     ],
-    imagePlaceholder: "/images/products/car-comfort-set.jpg",
+   imagePlaceholder: "/images/products/car-comfort-set.jpg",
+
+ingredientsImage:
+  "/images/products/car-comfort-set-ingredients.jpg",
+
+usageImage:
+  "/images/products/car-comfort-set-usage.jpg",
+
+scienceImage:
+  "/images/products/car-comfort-set-science.jpg",
+
+painImage:
+  "/images/products/car-comfort-set-pain.jpg",
     imageColor: "#2C2C2C",
     isNew: true,
   },
