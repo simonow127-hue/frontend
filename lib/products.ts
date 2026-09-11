@@ -580,9 +580,19 @@ painImage:
         answer: "الوعاء والشفرات تنغسل بالماء والصابون بسهولة.",
       },
     ],
-    imagePlaceholder: "/images/products/electric-chopper.jpg",
-    ingredientsImage: "/images/products/electric-chopper-action.jpg",
-    usageImage: "/images/products/electric-chopper-parts.jpg",
+   imagePlaceholder: "/images/products/electric-chopper.jpg",
+
+ingredientsImage:
+  "/images/products/electric-chopper-action.jpg",
+
+usageImage:
+  "/images/products/electric-chopper-parts.jpg",
+
+scienceImage:
+  "/images/products/electric-chopper-science.jpg",
+
+painImage:
+  "/images/products/electric-chopper-pain.jpg",
     imageColor: "#A8D5BA",
   },
   {
