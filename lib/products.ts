@@ -700,7 +700,19 @@ painImage:
         answer: "أقل من دقيقة — لفّ الحزام وعدّل الارتفاع واجلس.",
       },
     ],
-    imagePlaceholder: "/images/products/car-seat-cushion.jpg",
+   imagePlaceholder: "/images/products/car-seat-cushion.jpg",
+
+ingredientsImage:
+  "/images/products/car-seat-cushion-ingredients.jpg",
+
+usageImage:
+  "/images/products/car-seat-cushion-usage.jpg",
+
+scienceImage:
+  "/images/products/car-seat-cushion-science.jpg",
+
+painImage:
+  "/images/products/car-seat-cushion-pain.jpg",
     imageColor: "#E8E8E8",
     isNew: true,
   },
