@@ -874,57 +874,6 @@ painImage:
     isNew: true,
   },
   {
-    id: "mens-hair-styler",
-    slug: "mens-hair-styler",
-    sku: "MP-MHSTYLE5Q8KD",
-    categoryId: "style",
-    arabicName: "فرشاة تمليس للرجال — شعر ولحية بضغطة",
-    shortHeading: "فرشاة التمليس: تسريحة مرتبة في دقائق",
-    subheading: "لوحة تسخين مع أسنان تمشيط — للشعر واللحية معاً.",
-    emotionalHeadline: "إطلالة مرتبة تبدأ من التفاصيل",
-    painBullets: [
-      "شعرك أو لحيتك ما تطلع مرتبة بعد الحمام",
-      "الأدوات العادية تاخذ وقت وما تعطي نتيجة ثابتة",
-      "تبغى تسريحة سريعة قبل الدوام أو الخروج",
-    ],
-    mechanism:
-      "فرشاة تمليس رجالية بتصميم مزدوج: لوحة تسخين تملّس الشعرة، وأسنان تمشيط توزّع الحرارة بالتساوي. مناسبة للشعر واللحية — تمنحك مظهراً مرتباً في دقائق بدون صالون. المقبض مريح والرأس ينزلق بسلاسة على الشعر.",
-    ingredients: [
-      { name: "لوحة تسخين سريعة", benefit: "حرارة متساوية لتمليس فعّال" },
-      { name: "أسنان تمشيط متينة", benefit: "توزيع الحرارة بدون شدّ مؤلم" },
-      { name: "مقبض مريح مضاد للانزلاق", benefit: "تحكم سهل بيد واحدة" },
-    ],
-    usageSteps: [
-      "وصّل الجهاز وانتظر حتى يسخن",
-      "مرّر الفرشاة من الجذور للأطراف ببطء",
-      "للحية: مشّط باتجاه نمو الشعر",
-      "اطفئ الجهاز بعد الاستخدام واتركه يبرد",
-    ],
-    offers: buildOffers(99),
-    defaultOffer: 1,
-    crossSellIds: ["perfume-intense", "black-sheila", "desk-lamp"],
-    reviewCount: 0,
-    rating: 0,
-    reviews: [],
-    faqs: [
-      {
-        question: "هل تصلح للشعر واللحية؟",
-        answer: "نعم — مصممة للاستخدام على شعر الرأس واللحية معاً.",
-      },
-      {
-        question: "كم تستغرق التسريحة؟",
-        answer: "عادة من ٣ إلى ٥ دقائق حسب كثافة الشعر.",
-      },
-      {
-        question: "هل تسبب ضرر للشعر؟",
-        answer: "استخدم حرارة مناسبة ولا تكرر التمرير كثيراً على نفس المنطقة.",
-      },
-    ],
-    imagePlaceholder: "/images/products/mens-hair-styler.jpg",
-    imageColor: "#1A1A1A",
-    isNew: true,
-  },
-  {
     id: "wireless-car-charger",
     slug:"wireless-car-charger" ,
     sku: "MP-E33HQGSNW2SK",
