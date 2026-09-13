@@ -652,6 +652,7 @@ painImage:
     ingredientsImage: "/images/products/perfume-notes.jpg",
     usageImage: "/images/products/perfume-collection.jpg",
     scienceImage: "/images/products/perfume-science.jpg",
+    painImage: "/images/products/perfum-pain.jpg",
     imageColor: "#1A1A1A",
     isNew: true,
   },
