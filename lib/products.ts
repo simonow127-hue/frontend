@@ -532,6 +532,7 @@ painImage:
     scienceImage: "/images/products/desk-lamp-science.jpg",
     ingredientsImage: "/images/products/desk-lamp-features.jpg",
     usageImage: "/images/products/desk-lamp-usage.jpg",
+    painImage: "/images/products/desk-lamp-pain.jpg",
     imageColor: "#FFFFFF",
     isNew: true,
   },
