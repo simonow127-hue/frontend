@@ -289,6 +289,7 @@ export const PRODUCTS: Product[] = [
     scienceImage: "/images/products/neck-fan-science.jpg",
     ingredientsImage: "/images/products/neck-fan-features.jpg",
     usageImage: "/images/products/neck-fan-dimensions.jpg",
+    painImage: "/images/products/neck-fan-pain.jpg",
     imageColor: "#E8E8E8",
     isNew: true,
   },
