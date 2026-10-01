@@ -973,6 +973,91 @@ imageColor: "#1A1A1A",
   isNew: true,
 },
   {
+  id: "electric-bathroom-cleaner",
+  slug: "electric-bathroom-cleaner",
+  sku: "MP-BATHCLEANER7X9K",
+  categoryId: "home",
+
+  arabicName: "فرشاة تنظيف الحمام الكهربائية",
+  shortHeading: "نظّف حمامك بسهولة وبدون تعب",
+  subheading:
+    "فرشاة تنظيف كهربائية تساعد على تنظيف الأسطح والزوايا والأماكن التي يصعب الوصول إليها.",
+
+  emotionalHeadline: "نظافة أسهل بجهد أقل",
+
+  painBullets: [
+    "التنظيف اليدوي قد يكون متعبًا",
+    "صعوبة الوصول لبعض الزوايا والأماكن",
+    "تراكم الأوساخ على أسطح الحمام",
+  ],
+
+  mechanism:
+    "فرشاة تنظيف كهربائية مصممة للمساعدة في فرك وتنظيف أسطح الحمام باستخدام رأس تنظيف دوّار ومقبض طويل.",
+
+  ingredients: [
+    {
+      name: "رأس تنظيف",
+      benefit: "للمساعدة في فرك الأسطح",
+    },
+    {
+      name: "مقبض طويل",
+      benefit: "يساعد على الوصول للأماكن البعيدة",
+    },
+  ],
+
+  usageSteps: [
+    "ركّب رأس التنظيف",
+    "شغّل الفرشاة",
+    "ضع الرأس على المنطقة المراد تنظيفها",
+    "حرّك الفرشاة على السطح",
+  ],
+
+  offers: buildOffers(99),
+  defaultOffer: 1,
+
+  crossSellIds: [
+    "car-gap-filler",
+    "car-phone-holder",
+    "neck-fan",
+  ],
+
+  faqs: [
+    {
+      question: "كيف يتم استخدامها؟",
+      answer:
+        "ركّب رأس التنظيف، شغّل الفرشاة، ثم استخدمها على السطح المراد تنظيفه.",
+    },
+    {
+      question: "أين يمكن استخدامها؟",
+      answer:
+        "يمكن استخدامها لتنظيف أسطح مختلفة في الحمام، حسب نوع رأس التنظيف والسطح.",
+    },
+    {
+      question: "هل تحتاج إلى تركيب؟",
+      answer:
+        "لا، يكفي تركيب رأس التنظيف قبل الاستخدام.",
+    },
+  ],
+
+  imagePlaceholder:
+    "/images/products/electric-bathroom-cleaner.jpg",
+
+  ingredientsImage:
+    "/images/products/electric-bathroom-cleaner-heads.jpg",
+
+  usageImage:
+    "/images/products/electric-bathroom-cleaner-usage.jpg",
+
+  scienceImage:
+    "/images/products/electric-bathroom-cleaner-features.jpg",
+
+  painImage:
+    "/images/products/electric-bathroom-cleaner-before-after.jpg",
+
+  imageColor: "#FFFFFF",
+  isNew: true,
+},
+  {
   id: "indoor-wall-night-light",
   slug: "indoor-wall-night-light",
   sku: "MP-NVBT8SWPQKG7",
