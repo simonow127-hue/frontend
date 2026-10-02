@@ -5,6 +5,7 @@ import { Product, Offer } from "./products";
 export type CartItem = {
   productId: string;
   slug: string;
+  sku?: string;
   name: string;
   offerPieces: 1 | 2 | 3;
   quantity: number;
@@ -60,6 +61,7 @@ function createCartStore(): CartStore {
                   i.productId === product.id
                     ? {
                         ...i,
+                        sku: product.sku,
                         offerPieces: offer.pieces,
                         unitBundlePrice: offer.price,
                         total: offer.price * i.quantity,
@@ -75,6 +77,7 @@ function createCartStore(): CartStore {
                 {
                   productId: product.id,
                   slug: product.slug,
+                  sku: product.sku,
                   name: product.arabicName,
                   offerPieces: offer.pieces,
                   quantity: 1,

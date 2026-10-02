@@ -39,6 +39,7 @@ type OrderPayload = {
   items: {
     product_id: string;
     slug: string;
+    sku: string;
     name: string;
     offer_pieces: number;
     quantity: number;

@@ -7,6 +7,7 @@ import {
 } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useCartStore } from "@/lib/cart";
+import { getProductById } from "@/lib/products";
 import { validateSaudiPhone } from "@/lib/phone";
 import { formatPrice } from "@/lib/currency";
 import { createOrder } from "@/lib/api";
@@ -114,6 +115,11 @@ export default function CheckoutPopup() {
             item.productId,
 
           slug: item.slug,
+
+          sku:
+            item.sku ||
+            getProductById(item.productId)?.sku ||
+            "",
 
           name: item.name,
 
