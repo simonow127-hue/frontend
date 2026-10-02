@@ -1129,7 +1129,7 @@ painImage: "/images/products/wall-night-light-pain.jpg",
     "بعد الانتهاء، ضع الفرشاة في الحامل المخصص لها",
   ],
 
-  offers: buildOffers(89),
+  offers: buildOffers(99),
 
   defaultOffer: 1,
 
