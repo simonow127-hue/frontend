@@ -173,7 +173,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "neck-fan",
     slug: "neck-fan",
-    sku: "MP-UFVILGUCUBKG",
+    sku: "MP-UGE66ZRAZOCG",
     categoryId: "electronics",
     arabicName: "مروحة الرقبة المحمولة — برودة وين ما كنت",
     shortHeading: "مروحة الرقبة: هواء بارد بدون يدين",
