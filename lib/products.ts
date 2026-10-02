@@ -173,7 +173,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "neck-fan",
     slug: "neck-fan",
-    sku: "MP-UGE66ZRAZOCG",
+    sku: "MP-UFVILGUCUBKG",
     categoryId: "electronics",
     arabicName: "مروحة الرقبة المحمولة — برودة وين ما كنت",
     shortHeading: "مروحة الرقبة: هواء بارد بدون يدين",
@@ -1082,6 +1082,105 @@ painImage: "/images/products/wall-night-light-pain.jpg",
   imageColor: "#1A1A1A",
   isNew: true,
 }, 
+  {
+  id: "disposable-toilet-brush-set",
+  slug: "disposable-toilet-brush-set",
+  sku: "MP-UGE66ZRAZOCG",
+  categoryId: "home",
+
+  arabicName: "طقم فرشاة تنظيف الحمام — تنظيف أسهل وأكثر نظافة",
+
+  shortHeading: "فرشاة الحمام: تنظيف سريع بدون فوضى",
+
+  subheading:
+    "طقم عملي لتنظيف المرحاض بسهولة، مع رأس تنظيف مريح يساعدك توصل للأماكن الصعبة.",
+
+  emotionalHeadline:
+    "خل تنظيف الحمام أسهل وأسرع كل مرة",
+
+  painBullets: [
+    "الفرش التقليدية تجمع الأوساخ وتحتاج تنظيف مستمر",
+    "صعب توصل لبعض الزوايا داخل المرحاض",
+    "تبغى طريقة تنظيف عملية بدون فوضى",
+  ],
+
+  mechanism:
+    "طقم فرشاة تنظيف الحمام مصمم لتسهيل تنظيف المرحاض والوصول إلى الأماكن والزوايا الصعبة. تصميم عملي ومريح للاستخدام اليومي، مع حامل يساعد على ترتيب الفرشاة بعد الاستخدام.",
+
+  ingredients: [
+    {
+      name: "رأس تنظيف عملي",
+      benefit: "يساعد على تنظيف سطح المرحاض والوصول للأماكن الصعبة",
+    },
+    {
+      name: "تصميم مريح",
+      benefit: "يسهّل استخدام الفرشاة أثناء التنظيف",
+    },
+    {
+      name: "حامل للفرشاة",
+      benefit: "يحافظ على ترتيب مكان التنظيف بعد الاستخدام",
+    },
+  ],
+
+  usageSteps: [
+    "استخدم الفرشاة مع منظف المرحاض المناسب",
+    "افرك سطح المرحاض والأماكن المتسخة بالفرشاة",
+    "ركّز على الزوايا والأماكن اللي يصعب الوصول لها",
+    "بعد الانتهاء، ضع الفرشاة في الحامل المخصص لها",
+  ],
+
+  offers: buildOffers(89),
+
+  defaultOffer: 1,
+
+  crossSellIds: [
+    "automatic-foam-dispenser",
+    "desk-lamp",
+  ],
+
+  reviewCount: 0,
+
+  rating: 0,
+
+  reviews: [],
+
+  faqs: [
+    {
+      question: "وين أقدر أستخدمها؟",
+      answer:
+        "مناسبة لتنظيف المرحاض وأجزاء الحمام التي تحتاج تنظيف وفرك.",
+    },
+    {
+      question: "هل معها حامل؟",
+      answer:
+        "نعم، الطقم مصمم مع حامل يساعدك تحط الفرشاة بشكل مرتب بعد الاستخدام.",
+    },
+    {
+      question: "هل توصل للأماكن الصعبة؟",
+      answer:
+        "نعم، تصميم رأس الفرشاة يساعد على الوصول للزوايا والأماكن التي يصعب تنظيفها بالفرشاة التقليدية.",
+    },
+  ],
+
+  imagePlaceholder:
+    "/images/products/disposable-toilet-brush-set.jpg",
+
+  ingredientsImage:
+    "/images/products/disposable-toilet-brush-set-features.jpg",
+
+  usageImage:
+    "/images/products/disposable-toilet-brush-set-usage.jpg",
+
+  scienceImage:
+    "/images/products/disposable-toilet-brush-set-science.jpg",
+
+  painImage:
+    "/images/products/disposable-toilet-brush-set-pain.jpg",
+
+  imageColor: "#E8E8E8",
+
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
