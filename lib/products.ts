@@ -974,7 +974,7 @@ imageColor: "#1A1A1A",
 },
 {
   id: "electric-bathroom-cleaner",
-  slug: "MP-UGE66ZRAZOCG",
+  slug: "electric-bathroom-cleaner",
   sku: "MP-UGE66ZRAZOCG",
   categoryId: "home",
   arabicName: "فرشاة تنظيف الحمام الكهربائية",
