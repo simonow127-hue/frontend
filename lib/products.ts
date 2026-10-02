@@ -973,7 +973,7 @@ imageColor: "#1A1A1A",
   isNew: true,
 },
 {
-  id: "MP-UGE66ZRAZOCG",
+  id: "electric-bathroom-cleaner",
   slug: "MP-UGE66ZRAZOCG",
   sku: "MP-UGE66ZRAZOCG",
   categoryId: "home",
