@@ -8,7 +8,7 @@ import {
 import { z } from "zod";
 import { useCartStore } from "@/lib/cart";
 import { getProductById } from "@/lib/products";
-import { validateSaudiPhone } from "@/lib/phone";
+import { validatePhone } from "@/lib/phone";
 import { formatPrice } from "@/lib/currency";
 import { createOrder } from "@/lib/api";
 import {
@@ -61,6 +61,10 @@ export default function CheckoutPopup() {
   const [error, setError] =
     useState<string | null>(null);
 
+  // Selected country
+  const [country, setCountry] =
+    useState<"SA" | "AE">("SA");
+
   const total = getTotalPrice();
 
   const {
@@ -78,9 +82,11 @@ export default function CheckoutPopup() {
   ) => {
     setError(null);
 
+    // Validate phone according to selected country
     const phoneResult =
-      validateSaudiPhone(
-        data.phone
+      validatePhone(
+        data.phone,
+        country
       );
 
     if (!phoneResult.valid) {
@@ -213,7 +219,9 @@ export default function CheckoutPopup() {
       closeCheckout();
 
       // Give Meta Pixel time to flush before hard navigation
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      await new Promise((resolve) =>
+        setTimeout(resolve, 800)
+      );
 
       window.location.href =
         `/thank-you?order=${encodeURIComponent(response.order_code)}&v=${encodeURIComponent(String(total))}&eid=${encodeURIComponent(eventId)}`;
@@ -400,6 +408,38 @@ export default function CheckoutPopup() {
               )}
             </div>
 
+            {/* Country */}
+            <div className="flex flex-col gap-1.5">
+
+              <label
+                className="font-bold text-sm text-brand-espresso"
+                htmlFor="country"
+              >
+                الدولة *
+              </label>
+
+              <select
+                id="country"
+                value={country}
+                onChange={(e) =>
+                  setCountry(
+                    e.target.value as
+                      | "SA"
+                      | "AE"
+                  )
+                }
+                className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors"
+              >
+                <option value="SA">
+                  🇸🇦 السعودية (+966)
+                </option>
+
+                <option value="AE">
+                  🇦🇪 الإمارات (+971)
+                </option>
+              </select>
+            </div>
+
             {/* Phone */}
             <div className="flex flex-col gap-1.5">
 
@@ -435,9 +475,11 @@ export default function CheckoutPopup() {
             {/* Error */}
             {error && (
               <div className="bg-status-error/10 border border-status-error/30 rounded-xl px-4 py-3">
+
                 <p className="text-status-error text-sm">
                   {error}
                 </p>
+
               </div>
             )}
 
@@ -447,13 +489,17 @@ export default function CheckoutPopup() {
               disabled={loading}
               className="mt-2 w-full py-4 px-6 rounded-full bg-brand-cta text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "جاري المعالجة..." : `تأكيد الطلب — ${formatPrice(total)}`}
+              {loading
+                ? "جاري المعالجة..."
+                : `تأكيد الطلب — ${formatPrice(total)}`}
             </button>
+
           </form>
 
           <p className="text-center text-xs text-brand-espresso/40">
             سنتصل بك لتأكيد الطلب قبل الإرسال. معلوماتك بأمان وسرية تامة.
           </p>
+
         </div>
       </div>
     </>
