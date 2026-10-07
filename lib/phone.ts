@@ -1,4 +1,7 @@
-export function validatePhone(raw: string): {
+export function validatePhone(
+  raw: string,
+  country: "SA" | "AE"
+): {
   valid: boolean;
   e164?: string;
   digits?: string;
@@ -11,50 +14,41 @@ export function validatePhone(raw: string): {
 
   const cleaned = raw.trim().replace(/[\s\-()]/g, "");
 
-  // 🇸🇦 Saudi Arabia
+  const code = country === "SA" ? "966" : "971";
+  const countryName = country === "SA" ? "سعودي" : "إماراتي";
+
+  // Local format: 05XXXXXXXX
   if (/^05\d{8}$/.test(cleaned)) {
-    const e164 = "+966" + cleaned.slice(1);
+    const e164 = "+" + code + cleaned.slice(1);
+
     return {
       valid: true,
       e164,
-      digits: "966" + cleaned.slice(1),
-      country: "SA",
+      digits: code + cleaned.slice(1),
+      country,
     };
   }
 
-  if (/^(\+966|966)5\d{8}$/.test(cleaned)) {
-    const e164 = cleaned.startsWith("+") ? cleaned : "+" + cleaned;
+  // International format: +9665XXXXXXXX / +9715XXXXXXXX
+  const internationalRegex = new RegExp(
+    `^(\\+${code}|${code})5\\d{8}$`
+  );
+
+  if (internationalRegex.test(cleaned)) {
+    const e164 = cleaned.startsWith("+")
+      ? cleaned
+      : "+" + cleaned;
+
     return {
       valid: true,
       e164,
       digits: e164.replace("+", ""),
-      country: "SA",
-    };
-  }
-
-  // 🇦🇪 UAE
-  if (/^05\d{8}$/.test(cleaned)) {
-    const e164 = "+971" + cleaned.slice(1);
-    return {
-      valid: true,
-      e164,
-      digits: "971" + cleaned.slice(1),
-      country: "AE",
-    };
-  }
-
-  if (/^(\+971|971)5\d{8}$/.test(cleaned)) {
-    const e164 = cleaned.startsWith("+") ? cleaned : "+" + cleaned;
-    return {
-      valid: true,
-      e164,
-      digits: e164.replace("+", ""),
-      country: "AE",
+      country,
     };
   }
 
   return {
     valid: false,
-    error: "الرجاء إدخال رقم جوال سعودي أو إماراتي صحيح",
+    error: `الرجاء إدخال رقم جوال ${countryName} صحيح`,
   };
 }
