@@ -2,17 +2,13 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  zodResolver,
-} from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import { useCartStore } from "@/lib/cart";
 import { getProductById } from "@/lib/products";
 import { validatePhone } from "@/lib/phone";
 import { formatPrice } from "@/lib/currency";
 import { createOrder } from "@/lib/api";
-
 import {
   getCookies,
   getClickIds,
@@ -21,34 +17,21 @@ import {
   getReferrer,
   generateFreshEventId,
 } from "@/lib/events";
-
 import { trackPurchase } from "@/lib/tracking";
 import { savePendingPurchase } from "@/components/tracking/ThankYouPurchase";
-
-import {
-  X,
-  ShieldCheck,
-} from "lucide-react";
+import { X, ShieldCheck } from "lucide-react";
 
 const schema = z.object({
   fullName: z
     .string()
-    .min(
-      3,
-      "المرجو إدخال الاسم الكامل (3 أحرف على الأقل)"
-    ),
+    .min(3, "المرجو إدخال الاسم الكامل (3 أحرف على الأقل)"),
 
   phone: z
     .string()
-    .min(
-      9,
-      "المرجو إدخال رقم الهاتف"
-    ),
+    .min(9, "المرجو إدخال رقم الهاتف"),
 });
 
 type FormData = z.infer<typeof schema>;
-
-type CountryCode = "SA" | "AE";
 
 export default function CheckoutPopup() {
   const {
@@ -59,23 +42,13 @@ export default function CheckoutPopup() {
     clearCart,
   } = useCartStore();
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Selected country
-  const [country, setCountry] =
-    useState<CountryCode>("SA");
+  const [country, setCountry] = useState<"SA" | "AE">("SA");
 
   const total = getTotalPrice();
-
-  // Currency according to selected country
-  const currency =
-    country === "SA"
-      ? "SAR"
-      : "AED";
 
   const {
     register,
@@ -86,22 +59,15 @@ export default function CheckoutPopup() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (
-    data: FormData
-  ) => {
+  const onSubmit = async (data: FormData) => {
     setError(null);
 
     // Validate phone according to selected country
-    const phoneResult =
-      validatePhone(
-        data.phone,
-        country
-      );
+    const phoneResult = validatePhone(data.phone, country);
 
     if (!phoneResult.valid) {
       setFieldError("phone", {
-        message:
-          phoneResult.error,
+        message: phoneResult.error,
       });
 
       return;
@@ -110,230 +76,115 @@ export default function CheckoutPopup() {
     setLoading(true);
 
     try {
-      const cookies =
-        getCookies();
+      const cookies = getCookies();
+      const clickIds = getClickIds();
+      const utms = getUTMs();
 
-      const clickIds =
-        getClickIds();
+      const eventId = generateFreshEventId("purchase");
 
-      const utms =
-        getUTMs();
+      const orderItems = items.map((item) => ({
+        product_id: item.productId,
+        slug: item.slug,
+        sku:
+          item.sku ||
+          getProductById(item.productId)?.sku ||
+          "",
+        name: item.name,
+        offer_pieces: item.offerPieces,
+        quantity: item.quantity,
+        unit_bundle_price: item.unitBundlePrice,
+        total: item.total,
+      }));
 
-      const eventId =
-        generateFreshEventId(
-          "purchase"
-        );
+      const response = await createOrder({
+        customer: {
+          full_name: data.fullName,
+          phone: data.phone,
+          phone_e164: phoneResult.e164!,
+          country,
+        },
 
-      const orderItems =
-        items.map((item) => ({
-          product_id:
-            item.productId,
+        items: orderItems,
 
-          slug:
-            item.slug,
+        totals: {
+          subtotal: total,
+          shipping: 0,
+          total,
+          currency: country === "SA" ? "SAR" : "AED",
+        },
 
-          sku:
-            item.sku ||
-            getProductById(
-              item.productId
-            )?.sku ||
-            "",
+        source: {
+          landing_url: getLandingUrl(),
+          referrer: getReferrer(),
+          ...utms,
+          ...clickIds,
+        },
 
-          name:
-            item.name,
-
-          offer_pieces:
-            item.offerPieces,
-
-          quantity:
-            item.quantity,
-
-          unit_bundle_price:
-            item.unitBundlePrice,
-
-          total:
-            item.total,
-        }));
-
-      /*
-       * Create order
-       *
-       * country_code:
-       * SA = Saudi Arabia
-       * AE = United Arab Emirates
-       */
-      const response =
-        await createOrder({
-          customer: {
-            full_name:
-              data.fullName,
-
-            phone:
-              data.phone,
-
-            phone_e164:
-              phoneResult.e164!,
-
-            country_code:
-              country,
-          },
-
-          items:
-            orderItems,
-
-          totals: {
-            subtotal:
-              total,
-
-            shipping: 0,
-
-            total:
-              total,
-
-            currency:
-              currency,
-          },
-
-          source: {
-            landing_url:
-              getLandingUrl(),
-
-            referrer:
-              getReferrer(),
-
-            ...utms,
-            ...clickIds,
-          },
-
-          tracking: {
-            event_id:
-              eventId,
-
-            fbp:
-              cookies.fbp,
-
-            fbc:
-              cookies.fbc,
-
-            ttp:
-              cookies.ttp,
-          },
-        });
-
-      /*
-       * Save purchase information first.
-       *
-       * This allows the Thank You page
-       * to re-fire the purchase event if
-       * the redirect happens quickly.
-       */
-      savePendingPurchase({
-        orderCode:
-          response.order_code,
-
-        total,
-
-        eventId,
-
-        items:
-          items.map((item) => ({
-            id:
-              item.productId,
-
-            name:
-              item.name,
-
-            quantity:
-              item.offerPieces,
-
-            price:
-              item.total,
-          })),
+        tracking: {
+          event_id: eventId,
+          fbp: cookies.fbp,
+          fbc: cookies.fbc,
+          ttp: cookies.ttp,
+        },
       });
 
-      /*
-       * Track Meta Purchase
-       */
+      // Persist first so thank-you page can re-fire even if redirect is fast
+      savePendingPurchase({
+        orderCode: response.order_code,
+        total,
+        eventId,
+        items: items.map((item) => ({
+          id: item.productId,
+          name: item.name,
+          quantity: item.offerPieces,
+          price: item.total,
+        })),
+      });
+
       trackPurchase(
         response.order_code,
-
         total,
-
         items.map((item) => ({
-          id:
-            item.productId,
-
-          name:
-            item.name,
-
-          quantity:
-            item.offerPieces,
-
-          price:
-            item.total,
+          id: item.productId,
+          name: item.name,
+          quantity: item.offerPieces,
+          price: item.total,
         })),
-
         eventId
       );
 
-      /*
-       * Clear cart and close popup
-       */
       clearCart();
       closeCheckout();
 
-      /*
-       * Give Meta Pixel time to flush
-       * before hard navigation.
-       */
-      await new Promise(
-        (resolve) =>
-          setTimeout(resolve, 800)
+      // Give Meta Pixel time to flush before hard navigation
+      await new Promise((resolve) =>
+        setTimeout(resolve, 800)
       );
 
-      /*
-       * Redirect to Thank You page
-       */
       window.location.href =
         `/thank-you?order=${encodeURIComponent(
           response.order_code
         )}&v=${encodeURIComponent(
           String(total)
-        )}&eid=${encodeURIComponent(
-          eventId
-        )}&country=${encodeURIComponent(
-          country
-        )}&currency=${encodeURIComponent(
-          currency
-        )}`;
-    } catch (
-      err: unknown
-    ) {
-      const detail =
-        (
-          err as {
-            detail?: {
-              message_ar?: string;
-            };
-          }
-        )?.detail;
+        )}&eid=${encodeURIComponent(eventId)}`;
+    } catch (err: unknown) {
+      const detail = (
+        err as {
+          detail?: {
+            message_ar?: string;
+          };
+        }
+      )?.detail;
 
-      const status =
-        (
-          err as {
-            status?: number;
-          }
-        )?.status;
+      const status = (
+        err as {
+          status?: number;
+        }
+      )?.status;
 
-      if (
-        detail?.message_ar
-      ) {
-        setError(
-          detail.message_ar
-        );
-      } else if (
-        status === 403
-      ) {
+      if (detail?.message_ar) {
+        setError(detail.message_ar);
+      } else if (status === 403) {
         setError(
           "تعذر إتمام الطلب من هذا الاتصال. جرّب شبكة عادية بدون VPN."
         );
@@ -353,16 +204,12 @@ export default function CheckoutPopup() {
 
   return (
     <>
-      {/* Overlay */}
       <div
         className="fixed inset-0 z-50 bg-brand-espresso/60 drawer-overlay animate-fade-in"
-        onClick={
-          closeCheckout
-        }
+        onClick={closeCheckout}
         aria-hidden="true"
       />
 
-      {/* Checkout popup */}
       <div
         className="fixed inset-x-4 top-4 bottom-4 z-50 max-w-md mx-auto bg-brand-ivory rounded-2xl shadow-2xl animate-scale-in flex flex-col overflow-hidden"
         role="dialog"
@@ -371,12 +218,9 @@ export default function CheckoutPopup() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-brand-border">
-
           <button
             type="button"
-            onClick={
-              closeCheckout
-            }
+            onClick={closeCheckout}
             aria-label="إغلاق"
             className="p-1 hover:bg-brand-cream rounded-full"
           >
@@ -388,61 +232,39 @@ export default function CheckoutPopup() {
           </h2>
         </div>
 
-        {/* Content */}
         <div className="px-5 py-4 flex flex-col gap-4 overflow-y-auto flex-1">
-
           {/* Order summary */}
           <div className="bg-brand-cream rounded-xl p-4">
-
             <h3 className="font-bold text-sm text-brand-espresso mb-3">
               ملخص الطلب
             </h3>
 
-            {items.map(
-              (item) => (
-                <div
-                  key={
-                    item.productId
-                  }
-                  className="flex justify-between items-center mb-2"
-                >
-                  <span className="font-bold text-brand-primary">
-                    {formatPrice(
-                      item.total
-                    )}
-                  </span>
+            {items.map((item) => (
+              <div
+                key={item.productId}
+                className="flex justify-between items-center mb-2"
+              >
+                <span className="font-bold text-brand-primary">
+                  {formatPrice(item.total)}
+                </span>
 
-                  <span className="text-sm text-brand-espresso/80">
-                    {
-                      item.offerPieces
-                    }{" "}
-                    {item.offerPieces ===
-                    1
-                      ? "عبوة"
-                      : "عبوات"}{" "}
-                    ×{" "}
-                    {item.name
-                      .split(
-                        " "
-                      )
-                      .slice(
-                        1,
-                        3
-                      )
-                      .join(
-                        " "
-                      )}
-                  </span>
-                </div>
-              )
-            )}
+                <span className="text-sm text-brand-espresso/80">
+                  {item.offerPieces}{" "}
+                  {item.offerPieces === 1
+                    ? "عبوة"
+                    : "عبوات"}{" "}
+                  ×{" "}
+                  {item.name
+                    .split(" ")
+                    .slice(1, 3)
+                    .join(" ")}
+                </span>
+              </div>
+            ))}
 
             <div className="border-t border-brand-border pt-2 flex justify-between items-center">
-
               <span className="font-bold text-brand-primary text-lg">
-                {formatPrice(
-                  total
-                )}
+                {formatPrice(total)}
               </span>
 
               <span className="font-bold text-brand-espresso">
@@ -453,7 +275,6 @@ export default function CheckoutPopup() {
 
           {/* COD */}
           <div className="flex items-center gap-2 bg-status-success/10 border border-status-success/30 rounded-xl px-4 py-3">
-
             <ShieldCheck
               size={18}
               className="text-status-success shrink-0"
@@ -469,14 +290,11 @@ export default function CheckoutPopup() {
 
           {/* Form */}
           <form
-            onSubmit={handleSubmit(
-              onSubmit
-            )}
+            onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-3"
           >
             {/* Name */}
             <div className="flex flex-col gap-1.5">
-
               <label
                 className="font-bold text-sm text-brand-espresso"
                 htmlFor="fullName"
@@ -490,25 +308,18 @@ export default function CheckoutPopup() {
                 autoComplete="name"
                 placeholder="مثال: محمد أو فاطمة العلوي"
                 className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors"
-                {...register(
-                  "fullName"
-                )}
+                {...register("fullName")}
               />
 
               {errors.fullName && (
                 <p className="text-status-error text-xs">
-                  {
-                    errors
-                      .fullName
-                      .message
-                  }
+                  {errors.fullName.message}
                 </p>
               )}
             </div>
 
             {/* Country */}
             <div className="flex flex-col gap-1.5">
-
               <label
                 className="font-bold text-sm text-brand-espresso"
                 htmlFor="country"
@@ -518,21 +329,13 @@ export default function CheckoutPopup() {
 
               <select
                 id="country"
-                value={
-                  country
-                }
-                onChange={(
-                  e
-                ) =>
+                value={country}
+                onChange={(e) =>
                   setCountry(
-                    e.target
-                      .value as CountryCode
+                    e.target.value as "SA" | "AE"
                   )
                 }
-                disabled={
-                  loading
-                }
-                className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors disabled:opacity-60"
+                className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors"
               >
                 <option value="SA">
                   🇸🇦 السعودية (+966)
@@ -546,7 +349,6 @@ export default function CheckoutPopup() {
 
             {/* Phone */}
             <div className="flex flex-col gap-1.5">
-
               <label
                 className="font-bold text-sm text-brand-espresso"
                 htmlFor="phone"
@@ -559,26 +361,14 @@ export default function CheckoutPopup() {
                 type="tel"
                 autoComplete="tel"
                 dir="ltr"
-                inputMode="tel"
-                placeholder={
-                  country ===
-                  "SA"
-                    ? "05XXXXXXXX"
-                    : "05XXXXXXXX"
-                }
+                placeholder="05XXXXXXXX"
                 className="w-full rounded-xl border border-brand-border bg-brand-ivory px-4 py-3 text-brand-espresso text-base focus:outline-none focus:border-brand-primary transition-colors text-left"
-                {...register(
-                  "phone"
-                )}
+                {...register("phone")}
               />
 
               {errors.phone && (
                 <p className="text-status-error text-xs">
-                  {
-                    errors
-                      .phone
-                      .message
-                  }
+                  {errors.phone.message}
                 </p>
               )}
             </div>
@@ -586,31 +376,24 @@ export default function CheckoutPopup() {
             {/* Error */}
             {error && (
               <div className="bg-status-error/10 border border-status-error/30 rounded-xl px-4 py-3">
-
                 <p className="text-status-error text-sm">
                   {error}
                 </p>
-
               </div>
             )}
 
-            {/* Confirm button */}
+            {/* Confirm */}
             <button
               type="submit"
-              disabled={
-                loading
-              }
+              disabled={loading}
               className="mt-2 w-full py-4 px-6 rounded-full bg-brand-cta text-white font-bold text-lg flex items-center justify-center gap-2 shadow-md hover:bg-brand-cta-hover active:bg-brand-cta-hover active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading
                 ? "جاري المعالجة..."
-                : `تأكيد الطلب — ${formatPrice(
-                    total
-                  )}`}
+                : `تأكيد الطلب — ${formatPrice(total)}`}
             </button>
           </form>
 
-          {/* Privacy note */}
           <p className="text-center text-xs text-brand-espresso/40">
             سنتصل بك لتأكيد الطلب قبل الإرسال. معلوماتك بأمان وسرية تامة.
           </p>
