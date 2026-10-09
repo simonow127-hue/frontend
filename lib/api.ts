@@ -12,6 +12,14 @@ const CONNECTION_ERROR_AR =
 const TIMEOUT_ERROR_AR =
   "الخادم ما جاوبش في الوقت المحدد. المرجو المحاولة مجدداً بعد قليل.";
 
+type ApiError = {
+  status: number;
+  detail: unknown;
+};
+
+type Country = "SA" | "AE";
+type Currency = "SAR" | "AED";
+
 async function apiFetch(
   path: string,
   options: RequestInit = {}
@@ -28,27 +36,30 @@ async function apiFetch(
       signal: controller.signal,
     });
   } catch (err) {
-    if (
-      err instanceof Error &&
-      err.name === "AbortError"
-    ) {
-      throw {
-        status: 0,
-        detail: {
-          message_ar: TIMEOUT_ERROR_AR,
-        },
-      };
-    }
+    const error: ApiError =
+      err instanceof Error && err.name === "AbortError"
+        ? {
+            status: 0,
+            detail: { message_ar: TIMEOUT_ERROR_AR },
+          }
+        : {
+            status: 0,
+            detail: { message_ar: CONNECTION_ERROR_AR },
+          };
 
-    throw {
-      status: 0,
-      detail: {
-        message_ar: CONNECTION_ERROR_AR,
-      },
-    };
+    throw error;
   } finally {
     clearTimeout(timeoutId);
   }
+}
+
+async function parseApiError(res: Response): Promise<ApiError> {
+  const err = await res.json().catch(() => ({}));
+
+  return {
+    status: res.status,
+    detail: err?.detail ?? err,
+  };
 }
 
 type OrderPayload = {
@@ -56,7 +67,7 @@ type OrderPayload = {
     full_name: string;
     phone: string;
     phone_e164: string;
-    country: "SA" | "AE";
+    country: Country;
   };
 
   items: {
@@ -74,7 +85,7 @@ type OrderPayload = {
     subtotal: number;
     shipping: number;
     total: number;
-    currency: "SAR" | "AED";
+    currency: Currency;
   };
 
   source?: Record<string, string | undefined>;
@@ -86,17 +97,44 @@ type OrderPayload = {
     ttp?: string;
     scid?: string;
   };
-}
+};
 
 type OrderResponse = {
   ok: boolean;
   order_id: string;
   order_code: string;
+  upsell?: {
+    available: boolean;
+    [key: string]: unknown;
+  };
 };
 
 export async function createOrder(
   payload: OrderPayload
 ): Promise<OrderResponse> {
+  // Make sure the selected country and currency match.
+  const expectedCurrency: Currency =
+    payload.customer.country === "SA" ? "SAR" : "AED";
+
+  if (payload.totals.currency !== expectedCurrency) {
+    throw {
+      status: 400,
+      detail: {
+        message_ar:
+          "العملة لا تتطابق مع الدولة المختارة. المرجو تحديث الصفحة والمحاولة مجدداً.",
+      },
+    } satisfies ApiError;
+  }
+
+  if (!payload.items.length) {
+    throw {
+      status: 400,
+      detail: {
+        message_ar: "السلة فارغة. المرجو إضافة منتج قبل إتمام الطلب.",
+      },
+    } satisfies ApiError;
+  }
+
   const res = await apiFetch("/orders", {
     method: "POST",
     headers: {
@@ -106,15 +144,10 @@ export async function createOrder(
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-
-    throw {
-      status: res.status,
-      detail: err.detail || err,
-    };
+    throw await parseApiError(res);
   }
 
-  return res.json();
+  return (await res.json()) as OrderResponse;
 }
 
 export async function trackEvent(payload: {
@@ -124,15 +157,23 @@ export async function trackEvent(payload: {
   payload?: Record<string, unknown>;
 }): Promise<void> {
   try {
-    await apiFetch("/analytics/events", {
+    const res = await apiFetch("/analytics/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
+
+    if (!res.ok) {
+      console.error(
+        "Tracking event failed:",
+        res.status,
+        await res.text().catch(() => "")
+      );
+    }
   } catch {
-    // Non-blocking
+    // Tracking must never block checkout or other main user actions.
   }
 }
 
@@ -171,11 +212,6 @@ export async function submitReview(
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-
-    throw {
-      status: res.status,
-      detail: err.detail || err,
-    };
+    throw await parseApiError(res);
   }
 }
