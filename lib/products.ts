@@ -1221,6 +1221,85 @@ painImage: "/images/products/wall-night-light-pain.jpg",
 
   isNew: true,
 },
+ 
+{
+  id: "intelligent-pray-carpet-kids",
+  slug: "intelligent-pray-carpet-kids",
+  sku: "MP-INTPRAYKIDS01",
+  categoryId: "islamic-products",
+  arabicName: "سجادة الصلاة الذكية للأطفال — تعلّم الصلاة بسهولة",
+  shortHeading: "سجادة صلاة تفاعلية لتعليم الأطفال",
+  subheading:
+    "ساعد طفلك على تعلّم خطوات الصلاة بطريقة سهلة وتفاعلية تناسب الصغار.",
+  emotionalHeadline: "علّم طفلك الصلاة بحبّ وخطوات بسيطة",
+  painBullets: [
+    "الأطفال يحتاجون إلى طريقة سهلة لفهم خطوات الصلاة",
+    "قد يجد الطفل صعوبة في حفظ ترتيب خطوات الصلاة",
+    "التعلّم بالتطبيق والتفاعل يساعد الطفل على المشاركة",
+  ],
+  mechanism:
+    "سجادة صلاة مخصصة للأطفال، مصممة لمساعدتهم على التعرّف على خطوات الصلاة والتدرّب عليها بطريقة تفاعلية. يمكن أن تتضمن وظائف صوتية وأزراراً تعليمية حسب الإصدار، مما يجعل تعلّم الصلاة تجربة ممتعة داخل المنزل.",
+  ingredients: [
+    {
+      name: "تصميم مخصص للأطفال",
+      benefit: "يساعد الطفل على التدرّب على الصلاة بطريقة مناسبة لعمره",
+    },
+    {
+      name: "وظائف تفاعلية",
+      benefit: "تساعد على التعلّم بالممارسة حسب الوظائف المتوفرة في الإصدار",
+    },
+    {
+      name: "تصميم إسلامي",
+      benefit: "يشجّع الطفل على الاهتمام بالصلاة والتعلّم داخل المنزل",
+    },
+  ],
+  usageSteps: [
+    "ضع السجادة على سطح مستوٍ ونظيف",
+    "اشرح لطفلك طريقة استخدام السجادة",
+    "ساعده على اتباع خطوات الصلاة بالترتيب",
+    "شجّعه على التدرّب بانتظام حتى يتعلّم الخطوات",
+  ],
+  offers: buildOffers(259),
+  defaultOffer: 1,
+  crossSellIds: [],
+  reviewCount: 0,
+  rating: 0,
+  reviews: [],
+  faqs: [
+    {
+      question: "لمن تناسب سجادة الصلاة؟",
+      answer:
+        "مخصصة للأطفال الذين يرغبون في تعلّم خطوات الصلاة والتدرّب عليها.",
+    },
+    {
+      question: "هل السجادة تفاعلية بالصوت؟",
+      answer:
+        "تختلف الوظائف حسب الإصدار. يُرجى التأكد من توفر الصوت والأزرار التعليمية في المنتج الذي ستبيعه.",
+    },
+    {
+      question: "كيف يستفيد الطفل منها؟",
+      answer:
+        "يمكن للوالدين مساعدة الطفل على التدرّب على خطوات الصلاة بطريقة عملية ومنظمة.",
+    },
+    {
+      question: "هل يمكن استخدامها في المنزل؟",
+      answer:
+        "نعم، يمكن استخدامها داخل المنزل على سطح مستوٍ ونظيف.",
+    },
+  ],
+  imagePlaceholder:
+    "/images/products/intelligent-pray-carpet-kids.jpg",
+  ingredientsImage:
+    "/images/products/intelligent-pray-carpet-kids-features.jpg",
+  usageImage:
+    "/images/products/intelligent-pray-carpet-kids-usage.jpg",
+  scienceImage:
+    "/images/products/intelligent-pray-carpet-kids-learning.jpg",
+  painImage:
+    "/images/products/intelligent-pray-carpet-kids-benefits.jpg",
+  imageColor: "#176B52",
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
