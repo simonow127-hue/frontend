@@ -1269,7 +1269,7 @@ painImage: "/images/products/wall-night-light-pain.jpg",
     "شجّعه يتدرّب باستمرار",
   ],
 
-  offers: buildOffers(149),
+  offers: buildOffers(129),
   defaultOffer: 1,
   crossSellIds: [],
   reviewCount: 0,
