@@ -1313,6 +1313,98 @@ painImage: "/images/products/wall-night-light-pain.jpg",
   imageColor: "#176B52",
   isNew: true,
 },
+  {
+  id: "electronic-money-saving-box-kids",
+  slug: "electronic-money-saving-box-kids",
+  sku: "MP-MONEYBOX-KIDS-001",
+  categoryId: "kids-products",
+
+  arabicName: "الحصالة الإلكترونية الذكية للأطفال",
+  shortHeading: "خلّ ولدك يتعلّم التوفير بطريقة حلوة",
+  subheading:
+    "عوّد يهالك على التوفير من صغره، وخله يحط مصروفه في حصالة إلكترونية بتصميم يشبه الخزنة ويستانس وهو يجمع فلوسه.",
+
+  emotionalHeadline:
+    "علّم يهالك قيمة الفلوس من صغره، وخله يستانس وهو يوفّر",
+
+  painBullets: [
+    "تبغي ولدك يتعلّم كيف يوفّر مصروفه من صغره؟",
+    "خلّه يتعوّد يحافظ على فلوسه بدل ما يصرفها كلها",
+    "شجّع يهالك يجمع فلوسه بطريقة حلوة وممتعة",
+  ],
+
+  mechanism:
+    "حصالة إلكترونية للأطفال بتصميم يشبه الخزنة، فيها فتحة لإدخال الفلوس ولوحة أرقام. وتتوفر بعض الإصدارات برقم سري حسب المواصفات. تساعد يهالك يتعوّد على التوفير وحفظ مصروفه بطريقة ممتعة.",
+
+  ingredients: [
+    {
+      name: "تصميم على شكل خزنة",
+      benefit:
+        "يخلّي تجربة حفظ الفلوس ممتعة ويشجّع الطفل يستخدم الحصالة",
+    },
+    {
+      name: "لوحة أرقام",
+      benefit:
+        "تضيف لمسة تفاعلية ممتعة أثناء استخدام الحصالة",
+    },
+    {
+      name: "فتحة لإدخال الفلوس",
+      benefit:
+        "تسهّل على ولدك يحط مصروفه داخل الحصالة ويحافظ عليه",
+    },
+  ],
+
+  usageSteps: [
+    "حط الحصالة في مكان مناسب وآمن",
+    "ورّ ولدك كيف يستخدم الحصالة",
+    "خلّه يدخل الفلوس من الفتحة المخصصة",
+    "شجّعه يحط جزء من مصروفه ويوفّره كل يوم",
+  ],
+
+  offers: buildOffers(129),
+  defaultOffer: 1,
+  crossSellIds: [],
+  reviewCount: 0,
+  rating: 0,
+  reviews: [],
+
+  faqs: [
+    {
+      question: "الحصالة تناسب أي عمر؟",
+      answer:
+        "تناسب اليهال حسب العمر الموصى به من الشركة المصنّعة، ويفضّل استخدامها تحت إشراف الأهل.",
+    },
+    {
+      question: "الحصالة فيها رقم سري؟",
+      answer:
+        "يعتمد على الإصدار المتوفر. تأكد من مواصفات المنتج قبل الطلب.",
+    },
+    {
+      question: "كيف يستفيد منها ولدي؟",
+      answer:
+        "تساعده يتعوّد على حفظ مصروفه وجمع فلوسه، وتعلّمه أهمية التوفير من صغره.",
+    },
+    {
+      question: "كيف أستخدم الحصالة؟",
+      answer:
+        "خلّ ولدك يدخل الفلوس من الفتحة المخصصة، ويتبع تعليمات الاستخدام المرفقة مع المنتج.",
+    },
+  ],
+
+  imagePlaceholder:
+    "/images/products/electronic-money-saving-box-kids.jpg",
+  ingredientsImage:
+    "/images/products/electronic-money-saving-box-kids-features.jpg",
+  usageImage:
+    "/images/products/electronic-money-saving-box-kids-usage.jpg",
+  scienceImage:
+    "/images/products/electronic-money-saving-box-kids-learning.jpg",
+  painImage:
+    "/images/products/electronic-money-saving-box-kids-benefits.jpg",
+
+  imageColor: "#087DB8",
+  isNew: true,
+},
 ];
 
 export function getProductsByCategory(categoryId: string): Product[] {
